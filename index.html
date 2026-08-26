@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AWS Cloud Practitioner Study</title>
+<style>
+:root{--bg:#08111f;--card:#101c2e;--card2:#14243a;--text:#eef5ff;--muted:#9fb0c8;--accent:#ff9900;--ok:#39d98a;--bad:#ff647c;--line:#263a55}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#07101d,#0d1930 55%,#111d31);color:var(--text);min-height:100vh}.wrap{max-width:760px;margin:auto;padding:20px}.brand{font-size:22px;font-weight:900;cursor:pointer;display:inline-flex;gap:10px;align-items:center}.aws{color:var(--accent)}.sub{color:var(--muted);font-size:13px;margin-top:5px}.card{background:rgba(16,28,46,.94);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:20px;box-shadow:0 14px 45px #0005}.hero h1{font-size:29px;margin:4px 0 8px}.hero p{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:14px;padding:15px 12px;font-weight:800;font-size:15px;cursor:pointer;background:var(--card2);color:var(--text);border:1px solid var(--line)}.btn.primary{background:var(--accent);color:#1c1306;border-color:var(--accent)}.btn:hover{filter:brightness(1.08)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{background:#0b1728;border-radius:14px;padding:13px;text-align:center;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}.bar{height:10px;background:#07111f;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--accent)}.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.question{font-size:20px;font-weight:800;line-height:1.55;margin:18px 0}.answers{display:grid;gap:10px}.answer{text-align:left;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d1a2c;color:var(--text);cursor:pointer;font-size:15px;line-height:1.45}.answer.correct{border-color:var(--ok);background:#123527}.answer.wrong{border-color:var(--bad);background:#3b1922}.explain{margin-top:16px;padding:15px;background:#0a1626;border-radius:14px;border-left:4px solid var(--accent);line-height:1.65}.tag{display:inline-block;font-size:11px;padding:5px 8px;border-radius:99px;background:#20314a;color:#c6d5e9}.next{width:100%;margin-top:15px}.hidden{display:none}.result{text-align:center}.result .big{font-size:48px;font-weight:900;color:var(--accent)}@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{font-size:25px}.wrap{padding:15px}}
+</style>
+</head>
+<body><div class="wrap">
+<div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div>
+<section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
+<div class="grid"><button class="btn primary" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div>
+<div class="stats"><div class="stat"><b id="answered">0</b><span>解答数</span></div><div class="stat"><b id="rate">0%</b><span>正答率</span></div><div class="stat"><b id="wrongCount">0</b><span>復習問題</span></div></div>
+<div style="margin-top:16px;color:var(--muted);font-size:13px">収録問題の学習進捗 <span id="progressText">0%</span></div><div class="bar"><div id="progress" class="fill" style="width:0%"></div></div></section>
+<section id="quiz" class="card hidden"><div class="qmeta"><span id="qnum"></span><span id="domain"></span></div><div id="question" class="question"></div><div id="answers" class="answers"></div><div id="explain" class="explain hidden"></div><button id="next" class="btn primary next hidden" onclick="nextQ()">次の問題</button></section>
+<section id="result" class="card result hidden"><div class="tag">RESULT</div><h2>おつかれさま！</h2><div id="score" class="big"></div><p id="resultText"></p><div class="grid"><button class="btn primary" onclick="home()">トップへ</button><button class="btn" onclick="startWrong()">間違いを復習</button></div></section>
+</div>
+<script>
+const questions=[
+['AWSクラウドの主なメリットとして最も適切なものは？',['ハードウェアを必ず購入する','需要に応じてリソースを迅速に増減できる','すべてのサービスが無料','インターネット接続が不要'],1,'クラウドでは需要に応じてリソースをスケールでき、必要な分だけ利用する考え方が基本です。','クラウドの概念'],
+['Amazon EC2の主な用途は？',['オブジェクトストレージ','仮想サーバーの実行','DNS管理','メール配信のみ'],1,'Amazon EC2はAWS上で仮想サーバー（インスタンス）を実行するコンピューティングサービスです。','コンピューティング'],
+['Amazon S3はどの種類のサービス？',['オブジェクトストレージ','リレーショナルDB','仮想サーバー','DNS'],0,'Amazon S3は高い耐久性を持つオブジェクトストレージサービスです。','ストレージ'],
+['AWS Lambdaの特徴は？',['サーバーを常時管理する必要がある','コードをイベントに応じてサーバーレスで実行できる','物理サーバー専用','DNSを管理する'],1,'Lambdaでは基盤サーバーをユーザーが管理せず、イベントに応じてコードを実行できます。','コンピューティング'],
+['AWSの責任共有モデルで、AWSが主に責任を負うものは？',['顧客データの分類','IAMユーザーのパスワード設定','クラウドを構成する物理インフラのセキュリティ','顧客OS内のアプリ設定'],2,'AWSはデータセンター、ハードウェアなど「クラウド自体のセキュリティ」を担当します。','セキュリティ'],
+['IAMの主な目的は？',['画像を保存する','AWSリソースへのアクセス権限を管理する','請求書だけを表示する','Webサイトを高速化する'],1,'AWS Identity and Access Management (IAM) は認証・認可とアクセス制御に使います。','セキュリティ'],
+['最小権限の原則とは？',['全員に管理者権限を与える','必要な操作に必要な最小限の権限だけ与える','権限を一切与えない','rootユーザーを共有する'],1,'必要な業務を行うための最小限のアクセス許可のみ付与することがセキュリティの基本です。','セキュリティ'],
+['Amazon RDSは何を簡単にするサービス？',['リレーショナルデータベースの運用','動画配信','DNS登録','ユーザー認証だけ'],0,'RDSはリレーショナルデータベースのセットアップ、運用、スケーリングを容易にするマネージドサービスです。','データベース'],
+['Amazon DynamoDBは？',['NoSQLデータベース','物理サーバー','ファイル転送サービス','監査レポート'],0,'DynamoDBはフルマネージドのサーバーレスNoSQLデータベースです。','データベース'],
+['Amazon CloudFrontの用途は？',['コンテンツを低レイテンシーで配信する','IAM権限を作る','EC2を停止する','SQLを実行する'],0,'CloudFrontはCDNで、エッジロケーションを利用してコンテンツを高速配信します。','ネットワーク'],
+['Amazon Route 53は主に何を提供する？',['DNSサービス','仮想マシン','オブジェクト保存','ログ分析だけ'],0,'Route 53はスケーラブルなDNSウェブサービスです。','ネットワーク'],
+['Amazon VPCとは？',['AWS上に論理的に分離した仮想ネットワークを構築するサービス','請求サービス','CDN','サポートプラン'],0,'VPCを使うとIP範囲、サブネット、ルーティングなどを定義した仮想ネットワークを構築できます。','ネットワーク'],
+['Amazon CloudWatchの代表的な用途は？',['リソースやアプリのメトリクス・ログ監視','ドメイン購入だけ','ソースコード保存','物理配送'],0,'CloudWatchはメトリクス、ログ、アラームなどを利用したモニタリングに使われます。','運用'],
+['AWS CloudTrailは何を記録する？',['AWSアカウント内のAPIアクティビティ','CPU温度だけ','Webページの画像','請求額だけ'],0,'CloudTrailはユーザーやサービスによるAPI操作など、AWSアカウントのアクティビティを記録します。','セキュリティ'],
+['Auto Scalingを使う主な理由は？',['需要に合わせてコンピューティング能力を調整する','DNS名を購入する','パスワードを保存する','請求を固定する'],0,'Auto Scalingは需要変動に応じてキャパシティを増減し、可用性やコスト効率を高めます。','コンピューティング'],
+['Elastic Load Balancingの役割は？',['受信トラフィックを複数ターゲットへ分散する','データを暗号化するだけ','請求書を作る','ドメインを登録する'],0,'ELBは受信トラフィックをEC2など複数のターゲットへ分散します。','ネットワーク'],
+['AWSの従量課金の考え方として適切なのは？',['利用したリソース量に応じて支払う','必ず10年契約','全サービス同一料金','使わなくても無制限に課金'],0,'AWSでは多くのサービスで使用量に応じて料金を支払う従量課金モデルが採用されています。','料金'],
+['AWS Budgetsでできることは？',['コストや使用量の予算を設定して追跡する','EC2のOSを自動更新するだけ','DNSを高速化する','データベースを作る'],0,'AWS Budgetsではコストや使用量などに対する予算を設定し、しきい値に応じた通知が可能です。','料金'],
+['AWS Organizationsの用途として適切なのは？',['複数AWSアカウントを一元管理する','画像編集','動画配信専用','SQLデータベース'],0,'AWS Organizationsは複数のAWSアカウントを組織としてまとめ、ポリシーや請求などを管理できます。','管理'],
+['AWS Artifactで入手できるものは？',['AWSのコンプライアンス関連レポートや契約文書','EC2インスタンス','DNSレコード','S3の画像'],0,'AWS Artifactは監査・コンプライアンス関連ドキュメントへのオンデマンドアクセスを提供します。','コンプライアンス'],
+['アベイラビリティーゾーン(AZ)とは？',['リージョン内の独立したインフラ拠点','AWSアカウント','料金プラン','IAMユーザー'],0,'AZはリージョン内に存在する、相互に分離されたインフラストラクチャのロケーションです。','クラウドの概念'],
+['複数AZにシステムを配置する主な目的は？',['可用性・耐障害性を高める','料金を必ずゼロにする','IAMを不要にする','インターネットを無効にする'],0,'障害ドメインを分散することで、単一AZ障害への耐性を高められます。','クラウドの概念'],
+['AWS Trusted Advisorは何に役立つ？',['コスト、セキュリティ、性能などのベストプラクティス確認','コードを書くIDE','DNS専用','データベースエンジン'],0,'Trusted AdvisorはAWS環境をベストプラクティスに照らして確認するためのサービスです。','管理'],
+['AWS Marketplaceとは？',['AWS上で利用できるサードパーティ製ソフトウェア等を探して購入できるカタログ','AWS社員向け店舗','S3専用画面','無料DNS'],0,'AWS MarketplaceはAWSで動作するサードパーティソフトウェアなどを検索・購入・デプロイできるデジタルカタログです。','管理'],
+['Amazon SNSの代表的な用途は？',['メッセージを複数の購読者へ配信するPub/Sub','仮想サーバー','SQL DB','オブジェクト保存'],0,'SNSはPub/Sub型のメッセージングや通知に利用されます。','アプリ統合'],
+['Amazon SQSの代表的な用途は？',['コンポーネント間を疎結合にするメッセージキュー','CDN','DNS','仮想デスクトップのみ'],0,'SQSはフルマネージドのメッセージキューで、システムの疎結合化に役立ちます。','アプリ統合'],
+['AWS Well-Architected Frameworkは何を支援する？',['クラウドアーキテクチャをベストプラクティスに照らして評価・改善する','資格試験の予約だけ','ドメイン販売','PC購入'],0,'Well-Architected Frameworkは安全性、信頼性、効率性などの観点からクラウド設計を評価する指針です。','クラウドの概念'],
+['Amazon EBSは主に何に使う？',['EC2向けのブロックストレージ','CDN','DNS','ユーザー管理'],0,'EBSはEC2インスタンスで利用される永続的なブロックストレージです。','ストレージ'],
+['Amazon EFSは？',['複数のコンピューティングリソースから利用可能なマネージドファイルストレージ','NoSQL DB','DNS','監査サービス'],0,'EFSは伸縮自在なマネージドNFSファイルシステムです。','ストレージ'],
+['AWS Direct Connectの目的は？',['オンプレミスからAWSへの専用ネットワーク接続を提供する','IAMユーザー作成','EC2バックアップだけ','メール送信'],0,'Direct Connectはオンプレミス等からAWSへの専用ネットワーク接続を確立するサービスです。','ネットワーク']
+];
+let session=[],idx=0,correct=0,locked=false;
+let data=JSON.parse(localStorage.getItem('clf02-data')||'{"answered":0,"correct":0,"seen":[],"wrong":[]}');
+function save(){localStorage.setItem('clf02-data',JSON.stringify(data));updateStats()}
+function updateStats(){document.getElementById('answered').textContent=data.answered;document.getElementById('rate').textContent=(data.answered?Math.round(data.correct/data.answered*100):0)+'%';document.getElementById('wrongCount').textContent=data.wrong.length;let p=Math.round(data.seen.length/questions.length*100);document.getElementById('progressText').textContent=p+'%';document.getElementById('progress').style.width=p+'%'}
+function home(){document.getElementById('home').classList.remove('hidden');document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.add('hidden');updateStats()}
+function start(n){let ids=[...questions.keys()].sort(()=>Math.random()-.5).slice(0,n);begin(ids)}
+function startWrong(){if(!data.wrong.length){alert('復習する間違い問題はまだありません。');return}begin([...data.wrong].sort(()=>Math.random()-.5))}
+function begin(ids){session=ids;idx=0;correct=0;document.getElementById('home').classList.add('hidden');document.getElementById('result').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');render()}
+function render(){locked=false;let id=session[idx],q=questions[id];document.getElementById('qnum').textContent=`${idx+1} / ${session.length}`;document.getElementById('domain').textContent=q[4];document.getElementById('question').textContent=q[0];let a=document.getElementById('answers');a.innerHTML='';q[1].forEach((x,i)=>{let b=document.createElement('button');b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+x;b.onclick=()=>answer(i,b);a.appendChild(b)});document.getElementById('explain').classList.add('hidden');document.getElementById('next').classList.add('hidden')}
+function answer(choice,btn){if(locked)return;locked=true;let id=session[idx],q=questions[id],buttons=[...document.querySelectorAll('.answer')];buttons[q[2]].classList.add('correct');data.answered++;if(!data.seen.includes(id))data.seen.push(id);if(choice===q[2]){correct++;data.correct++;data.wrong=data.wrong.filter(x=>x!==id)}else{btn.classList.add('wrong');if(!data.wrong.includes(id))data.wrong.push(id)}save();let e=document.getElementById('explain');e.innerHTML='<b>'+(choice===q[2]?'✓ 正解！':'✕ 不正解')+'</b><br>'+q[3];e.classList.remove('hidden');document.getElementById('next').textContent=idx===session.length-1?'結果を見る':'次の問題';document.getElementById('next').classList.remove('hidden')}
+function nextQ(){idx++;if(idx>=session.length){document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.remove('hidden');let pct=Math.round(correct/session.length*100);document.getElementById('score').textContent=pct+'%';document.getElementById('resultText').textContent=`${session.length}問中 ${correct}問正解`;return}render()}
+updateStats();
+</script></body></html>
