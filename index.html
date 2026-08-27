@@ -9,7 +9,7 @@
 </style>
 </head>
 <body><div class="wrap">
-<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 2.5.1</div></div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 2.5.2</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div>
 <div class="stats"><div class="stat"><b id="answered">0</b><span>解答数</span></div><div class="stat"><b id="rate">0%</b><span>正答率</span></div><div class="stat"><b id="wrongCount">0</b><span>復習問題</span></div></div>
@@ -20,7 +20,6 @@
 <h3>1. AWSクラウドの基本</h3><div class="study-box"><b>オンプレミスとの違い</b><br>自社でサーバーを購入・設置する代わりに、AWSのITリソースを必要なときに利用する。初期投資を抑え、必要量に応じて増減しやすい。</div>
 <table class="study-table"><tr><th>用語</th><th>意味</th></tr><tr><td>俊敏性</td><td>必要なリソースを短時間で用意できる</td></tr><tr><td>弾力性</td><td>需要に応じてリソースを増減できる</td></tr><tr><td>スケーラビリティ</td><td>負荷増加に対応できるよう処理能力を拡張する</td></tr><tr><td>従量課金</td><td>基本的に使った分に応じて支払う</td></tr><tr><td>高可用性</td><td>障害が起きてもサービスを継続しやすくする</td></tr></table>
 <h3>2. Region / AZ / Edge Location</h3><div class="study-box"><b>Region</b>＝東京などの地理的エリア。<br><b>AZ</b>＝Region内の独立したインフラ拠点。複数AZに配置すると可用性を高めやすい。<br><b>Edge Location</b>＝CloudFrontなどがユーザーの近くからコンテンツを届ける拠点。</div><div class="study-note">🧠 Region ＞ AZ。世界への高速配信＝Edge Location / CloudFront。</div>
-<h3>2.5 名前の由来・覚え方</h3><div class="study-box"><b>サービス名は「由来 → 役割」で覚える</b><br>AWSは略称や英単語の意味がそのまま役割につながるものが多い。名前を丸暗記するより、由来と一緒に覚えると定着しやすい。</div><table class="study-table"><tr><th>サービス</th><th>名前の由来・覚え方</th><th>役割</th></tr><tr><td>EC2</td><td>Elastic Compute Cloud。Cが2つ → EC2</td><td>仮想サーバー</td></tr><tr><td>S3</td><td>Simple Storage Service。Sが3つ → S3</td><td>オブジェクトストレージ</td></tr><tr><td>Route 53</td><td>DNSがTCP/UDP 53番ポートを使う → 53</td><td>DNS・名前解決</td></tr><tr><td>RDS</td><td>Relational Database Service</td><td>リレーショナルDB</td></tr><tr><td>ELB</td><td>Elastic Load Balancing。LoadをBalanceする</td><td>負荷分散</td></tr><tr><td>CloudFront</td><td>ユーザーのFront（前面・近く）で配信するイメージ</td><td>CDN</td></tr><tr><td>CloudWatch</td><td>Watch＝見る・監視する</td><td>メトリクス・ログ・アラーム</td></tr><tr><td>CloudTrail</td><td>Trail＝足跡・軌跡</td><td>API操作履歴</td></tr><tr><td>IAM</td><td>Identity and Access Management</td><td>認証・認可、権限管理</td></tr><tr><td>VPC</td><td>Virtual Private Cloud</td><td>仮想ネットワーク</td></tr><tr><td>SQS</td><td>Simple Queue Service。Queue＝順番待ち</td><td>メッセージキュー</td></tr><tr><td>SNS</td><td>Simple Notification Service。Notification＝通知</td><td>Pub/Sub・通知</td></tr><tr><td>EBS</td><td>Elastic Block Store。Block＝ブロックストレージ</td><td>EC2向けディスク</td></tr><tr><td>EFS</td><td>Elastic File System。File System＝共有ファイル</td><td>共有ファイルストレージ</td></tr></table><div class="study-note">🧠 Watch＝状態を見る ／ Trail＝操作の足跡。SQS＝Queueにためる ／ SNS＝Notificationを配る。Route 53＝DNSの53番ポート。</div>
 <h3>3. コンピューティング</h3><table class="study-table"><tr><th>サービス</th><th>一言</th><th>見分け方</th></tr><tr><td>EC2</td><td>仮想サーバー</td><td>OSやサーバーを柔軟に管理したい</td></tr><tr><td>Lambda</td><td>サーバーレス実行</td><td>イベントでコードを実行、サーバー管理不要</td></tr><tr><td>Auto Scaling</td><td>台数を増減</td><td>需要に応じてキャパシティ調整</td></tr><tr><td>ELB</td><td>負荷分散</td><td>通信を複数ターゲットへ振り分ける</td></tr></table><div class="study-note">🧠 増減＝Auto Scaling ／ 振り分け＝ELB。この2つはセットで出やすい。</div>
 <h3>4. ストレージ</h3><table class="study-table"><tr><th>サービス</th><th>種類</th><th>代表用途</th></tr><tr><td>S3</td><td>オブジェクト</td><td>画像、バックアップ、静的ファイルなど</td></tr><tr><td>EBS</td><td>ブロック</td><td>EC2のディスク</td></tr><tr><td>EFS</td><td>ファイル</td><td>複数EC2から共有できるファイルシステム</td></tr><tr><td>S3 Glacier系</td><td>アーカイブ</td><td>長期保管・低頻度アクセス</td></tr></table><div class="study-note">🧠 S3＝オブジェクト ／ EBS＝EC2のディスク ／ EFS＝共有ファイル。</div>
 <h3>5. データベース</h3><div class="study-box"><b>RDS</b>＝マネージドなリレーショナルDB。SQL系。<br><b>Aurora</b>＝AWS向けに設計されたリレーショナルDB。MySQL/PostgreSQL互換。<br><b>DynamoDB</b>＝フルマネージドなNoSQL DB。</div><div class="study-note">🧠 SQL・リレーショナル＝RDS/Aurora ／ NoSQL＝DynamoDB。</div>
@@ -141,41 +140,82 @@ function relatedKnowledge(q){
 }
 
 function optionExplanation(text,q){
- const x=text.toLowerCase();
- const map=[
-  ['オブジェクトストレージ','これは Amazon S3 の役割。ファイルを「オブジェクト」として保存するストレージで、EC2の仮想サーバー実行とは別物。'],
-  ['仮想サーバー','これは Amazon EC2 の役割。OSを含む仮想マシンを起動してアプリを動かす。'],
-  ['dns','DNS・名前解決は主に Amazon Route 53 の役割。'],
-  ['メール','メール配信は Amazon SES などが代表例で、この問題の主役とは異なる。'],
-  ['リレーショナルdb','リレーショナルDBは Amazon RDS/Aurora 系。表形式・SQL・トランザクションが中心。'],
-  ['sql','SQLを使う代表的なマネージドDBは RDS/Aurora。DynamoDBはNoSQL。'],
-  ['nosql','NoSQLなら Amazon DynamoDB。キー・バリュー型などを高速・大規模に扱う。'],
-  ['物理サーバー','AWSでは物理サーバーを直接意識せず使えるサービスが多い。専有ハードウェアが必要なら Dedicated Hosts など別の選択肢がある。'],
-  ['請求','請求・コスト管理は Billing、Cost Explorer、Budgets などの領域。'],
-  ['webサイトを高速化','世界中への高速配信は CloudFront（CDN）の代表的な役割。'],
-  ['画像を保存','画像などのオブジェクト保存はS3が代表的。IAMは保存ではなくアクセス制御。'],
-  ['コードを書くide','IDEはCloud9などの開発環境。Trusted Advisorは環境の推奨事項を確認するサービス。'],
-  ['動画配信','コンテンツ配信ならCloudFront。DBやIAMとは役割が違う。'],
-  ['監査レポート','監査・コンプライアンス文書はAWS Artifact。'],
-  ['apiアクティビティ','API操作履歴はCloudTrail。メトリクス監視のCloudWatchと混同しやすい。'],
-  ['メトリクス','CPU使用率などのメトリクス監視はCloudWatch。'],
-  ['パスワード','認証・権限はIAMの領域。'],
-  ['コンテンツを低レイテンシー','CDNとして低遅延配信するのはCloudFront。'],
-  ['受信トラフィック','受信トラフィックの分散はElastic Load Balancing。'],
-  ['複数awsアカウント','複数アカウントの一元管理はAWS Organizations。'],
-  ['専用ネットワーク','オンプレミスとAWSの専用接続はDirect Connect。'],
-  ['メッセージキュー','キューで疎結合化するのはAmazon SQS。'],
-  ['pub/sub','1対多のPub/Sub通知はAmazon SNS。'],
-  ['ファイルストレージ','共有ファイルシステムはAmazon EFS。'],
-  ['ブロックストレージ','EC2のディスクのように使うブロックストレージはAmazon EBS。']
+ const x=String(text).toLowerCase();
+ const roles=[
+  ['aws application migration service','AWS Application Migration Service は、オンプレミスや他クラウドのサーバーをAWSへ移行するためのサービス。サーバー移行の機能なので、この問題の要件とは一致しない。'],
+  ['aws database migration service','AWS DMS は、データベースをAWSへ移行・レプリケーションするためのサービス。データベース移行の機能なので、この問題の要件とは一致しない。'],
+  ['aws dms','AWS DMS は、データベースをAWSへ移行・レプリケーションするためのサービス。データベース移行の機能なので、この問題の要件とは一致しない。'],
+  ['aws snow family','AWS Snow Family は、物理デバイスを使った大容量データ転送やエッジ処理に使うサービス。オンラインの通常処理や別種の移行を行う機能ではない。'],
+  ['aws datasync','AWS DataSync は、オンプレミスや他ストレージとAWSストレージ間のオンラインデータ転送を自動化するサービス。物理デバイスを使うSnow Familyとは用途が異なる。'],
+  ['aws storage gateway','AWS Storage Gateway は、オンプレミス環境からAWSストレージをハイブリッドに利用するためのサービス。大容量データの物理搬送そのものを行うサービスではない。'],
+  ['aws direct connect','AWS Direct Connect は、オンプレミスとAWSを専用線で接続するサービス。VPNやCDN、データ移行サービスではない。'],
+  ['aws site-to-site vpn','AWS Site-to-Site VPN は、インターネット経由でオンプレミスとVPCを暗号化接続するサービス。専用線接続を提供するDirect Connectとは異なる。'],
+  ['amazon cloudfront','Amazon CloudFront はCDNで、コンテンツを世界中のエッジロケーションから低レイテンシー配信するサービス。DNSや専用線、DBの機能ではない。'],
+  ['amazon route 53','Amazon Route 53 はDNSサービスで、ドメイン名とIPアドレスなどを名前解決する。負荷分散やCDN、専用接続そのものを提供するサービスではない。'],
+  ['amazon ec2','Amazon EC2 は仮想サーバーを提供するコンピューティングサービス。オブジェクト保存やDNS、監査ログの記録を行うサービスではない。'],
+  ['aws lambda','AWS Lambda は、サーバー管理なしでイベント駆動のコードを実行するサーバーレスサービス。長時間の仮想サーバー運用やストレージ提供が主目的ではない。'],
+  ['amazon s3','Amazon S3 はオブジェクトストレージ。画像・バックアップ・ログなどの保存に向くが、EC2のOSディスクや共有ファイルシステムとして使うサービスではない。'],
+  ['amazon ebs','Amazon EBS はEC2向けのブロックストレージ。EC2のディスク用途なので、オブジェクト保存や複数EC2での共有ファイル用途とは異なる。'],
+  ['amazon efs','Amazon EFS は複数のEC2などから共有できるマネージドファイルシステム。EC2専用のブロックディスクやオブジェクトストレージではない。'],
+  ['s3 glacier','S3 Glacier系は低頻度アクセスや長期アーカイブ向けのストレージクラス。頻繁な即時アクセスが必要なデータには向かない。'],
+  ['amazon rds','Amazon RDS はマネージドなリレーショナルデータベース。SQLやトランザクションが必要な用途向けで、NoSQLやオブジェクト保存とは異なる。'],
+  ['amazon aurora','Amazon Aurora はMySQL/PostgreSQL互換のAWS向けリレーショナルDB。NoSQL用途やデータウェアハウス用途とは異なる。'],
+  ['amazon dynamodb','Amazon DynamoDB はフルマネージドなNoSQLデータベース。リレーショナルSQL DBやデータウェアハウスの機能ではない。'],
+  ['amazon redshift','Amazon Redshift は分析向けのデータウェアハウス。トランザクション中心の一般的なRDBやインメモリキャッシュとは用途が異なる。'],
+  ['amazon athena','Amazon Athena はS3上のデータをサーバーレスにSQLで分析するサービス。データを保存するDBやETLサービスそのものではない。'],
+  ['aws glue','AWS Glue はデータ統合・ETL・データカタログのサービス。S3上のデータを直接SQLで問い合わせるのはAthenaの役割。'],
+  ['amazon elasticache','Amazon ElastiCache はインメモリキャッシュで、DB負荷軽減や高速応答に使う。永続的なメインDBやデータウェアハウスではない。'],
+  ['amazon ecs','Amazon ECS はコンテナオーケストレーションサービス。オブジェクト保存やDNS、監査ログ記録を行うサービスではない。'],
+  ['amazon eks','Amazon EKS はマネージドKubernetesサービス。Kubernetesを使わない単純なサーバーレス実行やストレージ用途とは異なる。'],
+  ['aws fargate','AWS Fargate はECS/EKS向けのサーバーレスコンピューティングエンジン。コンテナを実行する基盤であり、コンテナイメージ保存やDNSのサービスではない。'],
+  ['amazon ecr','Amazon ECR はコンテナイメージを保存・管理するレジストリ。コンテナの実行やオーケストレーションを行うサービスではない。'],
+  ['elastic load balancing','Elastic Load Balancing は受信トラフィックを複数のターゲットへ分散するサービス。台数の増減を自動化するAuto Scalingとは役割が異なる。'],
+  ['auto scaling','Auto Scaling は需要に応じてEC2などのキャパシティを増減する仕組み。通信そのものを複数サーバーへ振り分けるELBとは役割が異なる。'],
+  ['amazon vpc','Amazon VPC はAWS上に論理的に分離された仮想ネットワークを作るサービス。DNSやCDN、専用線接続そのものではない。'],
+  ['aws privatelink','AWS PrivateLink は、VPC間やAWSサービスへインターネットを経由せずプライベート接続するための仕組み。オンプレミスとの専用線接続を提供するDirect Connectとは異なる。'],
+  ['amazon sqs','Amazon SQS はメッセージをキューにためて送信側と処理側を疎結合にするサービス。1つのイベントを複数購読者へ同時配信するSNSとは異なる。'],
+  ['amazon sns','Amazon SNS はPub/Sub型で、1つのメッセージを複数購読者へプッシュ配信するサービス。メッセージをキューに保持するSQSとは異なる。'],
+  ['amazon eventbridge','Amazon EventBridge はイベントをルールに基づいて各ターゲットへルーティングするイベントバス。単純なキュー保持やPub/Sub通知とは用途が異なる。'],
+  ['aws step functions','AWS Step Functions は複数の処理をワークフローとしてオーケストレーションするサービス。単純なメッセージキューや通知サービスではない。'],
+  ['amazon kinesis','Amazon Kinesis はストリーミングデータをリアルタイムに収集・処理するサービス。一般的なキューやファイル保存とは異なる。'],
+  ['aws iam','AWS IAM はユーザー・ロール・ポリシーによる認証とアクセス権限管理のサービス。暗号鍵管理や監査ログ記録を行うサービスではない。'],
+  ['aws kms','AWS KMS は暗号鍵を作成・管理するサービス。ユーザー権限の付与や脅威検知そのものを行うサービスではない。'],
+  ['aws cloudtrail','AWS CloudTrail はAWSアカウント内のAPI操作・ユーザーアクティビティを記録するサービス。CPU使用率などのメトリクス監視はCloudWatchの役割。'],
+  ['amazon cloudwatch','Amazon CloudWatch はメトリクス・ログ・アラームによる監視サービス。誰がどのAPI操作をしたかという監査証跡はCloudTrailの役割。'],
+  ['aws config','AWS Config はAWSリソースの構成変更を記録し、ルールに照らして構成を評価するサービス。API操作履歴そのものを記録するCloudTrailとは異なる。'],
+  ['amazon guardduty','Amazon GuardDuty はログを分析して不審なアクティビティや脅威を検出するサービス。脆弱性スキャンや機密データ検出とは役割が異なる。'],
+  ['amazon inspector','Amazon Inspector はEC2やコンテナイメージなどの脆弱性を継続的に評価するサービス。脅威検知やS3内の機密データ発見とは異なる。'],
+  ['amazon macie','Amazon Macie はS3内の機密データを機械学習などで発見・保護するサービス。ネットワーク攻撃防御や脆弱性スキャンではない。'],
+  ['aws waf','AWS WAF はWebアプリへのHTTP/HTTPSリクエストをルールで許可・遮断するWeb Application Firewall。大規模DDoS保護を主目的とするShieldとは異なる。'],
+  ['aws shield','AWS Shield はDDoS攻撃からAWSリソースを保護するサービス。SQLインジェクションなどWebリクエストの細かな制御はWAFの役割。'],
+  ['aws artifact','AWS Artifact はAWSの監査レポートやコンプライアンス関連文書を取得するサービス。操作ログの記録や環境監視を行うサービスではない。'],
+  ['aws organizations','AWS Organizations は複数AWSアカウントを一元管理し、SCPや一括請求などを利用するサービス。単一アカウントのユーザー権限管理はIAMの役割。'],
+  ['aws control tower','AWS Control Tower は複数アカウント環境をガードレール付きでセットアップ・統制するサービス。単なる請求分析や個別ユーザー権限管理とは異なる。'],
+  ['aws trusted advisor','AWS Trusted Advisor はAWS環境をベストプラクティス観点でチェックし、コスト・セキュリティなどの推奨事項を提示するサービス。設計原則そのものを定義するWell-Architected Frameworkとは異なる。'],
+  ['aws well-architected framework','AWS Well-Architected Framework はクラウド設計を6つの柱で評価するためのベストプラクティス集。現在の環境を自動チェックして推奨事項を出すTrusted Advisorとは異なる。'],
+  ['aws cloudformation','AWS CloudFormation はAWSリソースをテンプレートで定義・自動構築するInfrastructure as Codeサービス。監視や監査ログ記録のサービスではない。'],
+  ['aws systems manager','AWS Systems Manager はEC2やハイブリッド環境の運用管理・パッチ・リモート操作などを支援するサービス。監査証跡専用のCloudTrailとは異なる。'],
+  ['aws pricing calculator','AWS Pricing Calculator はAWS導入前に想定構成の料金を見積もるサービス。実績コストの分析や予算超過通知を行うサービスではない。'],
+  ['aws cost explorer','AWS Cost Explorer は過去・現在のAWSコストと使用量を可視化・分析するサービス。事前見積もりや予算アラートのサービスではない。'],
+  ['aws budgets','AWS Budgets は予算額や使用量のしきい値を設定し、超過が近づいたら通知するサービス。詳細なコスト傾向分析はCost Explorerの役割。'],
+  ['aws cost and usage report','AWS Cost and Usage Report は詳細なコスト・使用量データを出力するレポート。簡易的な可視化や予算通知を直接行うサービスではない。'],
+  ['aws marketplace','AWS Marketplace はサードパーティ製ソフトウェアやサービスを検索・購入・導入できるカタログ。AWS料金分析や監査文書取得のサービスではない。'],
+  ['aws support center','AWS Support Center はAWS Supportのケース作成・管理に利用する窓口。設計評価や自動推奨事項を提供するサービスではない。'],
+  ['aws application discovery service','AWS Application Discovery Service はオンプレミスのサーバー構成や利用状況を収集し、移行計画を支援するサービス。実際のサーバー移行やDB移行そのものを行うサービスではない。']
  ];
- for(const [k,v] of map){if(x.includes(k)) return v}
- if(x.includes('無料')) return 'AWSには無料利用枠はあるが、すべてのサービスが常に無料という意味ではない。料金条件を確認する必要がある。';
- if(x.includes('インターネット接続が不要')) return 'AWSの多くのクラウドサービス利用にはネットワーク接続が前提。専用線などを使う場合でも接続自体は必要。';
- if(x.includes('管理者権限')) return '過剰な権限付与は最小権限の原則に反する。必要な操作だけ許可するのが基本。';
- if(x.includes('root')) return 'rootユーザーは強力すぎるため日常利用・共有は避け、MFAを有効化して厳格に保護する。';
- if(x.includes('権限を一切')) return '業務に必要な操作までできなくなるため「最小権限」とは違う。最小限“必要な”権限を与える。';
- return 'この選択肢は、問題で問われているAWSサービスの中心的な役割とは一致しない。正解サービスの「一言で言う役割」と比較して覚えると見分けやすい。';
+ for(const [k,v] of roles){if(x.includes(k)) return v}
+ if(x.includes('無料')) return '「すべて無料」は誤り。AWSには無料利用枠があるが、対象サービス・利用量・期間に条件がある。料金条件を確認して利用する必要がある。';
+ if(x.includes('管理者権限')) return '管理者権限を常時付与するのは過剰。これは最小権限の原則に反するため不正解。必要な操作だけを許可する。';
+ if(x.includes('root')) return 'rootユーザーはアカウント全体に強い権限を持つため、日常利用や共有には不適切。MFAを有効化し、必要時だけ使うのが基本。';
+ if(x.includes('権限を一切')) return '権限を一切与えないのは「最小権限」ではない。業務に必要な最小限の権限を与えるのが正しい。';
+ if(x.includes('1つのaz') || x.includes('単一az')) return '1つのAZだけに配置すると、そのAZ障害が単一障害点になりやすい。高可用性を求める問題では複数AZ構成が基本。';
+ if(x.includes('大型化')) return 'インスタンスの大型化は垂直スケーリングで、単一AZ障害への耐性は高まらない。この問題が問う可用性対策とは別。';
+ if(x.includes('固定費')) return '固定費のままではクラウドの従量課金・変動費化のメリットを活かせない。必要量に応じて支払える点がクラウドの利点。';
+ if(x.includes('すべてのit費用')) return 'AWSを使ってもIT費用がゼロになるわけではない。ハードウェアの先行投資を抑え、使った分だけ支払う形へ変えられるのがポイント。';
+ if(x.includes('ネットワーク料金が常にゼロ')) return 'データ転送などで料金が発生する場合があるため誤り。AWS利用だからネットワーク料金が常に無料になるわけではない。';
+ if(x.includes('リージョン障害が絶対')) return 'AWSでも障害リスクをゼロにはできない。複数AZ・複数Regionなどの設計で可用性や耐障害性を高める。';
+ if(x.includes('責任がすべてなくなる')) return 'マネージドサービスを使っても顧客側の責任は残る。責任共有モデルでは、データ・アクセス権限・設定などは顧客責任になる場合がある。';
+ return 'この選択肢にも固有の役割はあるが、今回の要件を満たす中心機能ではない。問題文の「何をしたいか」と各サービスの一言役割を対応させて判断する。';
 }
 function deepSummary(q,r){
  const d=q[4];
