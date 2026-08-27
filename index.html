@@ -5,11 +5,11 @@
 <title>AWS Cloud Practitioner Study</title>
 <style>
 :root{--bg:#08111f;--card:#101c2e;--card2:#14243a;--text:#eef5ff;--muted:#9fb0c8;--accent:#ff9900;--ok:#39d98a;--bad:#ff647c;--line:#263a55}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#07101d,#0d1930 55%,#111d31);color:var(--text);min-height:100vh}.wrap{max-width:760px;margin:auto;padding:20px}.brand{font-size:22px;font-weight:900;cursor:pointer;display:inline-flex;gap:10px;align-items:center}.aws{color:var(--accent)}.sub{color:var(--muted);font-size:13px;margin-top:5px}.card{background:rgba(16,28,46,.94);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:20px;box-shadow:0 14px 45px #0005}.hero h1{font-size:29px;margin:4px 0 8px}.hero p{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:14px;padding:15px 12px;font-weight:800;font-size:15px;cursor:pointer;background:var(--card2);color:var(--text);border:1px solid var(--line)}.btn.primary{background:var(--accent);color:#1c1306;border-color:var(--accent)}.btn:hover{filter:brightness(1.08)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{background:#0b1728;border-radius:14px;padding:13px;text-align:center;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}.bar{height:10px;background:#07111f;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--accent)}.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.question{font-size:20px;font-weight:800;line-height:1.55;margin:18px 0}.answers{display:grid;gap:10px}.answer{text-align:left;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d1a2c;color:var(--text);cursor:pointer;font-size:15px;line-height:1.45}.answer.correct{border-color:var(--ok);background:#123527}.answer.wrong{border-color:var(--bad);background:#3b1922}.explain{margin-top:16px;padding:15px;background:#0a1626;border-radius:14px;border-left:4px solid var(--accent);line-height:1.75}.explain h3{margin:12px 0 5px;font-size:14px;color:var(--accent)}.explain ul{margin:6px 0 4px;padding-left:20px}.explain li{margin:5px 0}.examtip{margin-top:10px;padding:10px 12px;background:#101f34;border-radius:10px;color:#d8e6f7;font-size:13px}.tag{display:inline-block;font-size:11px;padding:5px 8px;border-radius:99px;background:#20314a;color:#c6d5e9}.next{width:100%;margin-top:15px}.hidden{display:none}.result{text-align:center}.result .big{font-size:48px;font-weight:900;color:var(--accent)}@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{font-size:25px}.wrap{padding:15px}}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(145deg,#07101d,#0d1930 55%,#111d31);color:var(--text);min-height:100vh}.wrap{max-width:760px;margin:auto;padding:20px}.topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.brand{font-size:22px;font-weight:900;cursor:pointer;display:inline-flex;gap:10px;align-items:center}.version{font-size:12px;font-weight:900;letter-spacing:.3px;color:#ffd28a;background:#2a1d08;border:1px solid #6c4b12;border-radius:999px;padding:7px 10px;white-space:nowrap}.aws{color:var(--accent)}.sub{color:var(--muted);font-size:13px;margin-top:5px}.card{background:rgba(16,28,46,.94);border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:20px;box-shadow:0 14px 45px #0005}.hero h1{font-size:29px;margin:4px 0 8px}.hero p{color:var(--muted);line-height:1.7}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:14px;padding:15px 12px;font-weight:800;font-size:15px;cursor:pointer;background:var(--card2);color:var(--text);border:1px solid var(--line)}.btn.primary{background:var(--accent);color:#1c1306;border-color:var(--accent)}.btn:hover{filter:brightness(1.08)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{background:#0b1728;border-radius:14px;padding:13px;text-align:center;border:1px solid var(--line)}.stat b{font-size:21px;display:block}.stat span{font-size:11px;color:var(--muted)}.bar{height:10px;background:#07111f;border-radius:99px;overflow:hidden;margin-top:8px}.fill{height:100%;background:var(--accent)}.qmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}.question{font-size:20px;font-weight:800;line-height:1.55;margin:18px 0}.answers{display:grid;gap:10px}.answer{text-align:left;padding:14px;border-radius:13px;border:1px solid var(--line);background:#0d1a2c;color:var(--text);cursor:pointer;font-size:15px;line-height:1.45}.answer.correct{border-color:var(--ok);background:#123527}.answer.wrong{border-color:var(--bad);background:#3b1922}.explain{margin-top:16px;padding:15px;background:#0a1626;border-radius:14px;border-left:4px solid var(--accent);line-height:1.75}.explain h3{margin:16px 0 6px;font-size:14px;color:var(--accent)}.explain .lead{font-size:15px;line-height:1.8}.choicewhy{display:grid;gap:8px;margin-top:8px}.choicewhy div{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0d1a2c;font-size:13px;line-height:1.6}.choicewhy b{color:#dfeaff}.memory{margin-top:10px;padding:11px 12px;background:#261d09;border:1px solid #604614;border-radius:10px;color:#ffe1a3;font-size:13px;line-height:1.6}.compare{margin-top:8px;padding:10px 12px;background:#0d1a2c;border:1px solid var(--line);border-radius:10px;font-size:13px;line-height:1.65}.explain ul{margin:6px 0 4px;padding-left:20px}.explain li{margin:5px 0}.examtip{margin-top:10px;padding:10px 12px;background:#101f34;border-radius:10px;color:#d8e6f7;font-size:13px}.tag{display:inline-block;font-size:11px;padding:5px 8px;border-radius:99px;background:#20314a;color:#c6d5e9}.next{width:100%;margin-top:15px}.hidden{display:none}.result{text-align:center}.result .big{font-size:48px;font-weight:900;color:var(--accent)}@media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{font-size:25px}.wrap{padding:15px}}
 </style>
 </head>
 <body><div class="wrap">
-<div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 1.2</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div>
 <div class="stats"><div class="stat"><b id="answered">0</b><span>解答数</span></div><div class="stat"><b id="rate">0%</b><span>正答率</span></div><div class="stat"><b id="wrongCount">0</b><span>復習問題</span></div></div>
@@ -97,7 +97,63 @@ function relatedKnowledge(q){
  };
  return defaults[d]||{items:['このサービスの「何をするか」を一言で覚える','似たサービスとの違いをセットで覚える','問題文のキーワードから用途を判断する'],tip:'正解だけでなく、他の選択肢がどの用途のサービスかも確認すると定着しやすい。'};
 }
-function answer(choice,btn){if(locked)return;locked=true;let id=session[idx],q=questions[id],buttons=[...document.querySelectorAll('.answer')];buttons[q[2]].classList.add('correct');data.answered++;if(!data.seen.includes(id))data.seen.push(id);if(choice===q[2]){correct++;data.correct++;data.wrong=data.wrong.filter(x=>x!==id)}else{btn.classList.add('wrong');if(!data.wrong.includes(id))data.wrong.push(id)}save();let r=relatedKnowledge(q),e=document.getElementById('explain');e.innerHTML='<b>'+(choice===q[2]?'✓ 正解！':'✕ 不正解')+'</b><h3>なぜこの答え？</h3><div>'+q[3]+'</div><h3>一緒に覚える関連知識</h3><ul>'+r.items.map(x=>'<li>'+x+'</li>').join('')+'</ul><div class="examtip"><b>🎯 試験での見分け方</b><br>'+r.tip+'</div>';e.classList.remove('hidden');document.getElementById('next').textContent=idx===session.length-1?'結果を見る':'次の問題';document.getElementById('next').classList.remove('hidden')}
+
+function optionExplanation(text,q){
+ const x=text.toLowerCase();
+ const map=[
+  ['オブジェクトストレージ','これは Amazon S3 の役割。ファイルを「オブジェクト」として保存するストレージで、EC2の仮想サーバー実行とは別物。'],
+  ['仮想サーバー','これは Amazon EC2 の役割。OSを含む仮想マシンを起動してアプリを動かす。'],
+  ['dns','DNS・名前解決は主に Amazon Route 53 の役割。'],
+  ['メール','メール配信は Amazon SES などが代表例で、この問題の主役とは異なる。'],
+  ['リレーショナルdb','リレーショナルDBは Amazon RDS/Aurora 系。表形式・SQL・トランザクションが中心。'],
+  ['sql','SQLを使う代表的なマネージドDBは RDS/Aurora。DynamoDBはNoSQL。'],
+  ['nosql','NoSQLなら Amazon DynamoDB。キー・バリュー型などを高速・大規模に扱う。'],
+  ['物理サーバー','AWSでは物理サーバーを直接意識せず使えるサービスが多い。専有ハードウェアが必要なら Dedicated Hosts など別の選択肢がある。'],
+  ['請求','請求・コスト管理は Billing、Cost Explorer、Budgets などの領域。'],
+  ['webサイトを高速化','世界中への高速配信は CloudFront（CDN）の代表的な役割。'],
+  ['画像を保存','画像などのオブジェクト保存はS3が代表的。IAMは保存ではなくアクセス制御。'],
+  ['コードを書くide','IDEはCloud9などの開発環境。Trusted Advisorは環境の推奨事項を確認するサービス。'],
+  ['動画配信','コンテンツ配信ならCloudFront。DBやIAMとは役割が違う。'],
+  ['監査レポート','監査・コンプライアンス文書はAWS Artifact。'],
+  ['apiアクティビティ','API操作履歴はCloudTrail。メトリクス監視のCloudWatchと混同しやすい。'],
+  ['メトリクス','CPU使用率などのメトリクス監視はCloudWatch。'],
+  ['パスワード','認証・権限はIAMの領域。'],
+  ['コンテンツを低レイテンシー','CDNとして低遅延配信するのはCloudFront。'],
+  ['受信トラフィック','受信トラフィックの分散はElastic Load Balancing。'],
+  ['複数awsアカウント','複数アカウントの一元管理はAWS Organizations。'],
+  ['専用ネットワーク','オンプレミスとAWSの専用接続はDirect Connect。'],
+  ['メッセージキュー','キューで疎結合化するのはAmazon SQS。'],
+  ['pub/sub','1対多のPub/Sub通知はAmazon SNS。'],
+  ['ファイルストレージ','共有ファイルシステムはAmazon EFS。'],
+  ['ブロックストレージ','EC2のディスクのように使うブロックストレージはAmazon EBS。']
+ ];
+ for(const [k,v] of map){if(x.includes(k)) return v}
+ if(x.includes('無料')) return 'AWSには無料利用枠はあるが、すべてのサービスが常に無料という意味ではない。料金条件を確認する必要がある。';
+ if(x.includes('インターネット接続が不要')) return 'AWSの多くのクラウドサービス利用にはネットワーク接続が前提。専用線などを使う場合でも接続自体は必要。';
+ if(x.includes('管理者権限')) return '過剰な権限付与は最小権限の原則に反する。必要な操作だけ許可するのが基本。';
+ if(x.includes('root')) return 'rootユーザーは強力すぎるため日常利用・共有は避け、MFAを有効化して厳格に保護する。';
+ if(x.includes('権限を一切')) return '業務に必要な操作までできなくなるため「最小権限」とは違う。最小限“必要な”権限を与える。';
+ return 'この選択肢は、問題で問われているAWSサービスの中心的な役割とは一致しない。正解サービスの「一言で言う役割」と比較して覚えると見分けやすい。';
+}
+function deepSummary(q,r){
+ const d=q[4];
+ const summaries={
+  'コンピューティング':'コンピューティング系は「サーバーを自分で管理するEC2」「コードだけ実行するLambda」「台数を調整するAuto Scaling」を切り分けるのが基本。',
+  'ストレージ':'ストレージは最重要比較。S3=オブジェクト、EBS=ブロック、EFS=ファイル。この3つを用途までセットで覚える。',
+  'ネットワーク':'ネットワークは VPC=仮想ネットワーク、Route 53=DNS、ELB=負荷分散、CloudFront=CDN、Direct Connect=専用接続 と一言で整理すると強い。',
+  'セキュリティ':'セキュリティでは IAM=権限、CloudTrail=操作履歴、KMS=鍵管理、Artifact=コンプライアンス文書、責任共有モデル=AWSと顧客の責任分担を区別する。',
+  'データベース':'データベースは RDS/Aurora=リレーショナル、DynamoDB=NoSQL の対比が基本。SQLかNoSQLかを問題文から判断する。',
+  '料金':'料金系は Budgets=予算と通知、Cost Explorer=分析、Pricing Calculator=事前見積もり を区別する。',
+  '管理':'管理系は Organizations=複数アカウント、Trusted Advisor=推奨事項、Marketplace=製品カタログ と役割を分ける。',
+  'アプリ統合':'アプリ統合は SNS=配る、SQS=ためる が定番の覚え方。',
+  'クラウドの概念':'クラウド概念では「俊敏性・弾力性・従量課金・高可用性」をサービス名なしでも説明できるようにする。',
+  'コンプライアンス':'コンプライアンス系では Artifact=監査/契約文書、責任共有モデル=責任分担、CloudTrail=操作証跡 を切り分ける。',
+  '運用':'運用では CloudWatch=状態を監視、CloudTrail=操作を記録、Config=構成を評価 と整理する。'
+ };
+ return summaries[d]||'正解サービスの役割だけでなく、似たサービスとの違いまでセットで覚えると、本番の言い換え問題に強くなる。';
+}
+
+function answer(choice,btn){if(locked)return;locked=true;let id=session[idx],q=questions[id],buttons=[...document.querySelectorAll('.answer')];buttons[q[2]].classList.add('correct');data.answered++;if(!data.seen.includes(id))data.seen.push(id);if(choice===q[2]){correct++;data.correct++;data.wrong=data.wrong.filter(x=>x!==id)}else{btn.classList.add('wrong');if(!data.wrong.includes(id))data.wrong.push(id)}save();let r=relatedKnowledge(q),e=document.getElementById('explain');let wrongHtml=q[1].map((x,i)=>{if(i===q[2])return '';return '<div><b>'+String.fromCharCode(65+i)+'. '+x+'</b><br>'+optionExplanation(x,q)+'</div>'}).join('');e.innerHTML='<b>'+(choice===q[2]?'✓ 正解！':'✕ 不正解')+'</b><h3>① なぜこれが正解？</h3><div class="lead">'+q[3]+' '+deepSummary(q,r)+'</div><h3>② 他の選択肢はなぜ違う？</h3><div class="choicewhy">'+wrongHtml+'</div><h3>③ 比較で覚える関連知識</h3><div class="compare"><ul>'+r.items.map(x=>'<li>'+x+'</li>').join('')+'</ul></div><div class="examtip"><b>🎯 試験での見分け方</b><br>'+r.tip+'</div><div class="memory"><b>🧠 1行暗記</b><br>'+r.items.slice(0,3).join(' ／ ')+'</div>';e.classList.remove('hidden');document.getElementById('next').textContent=idx===session.length-1?'結果を見る':'次の問題';document.getElementById('next').classList.remove('hidden')}
 function nextQ(){idx++;if(idx>=session.length){document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.remove('hidden');let pct=Math.round(correct/session.length*100);document.getElementById('score').textContent=pct+'%';document.getElementById('resultText').textContent=`${session.length}問中 ${correct}問正解`;return}render()}
 updateStats();
 </script></body></html>
