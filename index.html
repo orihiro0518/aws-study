@@ -11,7 +11,7 @@
 </style>
 </head>
 <body><div class="wrap">
-<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 2.8.0</div></div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 2.8.1</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（300問）</button><button class="btn" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div>
 <div class="stats"><div class="stat"><b id="answered">0</b><span>解答数</span></div><div class="stat"><b id="rate">0%</b><span>正答率</span></div><div class="stat"><b id="wrongCount">0</b><span>復習問題</span></div></div>
@@ -33,7 +33,7 @@
 <h3>11. 試験で特に混同しやすい組み合わせ</h3><div class="study-box">CloudWatch ↔ CloudTrail<br>S3 ↔ EBS ↔ EFS<br>SNS ↔ SQS<br>Auto Scaling ↔ ELB<br>Budgets ↔ Cost Explorer ↔ Pricing Calculator<br>RDS/Aurora ↔ DynamoDB<br>Region ↔ AZ ↔ Edge Location</div>
 <div class="study-note"><b>🎯 勉強のコツ</b><br>サービス名だけを暗記せず、「何をする？」「似たサービスと何が違う？」「問題文のどの単語で判断する？」の3点で覚える。</div>
 <div class="grid" style="margin-top:18px"><button class="btn primary" onclick="start(10,false)">基礎OK → 10問解く</button><button class="btn" onclick="home()">トップへ戻る</button></div></section>
-<section id="questionList" class="card hidden"><span class="tag">QUESTION INDEX</span><h2 style="margin:10px 0 4px">全300問の問題一覧</h2><p style="color:var(--muted);line-height:1.65;margin-top:6px">全問題を表で一覧表示します。前回その問題に正解したかも確認できます。</p><div class="list-tools"><input id="questionSearch" type="search" placeholder="キーワードで検索（例：S3、コスト、暗号化）" oninput="renderQuestionList()"><select id="domainFilter" onchange="renderQuestionList()"><option value="">すべての分野</option></select></div><div class="legend"><span><b class="status-correct">○ 正解</b>＝前回正解</span><span><b class="status-wrong">× 不正解</b>＝前回不正解</span><span><b class="status-unanswered">— 未回答</b></span></div><div id="questionListSummary" class="list-summary"></div><div class="question-table-wrap"><table class="question-table"><thead><tr><th>No.</th><th>問題</th><th>分野</th><th>前回</th></tr></thead><tbody id="questionListBody"></tbody></table></div><button class="btn next" onclick="home()">トップへ戻る</button></section>
+<section id="questionList" class="card hidden"><span class="tag">QUESTION INDEX</span><h2 style="margin:10px 0 4px">全300問の問題一覧</h2><p style="color:var(--muted);line-height:1.65;margin-top:6px">全問題を表で一覧表示します。前回その問題に正解したかも確認できます。</p><div class="list-tools"><input id="questionSearch" type="search" placeholder="キーワードで検索（例：S3、コスト、暗号化）" oninput="renderQuestionList()"><select id="domainFilter" onchange="renderQuestionList()"><option value="">すべての分野</option></select></div><div class="legend"><span><b class="status-correct">○ 正解</b>＝前回正解</span><span><b class="status-wrong">× 不正解</b>＝前回不正解</span><span><b class="status-unanswered">— 未回答</b></span></div><div id="questionListSummary" class="list-summary"></div><div class="question-table-wrap"><table class="question-table"><thead><tr><th>No.</th><th>問題</th><th>答え</th><th>分野</th><th>前回</th></tr></thead><tbody id="questionListBody"></tbody></table></div><button class="btn next" onclick="home()">トップへ戻る</button></section>
 <section id="quiz" class="card hidden"><div class="qmeta"><span id="qnum"></span><span id="domain"></span></div><div id="question" class="question"></div><div id="answers" class="answers"></div><div id="explain" class="explain hidden"></div><button id="next" class="btn primary next hidden" onclick="nextQ()">次の問題</button></section>
 <section id="result" class="card result hidden"><div class="tag">RESULT</div><h2>おつかれさま！</h2><div id="score" class="big"></div><p id="resultText"></p><div class="grid"><button class="btn primary" onclick="home()">トップへ</button><button class="btn" onclick="startWrong()">間違いを復習</button></div></section>
 </div>
@@ -113,7 +113,7 @@ function renderQuestionList(){
  const rows=questions.map((q,i)=>({q,i})).filter(({q})=>(!domain||q[4]===domain)&&(!raw||[q[0],q[4]].join(' ').toLowerCase().includes(raw)));
  document.getElementById('questionListSummary').textContent=`${rows.length} / ${questions.length}問を表示`;
  body.innerHTML='';
- if(!rows.length){const tr=document.createElement('tr');tr.innerHTML='<td colspan="4" class="list-empty">該当する問題がありません。</td>';body.appendChild(tr);return}
+ if(!rows.length){const tr=document.createElement('tr');tr.innerHTML='<td colspan="5" class="list-empty">該当する問題がありません。</td>';body.appendChild(tr);return}
  rows.forEach(({q,i})=>{
    const tr=document.createElement('tr');
    const status=data.lastResults[i]||(data.seen.includes(i)?(data.wrong.includes(i)?'wrong':'correct'):'unanswered');
@@ -121,9 +121,10 @@ function renderQuestionList(){
    const statusClass=status==='correct'?'status-correct':status==='wrong'?'status-wrong':'status-unanswered';
    const no=document.createElement('td');no.className='col-no';no.textContent=`Q${i+1}`;
    const question=document.createElement('td');question.className='col-question';question.textContent=q[0];
+   const ans=document.createElement('td');ans.className='col-answer';ans.textContent=Array.isArray(q[2])?q[2].map(x=>q[1][x]).join(' / '):q[1][q[2]];
    const dom=document.createElement('td');dom.className='col-domain';dom.textContent=q[4];
    const st=document.createElement('td');st.className='col-status '+statusClass;st.textContent=statusText;
-   tr.append(no,question,dom,st);body.appendChild(tr);
+   tr.append(no,question,ans,dom,st);body.appendChild(tr);
  });
 }
 function showStudy(){document.getElementById('questionList').classList.add('hidden');document.getElementById('home').classList.add('hidden');document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.add('hidden');document.getElementById('study').classList.remove('hidden');document.getElementById('floatingSheetBtn').classList.add('show');setSheetMode(localStorage.getItem('clf02-sheet-mode')||'off');window.scrollTo(0,0)}
