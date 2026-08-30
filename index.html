@@ -46,11 +46,34 @@
 }
 </script>
 
+
+<style>
+.orivector-guides{margin-top:16px;padding:16px;border:1px solid #233754;border-radius:14px;background:rgba(10,23,43,.72)}
+.orivector-guides h2{font-size:16px;margin:0 0 10px}
+.orivector-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.orivector-guide{display:block;padding:13px;border:1px solid #29415f;border-radius:11px;background:#0c1b30;color:#eef6ff!important;text-decoration:none;font-weight:850;line-height:1.45}
+.orivector-guide small{display:block;margin-top:4px;color:#9fb0c6;font-weight:500;line-height:1.5}
+@media(max-width:600px){.orivector-guide-grid{grid-template-columns:1fr}}
+</style>
+
 </head>
 <body><div class="wrap">
-<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.3.0</div></div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.3.1</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（300問）</button><button class="btn" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn primary" onclick="startMockExam()">🎯 本番模試MAX 65問</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div><p style="color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0">🎯 本番模試MAXは、公式CLF-C02の出題比率を再現し、シナリオ型・比較型・複数選択を優先して65問を出題します。複数選択は5択以上から2つ以上を選ぶ本番仕様です。</p>
+
+<div class="orivector-guides">
+  <h2>📖 AWS Cloud Practitioner 学習ガイド</h2>
+  <div class="orivector-guide-grid">
+    <a class="orivector-guide" href="./roadmap/">勉強方法・合格ロードマップ
+      <small>初心者向けに、基礎学習から問題演習・模試までの進め方を解説。</small>
+    </a>
+    <a class="orivector-guide" href="./about/">Cloud Practitionerとは？
+      <small>資格の特徴・難易度・勉強時間・試験対策を分かりやすく解説。</small>
+    </a>
+  </div>
+</div>
+
 <div class="affiliate-box">
 <span class="affiliate-label">PR・広告</span>
 <h3>📚 動画講座で体系的に学びたい方へ</h3>
