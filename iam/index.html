@@ -6,12 +6,37 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AWS IAMとは？", "mainEntityOfPage": "https://orivector.jp/aws-study/iam/", "publisher": {"@type": "Organization", "name": "ORIVECTOR", "url": "https://orivector.jp/"}, "inLanguage": "ja-JP"}</script><style>
 :root{--bg:#031022;--panel:#09192d;--line:#203a59;--txt:#eef6ff;--mut:#a7b8cc;--blue:#2495ff;--purple:#a435f0}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#020817,#06162b);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.8}a{color:#8bc9ff}.w{width:min(920px,calc(100% - 30px));margin:auto}header{border-bottom:1px solid var(--line);padding:17px 0;background:#061326}.brand{font-weight:950;text-decoration:none;color:white}.hero{padding:44px 0 18px}h1{font-size:clamp(28px,6vw,44px);line-height:1.3}h2{line-height:1.45}.card{background:rgba(9,25,45,.96);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}.diagram{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;align-items:stretch;margin:18px 0}.node{position:relative;background:#102844;border:1px solid #31577d;border-radius:14px;padding:16px 10px;text-align:center;font-weight:900;min-height:92px;display:flex;align-items:center;justify-content:center;flex-direction:column}.node small{display:block;color:#b9c9da;font-weight:500;margin-top:4px}.node:not(:last-child):after{content:"→";position:absolute;right:-16px;top:31%;z-index:2;color:#71b8ff;font-size:22px}.memory{border-left:4px solid var(--blue);background:#0b223c;padding:14px 16px;border-radius:9px}.compare{width:100%;border-collapse:collapse}.compare th,.compare td{border-bottom:1px solid var(--line);padding:10px;text-align:left}.cta{background:#0b2c4d}.btn{display:inline-block;background:var(--blue);color:white;text-decoration:none;font-weight:900;padding:12px 17px;border-radius:10px}.ad{background:#18142a;border-color:#52366e}.ad .btn{background:var(--purple)}.note{font-size:11px;color:var(--mut)}footer{border-top:1px solid var(--line);margin-top:45px;padding:30px 0;color:var(--mut);font-size:13px}@media(max-width:680px){.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:calc(50% - 7px);top:auto;bottom:-22px}.node{margin-bottom:7px}}
-</style></head>
+</style>
+<style>
+.enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
+</style>
+</head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS IAMとは？</h1><p>ユーザー・ロール・ポリシー・最小権限の関係を整理する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">User<small>人・利用者</small></div><div class="node">Role<small>一時的な権限</small></div><div class="node">Policy<small>何を許可するか</small></div><div class="node">AWS Resource<small>操作対象</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
 <section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>User</th><td>人・利用者</td></tr><tr><th>Role</th><td>一時的な権限</td></tr><tr><th>Policy</th><td>何を許可するか</td></tr><tr><th>AWS Resource</th><td>操作対象</td></tr></tbody></table></section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
+
+<section class="card enhanced">
+<h2>もう一段深く理解する</h2>
+<p>AWS IAMは、誰が・何に・何をできるかを制御する認証・認可サービスです。ユーザー、ロール、ポリシーを使い、最小権限の原則でアクセスを設計します。</p>
+<p class="memory"><strong>覚え方：</strong> IAM＝『AWSの入館証＋権限表』。</p>
+</section>
+<section class="card enhanced">
+<h2>似たサービスとの比較</h2>
+<div style="overflow-x:auto"><table class="compare"><tbody><tr><th>IAMユーザー</th><td>人や固定的な主体の認証情報</td></tr><tr><th>IAMロール</th><td>一時的な権限を引き受ける仕組み</td></tr><tr><th>IAMポリシー</th><td>許可・拒否するアクションやリソースを定義</td></tr></tbody></table></div>
+</section>
+<section class="card enhanced">
+<h2>試験での見分け方</h2>
+<ul><li>EC2からS3へ安全にアクセス→IAMロール</li><li>必要最低限の権限→最小権限の原則</li><li>ルートユーザーの日常利用→避け、MFAを有効化</li></ul>
+<p class="note2">※ 試験ではサービス名だけでなく、要件・運用負荷・可用性・コストなどの条件から判断する問題が出ます。</p>
+</section>
+<section class="card enhanced">
+<h2>3問ミニチェック</h2>
+<p>答えを考えてから開いて確認してください。</p>
+<details class="quiz"><summary>Q1. EC2に長期アクセスキーを埋め込まずS3へアクセスさせたい。何を使う？</summary><div><strong>答え：</strong>IAMロール</div></details><details class="quiz"><summary>Q2. 必要な操作だけ許可する考え方は？</summary><div><strong>答え：</strong>最小権限の原則</div></details><details class="quiz"><summary>Q3. IAMで権限内容を記述するものは？</summary><div><strong>答え：</strong>IAMポリシー</div></details>
+</section>
+
 <section class="card cta"><h2>問題で定着させる</h2><p>図で理解したら、ORIVECTORの無料300問問題集で実際の選択問題に慣れましょう。</p><a class="btn" href="../">無料問題集を解く →</a>　<a href="../roadmap/">合格ロードマップ</a>　<a href="../services/">主要サービス一覧</a></section>
 <section class="card ad"><small>PR・広告</small><h2>動画で体系的に学びたい場合</h2><p>文章・図解・問題演習に動画講座を組み合わせる方法もあります。</p><a class="btn" href="https://trk.udemy.com/c/7699504/3193860/39854" target="_blank" rel="sponsored noopener noreferrer">UdemyでAWS講座を探す →</a><p class="note">※ アフィリエイト広告を含みます。リンク経由の購入でORIVECTORが報酬を受け取る場合があります。購入者の追加負担はありません。</p></section>
 </main><footer><div class="w">© 2026 ORIVECTOR</div></footer></body></html>
