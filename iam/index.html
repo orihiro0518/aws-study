@@ -16,7 +16,63 @@
 .detail-point:last-child{border-bottom:0;padding-bottom:0}
 .detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
 .detail-point p{margin:0;color:#e3edf8;line-height:1.9}
-</style></head>
+</style>
+<style>
+.article-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.article-nav a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;background:#0b2038;padding:14px 16px;color:#eef6ff}
+.article-nav a:hover{filter:brightness(1.08)}
+.article-nav .nav-label{display:block;color:var(--mut);font-size:12px;margin-bottom:4px}
+.article-nav .nav-title{font-weight:900;line-height:1.5}
+.article-nav .next{text-align:right}
+.back-guide{display:block;text-align:center;margin:8px 0 4px}
+@media(max-width:620px){.article-nav{grid-template-columns:1fr}.article-nav .next{text-align:left}}
+</style>
+
+<style>
+/* ORIVECTOR mobile UX v5 */
+.mobile-bottom-nav{display:none}
+.mobile-toc{display:none}
+@media(max-width:680px){
+  html{scroll-behavior:smooth}
+  body{padding-bottom:76px}
+  .w{width:min(100% - 22px,920px)}
+  header{padding:12px 0}
+  .hero{padding:28px 0 12px}
+  .hero h1{font-size:clamp(26px,8vw,36px);margin:.45em 0}
+  .card{padding:18px 16px;border-radius:15px;margin:14px 0}
+  h2{font-size:21px;margin-top:.2em}
+  h3{font-size:17px}
+  p,li,td,th{font-size:15.5px}
+  .btn{display:block;width:100%;text-align:center;padding:14px 16px;min-height:50px}
+  .cta .btn,.ad .btn{margin:8px 0}
+  .compare{min-width:560px}
+  .quiz summary{padding:16px 14px;min-height:52px;display:flex;align-items:center}
+  .article-nav a{min-height:68px;padding:14px}
+  .back-guide{padding:12px 0}
+  .detail-point{padding:16px 0}
+  .detail-point p{line-height:1.85}
+  .mobile-toc{display:block;background:#081b31;border:1px solid var(--line);border-radius:14px;padding:0;margin:14px 0}
+  .mobile-toc summary{cursor:pointer;font-weight:900;padding:15px 16px;list-style:none}
+  .mobile-toc summary::-webkit-details-marker{display:none}
+  .mobile-toc summary:after{content:"＋";float:right;color:#8bc9ff}
+  .mobile-toc[open] summary:after{content:"−"}
+  .mobile-toc nav{padding:0 16px 14px}
+  .mobile-toc a{display:block;padding:10px 0;border-top:1px solid var(--line);text-decoration:none}
+  .mobile-bottom-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:9999;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    background:rgba(3,16,34,.97);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+    padding:max(8px,env(safe-area-inset-bottom)) 8px max(8px,env(safe-area-inset-bottom));
+  }
+  .mobile-bottom-nav a{
+    color:#dcecff;text-decoration:none;text-align:center;font-size:12px;font-weight:800;
+    padding:8px 4px;border-radius:10px;min-height:46px;display:flex;align-items:center;justify-content:center;
+  }
+  .mobile-bottom-nav a:active{background:#102844}
+}
+</style>
+</head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS IAMとは？</h1><p>ユーザー・ロール・ポリシー・最小権限の関係を整理する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">User<small>人・利用者</small></div><div class="node">Role<small>一時的な権限</small></div><div class="node">Policy<small>何を許可するか</small></div><div class="node">AWS Resource<small>操作対象</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
@@ -47,6 +103,39 @@
 <details class="quiz"><summary>Q1. EC2に長期アクセスキーを埋め込まずS3へアクセスさせたい。何を使う？</summary><div><strong>答え：</strong>IAMロール</div></details><details class="quiz"><summary>Q2. 必要な操作だけ許可する考え方は？</summary><div><strong>答え：</strong>最小権限の原則</div></details><details class="quiz"><summary>Q3. IAMで権限内容を記述するものは？</summary><div><strong>答え：</strong>IAMポリシー</div></details>
 </section>
 
+<nav class="article-nav" aria-label="記事ナビゲーション"><a class="prev" href="../shared-responsibility/"><span class="nav-label">← 前の記事</span><span class="nav-title">責任共有モデル</span></a><a class="next" href="../ec2/"><span class="nav-label">次の記事 →</span><span class="nav-title">EC2</span></a></nav><a class="back-guide" href="../guide/">📚 30記事一覧へ戻る</a>
 <section class="card cta"><h2>問題で定着させる</h2><p>図で理解したら、ORIVECTORの無料300問問題集で実際の選択問題に慣れましょう。</p><a class="btn" href="../">無料問題集を解く →</a>　<a href="../roadmap/">合格ロードマップ</a>　<a href="../services/">主要サービス一覧</a></section>
 <section class="card ad"><small>PR・広告</small><h2>動画で体系的に学びたい場合</h2><p>文章・図解・問題演習に動画講座を組み合わせる方法もあります。</p><a class="btn" href="https://trk.udemy.com/c/7699504/3193860/39854" target="_blank" rel="sponsored noopener noreferrer">UdemyでAWS講座を探す →</a><p class="note">※ アフィリエイト広告を含みます。リンク経由の購入でORIVECTORが報酬を受け取る場合があります。購入者の追加負担はありません。</p></section>
-</main><footer><div class="w">© 2026 ORIVECTOR</div></footer></body></html>
+</main><footer><div class="w">© 2026 ORIVECTOR</div></footer>
+<nav class="mobile-bottom-nav" aria-label="スマホ用ナビゲーション">
+  <a href="../">📝 問題集</a>
+  <a href="../guide/">📚 図解ガイド</a>
+  <a href="../roadmap/">🧭 ロードマップ</a>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.innerWidth>680) return;
+  const main=document.querySelector('main');
+  const hero=main && main.querySelector('.hero');
+  if(!main||!hero||main.querySelector('.mobile-toc')) return;
+  const headings=[...main.querySelectorAll('section.card h2')];
+  if(headings.length<2) return;
+  const details=document.createElement('details');
+  details.className='mobile-toc';
+  const summary=document.createElement('summary');
+  summary.textContent='この記事の目次';
+  details.appendChild(summary);
+  const nav=document.createElement('nav');
+  headings.forEach((h,i)=>{
+    if(!h.id) h.id='sec-'+(i+1);
+    const a=document.createElement('a');
+    a.href='#'+h.id;
+    a.textContent=h.textContent.trim();
+    nav.appendChild(a);
+  });
+  details.appendChild(nav);
+  hero.insertAdjacentElement('afterend',details);
+});
+</script>
+</body></html>
