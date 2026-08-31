@@ -11,6 +11,18 @@
 .category-select-card{max-width:760px;margin:0 auto}
 .category-select-head h2{margin:0 0 8px;font-size:24px}
 .category-select-head p{color:var(--muted);line-height:1.7;margin:0 0 16px}
+
+.practice-step{margin-top:20px}
+.practice-label{font-size:13px;font-weight:900;margin-bottom:10px}
+.practice-count-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.practice-count{display:block;cursor:pointer}
+.practice-count input{position:absolute;opacity:0;pointer-events:none}
+.practice-count span{display:flex;flex-direction:column;gap:4px;padding:14px 10px;border:1px solid var(--line);border-radius:14px;background:#0b1728;text-align:center;transition:.18s}
+.practice-count strong{font-size:17px}
+.practice-count small{font-size:11px;color:var(--muted)}
+.practice-count input:checked+span{border-color:#ff9900;background:linear-gradient(180deg,rgba(255,153,0,.12),#0b1728);box-shadow:0 0 0 1px rgba(255,153,0,.16) inset}
+.practice-count input:focus-visible+span{outline:2px solid #ff9900;outline-offset:3px}
+@media(max-width:520px){.practice-count-grid{grid-template-columns:1fr}.practice-count span{flex-direction:row;justify-content:space-between;align-items:center;text-align:left}}
 .category-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 14px}
 .category-actions .btn{padding:9px 12px;font-size:12px}
 .category-checks{display:grid;gap:10px;margin:12px 0 18px}
@@ -82,9 +94,9 @@
 
 </head>
 <body><div class="wrap">
-<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.6.0</div></div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.7.0</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
-<div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（250問）</button><button class="btn" onclick="openCategoryChallenge(10)">10問チャレンジ</button><button class="btn" onclick="openCategoryChallenge(20)">20問チャレンジ</button><div style="flex-basis:100%;font-size:11px;color:var(--muted);margin-top:4px">💡 苦手分野だけ選んで重点演習できます</div><button class="btn primary" onclick="startMockExam()">🎯 本番模試MAX 65問</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div><p style="color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0">🎯 本番模試MAXは、公式CLF-C02の出題比率を再現し、シナリオ型・比較型・複数選択を優先して65問を出題します。複数選択は5択以上から2つ以上を選ぶ本番仕様です。</p>
+<div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（250問）</button><button class="btn primary" onclick="openPracticeSetup()">✏️ 問題を解く</button><button class="btn primary" onclick="startMockExam()">🎯 本番模試MAX 65問</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div><p style="color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0">🎯 本番模試MAXは、公式CLF-C02の出題比率を再現し、シナリオ型・比較型・複数選択を優先して65問を出題します。複数選択は5択以上から2つ以上を選ぶ本番仕様です。</p>
 
 <div class="orivector-guides">
   <h2>📖 AWS Cloud Practitioner 学習ガイド</h2>
@@ -151,18 +163,33 @@
 <div class="grid" style="margin-top:18px"><button class="btn primary" onclick="start(10,false)">基礎OK → 10問解く</button><button class="btn" onclick="home()">トップへ戻る</button></div></section>
 <section id="questionList" class="card hidden"><span class="tag">QUESTION INDEX</span><h2 style="margin:10px 0 4px">全250問の問題一覧</h2><p style="color:var(--muted);line-height:1.65;margin-top:6px">全問題を表で一覧表示します。前回その問題に正解したかも確認できます。</p><div class="list-tools"><input id="questionSearch" type="search" placeholder="キーワードで検索（例：S3、コスト、暗号化）" oninput="renderQuestionList()"><select id="domainFilter" onchange="renderQuestionList()"><option value="">すべての分野</option></select></div><div class="legend"><span><b class="status-correct">○ 正解</b>＝前回正解</span><span><b class="status-wrong">× 不正解</b>＝前回不正解</span><span><b class="status-unanswered">— 未回答</b></span></div><div id="questionListSummary" class="list-summary"></div><div class="question-table-wrap"><table class="question-table"><thead><tr><th>No.</th><th>問題</th><th>答え</th><th>分野</th><th>前回</th></tr></thead><tbody id="questionListBody"></tbody></table></div><button class="btn next" onclick="home()">トップへ戻る</button></section>
 
+
 <section id="categorySelect" class="card hidden category-select-card">
   <div class="category-select-head">
     <span class="tag">弱点を重点対策</span>
-    <h2><span id="categoryChallengeCountLabel">10</span>問の出題カテゴリを選択</h2>
-    <p>苦手な分野だけに絞って重点演習できます。複数カテゴリの組み合わせもOKです。</p>
+    <h2>問題を解く</h2>
+    <p>問題数と出題カテゴリを選んでください。苦手な分野だけに絞って重点演習できます。</p>
   </div>
-  <div class="category-actions">
-    <button class="btn" type="button" onclick="setAllChallengeCategories(true)">✓ すべて選択</button>
-    <button class="btn" type="button" onclick="setAllChallengeCategories(false)">すべて解除</button>
+
+  <div class="practice-step">
+    <div class="practice-label">① 問題数</div>
+    <div class="practice-count-grid">
+      <label class="practice-count"><input type="radio" name="practiceCount" value="10" checked><span><strong>10問</strong><small>サクッと演習</small></span></label>
+      <label class="practice-count"><input type="radio" name="practiceCount" value="20"><span><strong>20問</strong><small>しっかり演習</small></span></label>
+      <label class="practice-count"><input type="radio" name="practiceCount" value="all"><span><strong>全問題</strong><small>選択カテゴリを全部</small></span></label>
+    </div>
   </div>
-  <div id="challengeCategoryChecks" class="category-checks"></div>
-  <button class="btn primary category-start" type="button" onclick="startCategoryChallenge()">選んだカテゴリから<span id="categoryStartCountLabel">10</span>問スタート →</button>
+
+  <div class="practice-step">
+    <div class="practice-label">② 出題カテゴリ</div>
+    <div class="category-actions">
+      <button class="btn" type="button" onclick="setAllChallengeCategories(true)">✓ すべて選択</button>
+      <button class="btn" type="button" onclick="setAllChallengeCategories(false)">すべて解除</button>
+    </div>
+    <div id="challengeCategoryChecks" class="category-checks"></div>
+  </div>
+
+  <button class="btn primary category-start" type="button" onclick="startPractice()">この条件でスタート →</button>
   <p id="categoryChallengeNote" class="category-note"></p>
   <button class="btn" style="width:100%;margin-top:10px" type="button" onclick="home()">← トップへ戻る</button>
 </section>
@@ -278,10 +305,7 @@ function challengeCategoryLabel(raw){
  const found=challengeCategories.find(c=>c.aliases.includes(raw));
  return found?found.label:raw;
 }
-function openCategoryChallenge(n=10){
- categoryChallengeCount=n;
- document.getElementById('categoryChallengeCountLabel')&&(document.getElementById('categoryChallengeCountLabel').textContent=n);
- document.getElementById('categoryStartCountLabel')&&(document.getElementById('categoryStartCountLabel').textContent=n);
+function openPracticeSetup(){
  ['home','study','quiz','result','questionList'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
  document.getElementById('floatingSheetBtn')?.classList.remove('show');
  const box=document.getElementById('categorySelect');
@@ -299,34 +323,42 @@ function openCategoryChallenge(n=10){
      </span>`;
    wrap.appendChild(label);
  });
- updateCategoryChallengeNote();
- wrap.querySelectorAll('input').forEach(x=>x.addEventListener('change',updateCategoryChallengeNote));
+ wrap.querySelectorAll('input').forEach(x=>x.addEventListener('change',updatePracticeNote));
+ document.querySelectorAll('input[name="practiceCount"]').forEach(x=>x.addEventListener('change',updatePracticeNote));
+ updatePracticeNote();
  window.scrollTo(0,0);
 }
 function setAllChallengeCategories(checked){
  document.querySelectorAll('.challenge-category').forEach(x=>x.checked=checked);
- updateCategoryChallengeNote();
+ updatePracticeNote();
 }
 function getSelectedChallengeCategories(){
  return [...document.querySelectorAll('.challenge-category:checked')].map(x=>x.value);
 }
-function updateCategoryChallengeNote(){
+function getPracticeCount(){
+ return document.querySelector('input[name="practiceCount"]:checked')?.value||'10';
+}
+function updatePracticeNote(){
  const selected=getSelectedChallengeCategories();
  const pool=questions.filter(q=>selected.includes(normalizedChallengeCategory(q[4])));
  const note=document.getElementById('categoryChallengeNote');
  if(!note)return;
+ if(!selected.length){note.textContent='カテゴリを1つ以上選択してください。';return}
  const labels=selected.map(k=>challengeCategories.find(c=>c.key===k)?.label||k);
- note.textContent=selected.length?`選択中：${labels.join('・')} / 対象 ${pool.length}問からランダム出題`:'カテゴリを1つ以上選択してください。';
+ const count=getPracticeCount();
+ const amount=count==='all'?pool.length:Math.min(Number(count),pool.length);
+ note.textContent=`${labels.join('・')} から ${amount}問出題（対象 ${pool.length}問）`;
 }
-function startCategoryChallenge(){
+function startPractice(){
  const selected=getSelectedChallengeCategories();
  if(!selected.length){alert('出題カテゴリを1つ以上選んでください。');return}
  const pool=[...questions.keys()].filter(i=>selected.includes(normalizedChallengeCategory(questions[i][4])));
  if(!pool.length){alert('選択したカテゴリに問題がありません。');return}
- const ids=pool.sort(()=>Math.random()-.5).slice(0,Math.min(categoryChallengeCount,pool.length));
+ const count=getPracticeCount();
+ const shuffled=pool.sort(()=>Math.random()-.5);
+ const ids=count==='all'?shuffled:shuffled.slice(0,Math.min(Number(count),shuffled.length));
  begin(ids);
 }
-
 function start(n){let ids=[...questions.keys()].sort(()=>Math.random()-.5).slice(0,n);begin(ids)}
 function startWrong(){if(!data.wrong.length){alert('復習する間違い問題はまだありません。');return}begin([...data.wrong].sort(()=>Math.random()-.5))}
 function begin(ids){session=ids;idx=0;correct=0;document.getElementById('categorySelect')?.classList.add('hidden');document.getElementById('questionList').classList.add('hidden');document.getElementById('home').classList.add('hidden');document.getElementById('result').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');render()}
