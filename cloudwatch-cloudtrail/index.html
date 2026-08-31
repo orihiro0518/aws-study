@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>CloudWatchとCloudTrailの違い</h1><p>監視と操作履歴の違いを試験向けに整理する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">CloudWatch<small>メトリクス・ログ・監視</small></div><div class="node">Alarm<small>しきい値で通知</small></div><div class="node">CloudTrail<small>API操作の記録</small></div><div class="node">判断<small>状態を見る vs 誰が何をした</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>CloudWatch</th><td>メトリクス・ログ・監視</td></tr><tr><th>Alarm</th><td>しきい値で通知</td></tr><tr><th>CloudTrail</th><td>API操作の記録</td></tr><tr><th>判断</th><td>状態を見る vs 誰が何をした</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>CloudWatchはシステムの状態を見る</h3><p>CPU使用率などのメトリクス、ログ、アラームを扱い、システム監視や運用に利用します。</p></div><div class="detail-point"><h3>CloudWatch Alarmで条件を監視</h3><p>メトリクスがしきい値を超えた場合などにアラーム状態にできます。Auto Scaling等と組み合わせることもあります。</p></div><div class="detail-point"><h3>CloudTrailはAWS操作の足跡</h3><p>AWS API操作やアカウント活動を記録します。『誰が・いつ・どんな操作をしたか』の監査や調査で重要です。</p></div><div class="detail-point"><h3>AWS Configは設定を見る</h3><p>リソース設定や変更履歴、ルールへの準拠状況を確認します。CloudTrailとConfigは試験で混同しやすいです。</p></div><div class="detail-point"><h3>覚え方は状態・操作・設定</h3><p>状態/性能＝CloudWatch、操作履歴＝CloudTrail、リソース設定＝AWS Config、と3つセットで覚えます。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

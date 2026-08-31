@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>Amazon VPCとは？</h1><p>AWS内に作る論理的なネットワークとサブネットの基本を理解する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">VPC<small>自分の論理ネットワーク</small></div><div class="node">Public Subnet<small>外部公開系</small></div><div class="node">Private Subnet<small>内部系</small></div><div class="node">Route<small>通信経路を制御</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>VPC</th><td>自分の論理ネットワーク</td></tr><tr><th>Public Subnet</th><td>外部公開系</td></tr><tr><th>Private Subnet</th><td>内部系</td></tr><tr><th>Route</th><td>通信経路を制御</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>VPCはAWS内の自分専用ネットワーク</h3><p>IPアドレス範囲を決め、その中にEC2やデータベースなどを配置する論理的に分離されたネットワークです。</p></div><div class="detail-point"><h3>サブネットでネットワークを分割</h3><p>VPCを小さなネットワークに分けます。一般に外部公開するWeb層と直接公開しないDB層などを分離して設計します。</p></div><div class="detail-point"><h3>Internet GatewayはVPCとインターネットの出入口</h3><p>インターネット接続が必要な構成で利用します。ただし付けただけで全リソースが自動公開されるわけではなく、ルート等の設定も関係します。</p></div><div class="detail-point"><h3>NAT GatewayはPrivate側からの外向き通信で登場</h3><p>Private subnetのインスタンスが更新ファイル取得などでインターネットへ出たい一方、外部から直接接続されたくない場合に使われます。</p></div><div class="detail-point"><h3>Security Groupはリソース単位の通信制御</h3><p>EC2などに適用するステートフルな仮想ファイアウォールです。『誰から何番ポートを許可するか』を考えます。</p></div><div class="detail-point"><h3>高可用性では複数AZを意識</h3><p>1つのAZだけに全システムを置くより、複数AZへ分散することで障害への耐性を高められます。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

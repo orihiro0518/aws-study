@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS主要サービス一覧</h1><p>主要サービスを「計算・保存・DB・ネットワーク・セキュリティ」に分類して全体像をつかむ。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">Compute<small>EC2 / Lambda / ECS・EKS</small></div><div class="node">Storage<small>S3 / EBS / EFS / Glacier</small></div><div class="node">Database<small>RDS / Aurora / DynamoDB</small></div><div class="node">Network<small>VPC / Route 53 / CloudFront</small></div><div class="node">Security<small>IAM / KMS / GuardDuty / WAF</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>Compute</th><td>EC2 / Lambda / ECS・EKS</td></tr><tr><th>Storage</th><td>S3 / EBS / EFS / Glacier</td></tr><tr><th>Database</th><td>RDS / Aurora / DynamoDB</td></tr><tr><th>Network</th><td>VPC / Route 53 / CloudFront</td></tr><tr><th>Security</th><td>IAM / KMS / GuardDuty / WAF</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>まず「何をするサービスか」で分類する</h3><p>EC2やLambdaは処理を動かすCompute、S3/EBS/EFSはデータを保存するStorage、RDS/DynamoDBはDatabase、VPC/Route 53/CloudFrontはNetworkというように、最初にカテゴリを決めると選択肢をかなり絞れます。</p></div><div class="detail-point"><h3>似たサービスは「データの形・管理範囲」で区別</h3><p>たとえばS3はオブジェクト、EBSはEC2のディスク、EFSは共有ファイルシステムです。名前ではなく『何を保存し、誰から使うか』まで考えます。</p></div><div class="detail-point"><h3>試験問題は要件から逆算する</h3><p>『サーバー管理を減らしたい』『高可用性』『低コスト』『機密データを検出』などの要件をAWSサービスへ変換する練習が重要です。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

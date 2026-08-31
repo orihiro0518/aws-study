@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>KMSとSecrets Managerの違い</h1><p>暗号鍵とシークレット管理の役割を区別する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">KMS<small>暗号鍵を管理</small></div><div class="node">Encryption<small>データを暗号化</small></div><div class="node">Secrets Manager<small>パスワード等を管理</small></div><div class="node">Application<small>安全に利用</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>KMS</th><td>暗号鍵を管理</td></tr><tr><th>Encryption</th><td>データを暗号化</td></tr><tr><th>Secrets Manager</th><td>パスワード等を管理</td></tr><tr><th>Application</th><td>安全に利用</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>KMSは暗号鍵を管理</h3><p>データ暗号化に使うキーを作成・管理するマネージドサービスです。S3やEBSなど多くのAWSサービスと統合できます。</p></div><div class="detail-point"><h3>Secrets Managerは秘密情報を管理</h3><p>DBパスワード、APIキーなどアプリケーションが利用するシークレットを安全に保存します。</p></div><div class="detail-point"><h3>ローテーションが重要なキーワード</h3><p>Secrets Managerはシークレットの自動ローテーションを構成できる点が問題で登場します。</p></div><div class="detail-point"><h3>鍵とパスワードを混同しない</h3><p>『暗号化キー』ならKMS、『DB認証情報・APIキー』ならSecrets Managerです。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS Lambdaとは？</h1><p>サーバーレスの意味とEC2との使い分けを図で理解する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">イベント<small>リクエスト・ファイル等</small></div><div class="node">Lambda<small>必要時にコード実行</small></div><div class="node">処理<small>DB更新・変換等</small></div><div class="node">終了<small>常時サーバー不要</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>イベント</th><td>リクエスト・ファイル等</td></tr><tr><th>Lambda</th><td>必要時にコード実行</td></tr><tr><th>処理</th><td>DB更新・変換等</td></tr><tr><th>終了</th><td>常時サーバー不要</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>Lambdaはコードを実行するサーバーレスサービス</h3><p>利用者がEC2を起動してOSを管理する代わりに、実行したいコードを用意してAWSに実行を任せます。</p></div><div class="detail-point"><h3>イベントをきっかけに動かせる</h3><p>たとえばS3へファイルが置かれた、APIが呼ばれた、スケジュール時刻になった、といったイベントを契機に処理できます。</p></div><div class="detail-point"><h3>使った分に応じた料金体系が特徴</h3><p>常時サーバーを起動しておく方式とは異なり、実行回数や実行時間などに基づいて課金されるため、断続的な処理と相性が良いです。</p></div><div class="detail-point"><h3>何でもLambdaにすればよいわけではない</h3><p>長時間常駐する一般的なサーバー、OSへ細かな設定が必要な処理などではEC2等が適する場合があります。</p></div><div class="detail-point"><h3>試験では『運用負荷を下げる』が重要キーワード</h3><p>サーバーのプロビジョニングやOS管理を避けたい、イベント駆動で処理したい、と書かれていたらLambdaを疑います。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

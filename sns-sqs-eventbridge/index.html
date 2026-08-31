@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>SNS・SQS・EventBridgeの違い</h1><p>AWSのアプリケーション統合サービスを目的別に比較する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">SNS<small>通知・Pub/Sub</small></div><div class="node">SQS<small>メッセージをキューに保持</small></div><div class="node">EventBridge<small>イベントをルールで配送</small></div><div class="node">Step Functions<small>処理フローを組み立て</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>SNS</th><td>通知・Pub/Sub</td></tr><tr><th>SQS</th><td>メッセージをキューに保持</td></tr><tr><th>EventBridge</th><td>イベントをルールで配送</td></tr><tr><th>Step Functions</th><td>処理フローを組み立て</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>SNSは通知を広げる</h3><p>Pub/Sub型で、1つのメッセージを複数の購読先へ配信する用途に向きます。</p></div><div class="detail-point"><h3>SQSは処理を待たせるキュー</h3><p>送信側と処理側の間にメッセージをため、処理速度の違いや一時的な負荷増加を吸収します。</p></div><div class="detail-point"><h3>EventBridgeはイベントをルーティング</h3><p>AWSサービスやSaaS等から届くイベントを、ルールに応じて適切なターゲットへ振り分けます。</p></div><div class="detail-point"><h3>疎結合が共通テーマ</h3><p>システム同士を直接強く依存させず、変更や障害の影響を小さくする設計に役立ちます。</p></div><div class="detail-point"><h3>問題文の動詞を見る</h3><p>『複数へ通知』SNS、『キューにためる』SQS、『条件に応じイベント振り分け』EventBridgeです。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

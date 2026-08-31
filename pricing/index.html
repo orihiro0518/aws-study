@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS料金・コスト管理</h1><p>Pricing Calculator・Cost Explorer・Budgetsなどを目的別に整理する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">見積もる<small>Pricing Calculator</small></div><div class="node">分析する<small>Cost Explorer</small></div><div class="node">予算を追う<small>Budgets</small></div><div class="node">最適化<small>Trusted Advisor等</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>見積もる</th><td>Pricing Calculator</td></tr><tr><th>分析する</th><td>Cost Explorer</td></tr><tr><th>予算を追う</th><td>Budgets</td></tr><tr><th>最適化</th><td>Trusted Advisor等</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>AWSは基本的に従量課金</h3><p>初期に大規模設備を買う代わりに、利用したリソースに応じて支払うクラウドの料金モデルが基本です。</p></div><div class="detail-point"><h3>On-Demandは柔軟性重視</h3><p>長期コミットなしで必要なときに利用できます。利用量が読めない・短期利用などで分かりやすい選択肢です。</p></div><div class="detail-point"><h3>継続利用ではコミット型割引を検討</h3><p>一定量の利用を継続すると分かっている場合、Savings Plansなどの割引モデルを検討できます。</p></div><div class="detail-point"><h3>Spotは中断可能な処理向け</h3><p>AWSの余剰キャパシティを割安に利用できますが中断される可能性があるため、バッチなど中断耐性のある処理向きです。</p></div><div class="detail-point"><h3>Cost ExplorerとBudgetsを区別</h3><p>Cost Explorerは費用・使用量の分析、AWS Budgetsは予算を設定してしきい値に対する通知等を行う用途です。</p></div><div class="detail-point"><h3>Pricing Calculatorは導入前の見積もり</h3><p>構成を想定してAWS利用料金を見積もるときに使います。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

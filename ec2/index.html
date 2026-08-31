@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>Amazon EC2とは？</h1><p>AWS上の仮想サーバーEC2を、料金モデルやLambdaとの違いまで含めて理解する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">利用者<small>アプリを動かしたい</small></div><div class="node">EC2<small>仮想サーバー</small></div><div class="node">EBS<small>ディスク</small></div><div class="node">Internet<small>ユーザーへ提供</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>利用者</th><td>アプリを動かしたい</td></tr><tr><th>EC2</th><td>仮想サーバー</td></tr><tr><th>EBS</th><td>ディスク</td></tr><tr><th>Internet</th><td>ユーザーへ提供</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>EC2は「AWS上の仮想パソコン」</h3><p>CPU・メモリなどを持つ仮想サーバーです。Webサーバー、アプリケーションサーバーなどを自由に構築でき、OSへログインしてソフトウェアを入れることもできます。</p></div><div class="detail-point"><h3>インスタンスタイプは用途に合わせて選ぶ</h3><p>汎用、コンピューティング最適化、メモリ最適化などがあり、処理内容に合わせてCPU・メモリ等のバランスを選択します。Cloud Practitionerでは細かな型番より『必要な性能に合わせて選べる』ことが重要です。</p></div><div class="detail-point"><h3>AMIはEC2を作るためのひな型</h3><p>AMIにはOSなどEC2起動に必要な情報が含まれます。同じ構成のEC2を複数作りたいときにも利用できます。</p></div><div class="detail-point"><h3>EBSはEC2でよく使うディスク</h3><p>EC2本体とは別のブロックストレージとしてEBSを接続します。『EC2のディスク』という要件ならS3ではなくEBSをまず考えます。</p></div><div class="detail-point"><h3>Security Groupで通信を制御</h3><p>EC2などに対する仮想ファイアウォールです。許可する通信を設定します。ネットワーク問題ではVPC・サブネット・Security Groupの役割を混同しないことが重要です。</p></div><div class="detail-point"><h3>EC2は利用者側の管理も残る</h3><p>AWSが物理サーバー等を管理しますが、EC2のゲストOS、アプリ、設定などは利用者が管理します。『サーバー管理を極力なくしたい』ならLambdaなどのマネージド/サーバーレスサービスが候補です。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">

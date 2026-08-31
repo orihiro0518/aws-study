@@ -10,11 +10,21 @@
 <style>
 .enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
 </style>
-</head>
+<style>
+.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
+.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
+.detail-point:last-child{border-bottom:0;padding-bottom:0}
+.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
+.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
+</style></head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
 <section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWS Cloud Adoption Frameworkとは？</h1><p>AWS CAFをクラウド移行・変革の観点から理解する。</p></section>
 <section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">Business<small>ビジネス価値</small></div><div class="node">People<small>人・組織</small></div><div class="node">Governance<small>統制</small></div><div class="node">Platform等<small>技術・運用・セキュリティ</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card"><h2>ポイント整理</h2><table class="compare"><tbody><tr><th>Business</th><td>ビジネス価値</td></tr><tr><th>People</th><td>人・組織</td></tr><tr><th>Governance</th><td>統制</td></tr><tr><th>Platform等</th><td>技術・運用・セキュリティ</td></tr></tbody></table></section>
+<section class="card detailed-points">
+<h2>ポイントを詳しく理解する</h2>
+<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
+<div class="detail-point"><h3>CAFはクラウド導入の変革フレームワーク</h3><p>AWSを導入する際、技術だけでなく組織・人材・ガバナンス・ビジネスまで含めて変革を整理します。</p></div><div class="detail-point"><h3>6つのPerspectiveで整理</h3><p>Business、People、Governance、Platform、Security、Operationsという観点があります。</p></div><div class="detail-point"><h3>Well-Architectedとの違い</h3><p>CAFは組織のクラウド導入・変革、Well-ArchitectedはAWS上のアーキテクチャをベストプラクティスで評価する枠組み、と整理します。</p></div><div class="detail-point"><h3>試験では組織変革が目印</h3><p>クラウド移行を会社全体で進める、ビジネス成果や人材も含めて考える、といった問題でCAFを疑います。</p></div>
+</section>
 <section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
 <section class="card enhanced">
