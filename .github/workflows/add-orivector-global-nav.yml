@@ -1,0 +1,29 @@
+name: Add ORIVECTOR Global Nav
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/add_orivector_global_nav.py'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index
+        run: python tools/add_orivector_global_nav.py
+      - name: Commit change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Unify ORIVECTOR return button position"
+            git push
+          fi
