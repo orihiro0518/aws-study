@@ -98,8 +98,14 @@
 
 <!-- seo-v4-schema -->
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://orivector.jp/#organization","name":"ORIVECTOR","url":"https://orivector.jp/"},{"@type":"WebSite","@id":"https://orivector.jp/#website","url":"https://orivector.jp/","name":"ORIVECTOR","publisher":{"@id":"https://orivector.jp/#organization"},"inLanguage":"ja"},{"@type":["WebApplication","LearningResource"],"@id":"https://orivector.jp/aws-study/#app","name":"AWS Cloud Practitioner（CLF-C02）無料問題集250問","url":"https://orivector.jp/aws-study/","description":"AWS Certified Cloud Practitioner（CLF-C02）対策の無料問題集250問。本番形式65問の模擬試験、図解学習、詳しい解説、間違い復習に対応。AWS初心者の独学・資格試験対策に。","applicationCategory":"EducationalApplication","operatingSystem":"Any","isAccessibleForFree":true,"educationalUse":"試験対策","learningResourceType":["問題集","模擬試験","学習ガイド"],"inLanguage":"ja","publisher":{"@id":"https://orivector.jp/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner 無料問題集","item":"https://orivector.jp/aws-study/"}]}]}</script>
+
+<style id="orivector-global-nav-style">
+.orivector-global-nav{width:100%;background:#07101d;border-bottom:1px solid rgba(255,255,255,.08);padding:8px 14px;position:relative;z-index:1000}
+.orivector-global-nav a{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.06);color:#eef5ff;text-decoration:none;font-size:13px;font-weight:900;letter-spacing:.02em}
+.orivector-global-nav a:hover{background:rgba(255,255,255,.11)}
+</style>
 </head>
-<body><div class="wrap">
+<body><div class="orivector-global-nav"><a href="https://orivector.jp/" aria-label="ORIVECTORトップへ戻る">← ORIVECTOR</a></div><div class="wrap">
 <div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 4.1.0</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>AWS Cloud Practitioner（CLF-C02）無料問題集250問</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（250問）</button><button class="btn primary" onclick="openPracticeSetup()">✏️ 問題を解く</button><button class="btn primary" onclick="startMockExam()">🎯 本番模試MAX 65問</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div><p style="color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0">🎯 本番模試MAXは、公式CLF-C02の出題比率を再現し、シナリオ型・比較型・複数選択を優先して65問を出題します。複数選択は5択以上から2つ以上を選ぶ本番仕様です。</p>
