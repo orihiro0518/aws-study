@@ -1,0 +1,61 @@
+name: Enrich AWS Quiz Explanations
+on:
+  push:
+    paths:
+      - '.github/workflows/enrich-quiz-explanations.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  enrich:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enrich explanations
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          css='''.explainPlus{margin-top:12px;display:grid;gap:10px}.explainPlus .xp{padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#0d1a2c;font-size:13px;line-height:1.7}.explainPlus .xp b{color:var(--accent)}.explainPlus .xp.wrong{border-color:#55303a}.explainPlus .xp.tip{background:#261d09;border-color:#604614;color:#ffe1a3}'''
+          if '.explainPlus{' not in s:
+              s=s.replace('</style>',css+'\n</style>',1)
+          js=r'''
+// ORIVECTOR_RICH_EXPLANATIONS_V1
+const richServiceNotes={
+'Amazon Connect':{why:'Amazon Connectは、電話・チャットなどの問い合わせ窓口をクラウドで構築するコンタクトセンターサービス。PBXなどの大規模な設備を自前で用意せず、問い合わせフローやルーティングを設定できる。',compare:'SESはメール送信、WorkSpacesは仮想デスクトップ、QuickSightはBI・可視化。問題文の「コンタクトセンター」「問い合わせフロー」がConnectの決め手。',tip:'「電話・チャットの問い合わせ窓口」→ Amazon Connect と覚える。'},
+'Amazon EBS':{why:'Amazon EBSはEC2にアタッチして使う永続的なブロックストレージ。EC2の仮想ディスクとしてOSやDBなど、低レイテンシでブロック単位の読み書きが必要な用途に向く。インスタンスを停止してもデータを保持できる。',compare:'EFSは複数EC2から共有できるファイルストレージ、S3はオブジェクトストレージ、S3 Glacier Flexible Retrievalは長期アーカイブ向け。問題文の「EC2にアタッチ」「ブロックストレージ」がEBSの決め手。',tip:'EC2のディスク→EBS、複数EC2で共有するファイル→EFS、オブジェクト→S3。'},
+'AWS Glue':{why:'AWS Glueはサーバーレスのデータ統合サービス。複数のデータソースからデータを抽出（Extract）し、必要な形へ変換（Transform）して、分析先などへロード（Load）するETL処理を支援する。Glue Data Catalogでデータの場所・スキーマなどのメタデータも一元管理できる。',compare:'Kendraはエンタープライズ検索、Lexは会話型チャットボット、ArtifactはAWSのコンプライアンスレポートや契約文書を確認するサービス。問題文の「抽出・変換・ロード」「データカタログ」がGlueの決め手。',tip:'ETL＋Data Catalog → Glue。検索→Kendra、会話→Lex、監査文書→Artifact。'}
+};
+function richExplanationForQuestion(q){
+  if(!q||!Array.isArray(q.options)) return '';
+  const correct=q.options[q.answer];
+  const key=Object.keys(richServiceNotes).find(k=>String(correct||'').includes(k));
+  if(!key) return '';
+  const n=richServiceNotes[key];
+  return `<div class="explainPlus"><div class="xp"><b>なぜ正解？</b><br>${n.why}</div><div class="xp wrong"><b>他の選択肢との違い</b><br>${n.compare}</div><div class="xp tip"><b>試験での見分け方</b><br>${n.tip}</div></div>`;
+}
+function appendRichExplanation(){
+  const box=document.querySelector('.explain');
+  if(!box||box.querySelector('.explainPlus')) return;
+  let q=null;
+  try{q=questions[currentIndex]}catch(e){}
+  const html=richExplanationForQuestion(q);
+  if(html) box.insertAdjacentHTML('beforeend',html);
+}
+document.addEventListener('click',e=>{if(e.target.closest('.answer')) setTimeout(appendRichExplanation,0)},true);
+'''
+          if 'ORIVECTOR_RICH_EXPLANATIONS_V1' not in s:
+              s=s.replace('</script>',js+'\n</script>',1)
+          # bump any visible 4.x version by one patch marker where possible
+          import re
+          m=re.search(r'Ver\s+(\d+)\.(\d+)\.(\d+)',s)
+          if m:
+              a,b,c=map(int,m.groups()); s=s[:m.start()]+f'Ver {a}.{b}.{c+1}'+s[m.end():]
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Enrich AWS quiz explanations'
+          git push
