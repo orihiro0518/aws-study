@@ -1,0 +1,109 @@
+name: Generate AWS SEO Clusters
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/generate-seo-clusters.yml'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate SEO pages
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from html import escape
+          import json, re
+
+          base='https://orivector.jp/aws-study'
+          topics=[
+            ('s3-vs-ebs-vs-efs','S3・EBS・EFSの違い','AWSストレージ3種を比較。保存形式、EC2との関係、共有可否、代表ユースケースをCLF-C02向けに整理。',[
+              ('結論','S3はオブジェクトストレージ、EBSは主に1台のEC2に接続するブロックストレージ、EFSは複数EC2から共有できるファイルストレージです。'),
+              ('見分け方','「大量のファイルをURL/キーで保存」ならS3、「OSやDBのディスク」ならEBS、「複数EC2で同じファイルを共有」ならEFSを優先します。'),
+              ('試験ポイント','S3は高耐久なオブジェクト保存、EBSはAZ単位、EFSはリージョン内で複数AZから利用できる点が頻出です。')]),
+            ('cloudwatch-vs-cloudtrail','CloudWatchとCloudTrailの違い','監視のCloudWatchと操作履歴のCloudTrailを比較。CLF-C02で迷いやすい使い分けを整理。',[
+              ('結論','CloudWatchはメトリクス・ログ・アラームなどの監視、CloudTrailはAWS API操作の監査証跡です。'),
+              ('見分け方','CPU使用率や閾値アラームならCloudWatch、誰がいつ何を変更したか確認するならCloudTrailです。'),
+              ('試験ポイント','性能監視と監査ログを混同しないこと。インシデント調査では両方を組み合わせることがあります。')]),
+            ('ec2-vs-lambda','EC2とLambdaの違い','EC2とLambdaの使い分けをサーバー管理、実行時間、課金、ユースケースから比較。',[
+              ('結論','EC2は仮想サーバーを継続運用したい場合、Lambdaはイベント駆動で短時間の処理をサーバー管理なしで動かしたい場合に向きます。'),
+              ('見分け方','OS管理や常駐プロセスが必要ならEC2、S3アップロードをきっかけに処理するなどイベント駆動ならLambdaが典型です。'),
+              ('試験ポイント','Lambdaはサーバーレスで実行時間とリクエストに応じた課金。EC2はインスタンス稼働時間を意識します。')]),
+            ('alb-vs-nlb','ALBとNLBの違い','Application Load BalancerとNetwork Load BalancerをL7/L4、ルーティング、性能で比較。',[
+              ('結論','ALBはHTTP/HTTPSのL7ロードバランサー、NLBはTCP/UDP/TLSのL4ロードバランサーです。'),
+              ('見分け方','URLパスやホスト名で振り分けたいならALB、超低遅延や固定IP要件ならNLBを検討します。'),
+              ('試験ポイント','「アプリ層＝ALB」「トランスポート層＝NLB」という軸でまず切り分けると解きやすいです。')]),
+            ('security-group-vs-nacl','Security GroupとNACLの違い','AWSのSecurity GroupとNetwork ACLをステートフル/ステートレス、適用範囲で比較。',[
+              ('結論','Security GroupはENI/インスタンス単位でステートフル、NACLはサブネット単位でステートレスです。'),
+              ('見分け方','個々のEC2への通信制御はSecurity Group、サブネット境界の追加防御はNACLが基本です。'),
+              ('試験ポイント','Security Groupは許可ルールのみ。NACLは許可と拒否の両方を設定でき、戻り通信も明示的に考えます。')]),
+            ('rds-vs-dynamodb','RDSとDynamoDBの違い','RDSとDynamoDBをデータモデル、スケーリング、運用負荷、ユースケースで比較。',[
+              ('結論','RDSはリレーショナルDB、DynamoDBはフルマネージドなNoSQLキーバリュー/ドキュメントDBです。'),
+              ('見分け方','SQLや複雑な結合が必要ならRDS、ミリ秒級の大規模スケールや柔軟なNoSQLならDynamoDBです。'),
+              ('試験ポイント','AuroraはRDS系、DynamoDBはサーバーレス運用に近く自動スケーリングやオンデマンドキャパシティが頻出です。')]),
+            ('direct-connect-vs-vpn','Direct ConnectとSite-to-Site VPNの違い','オンプレミスとAWS接続で迷うDirect ConnectとVPNを比較。',[
+              ('結論','Site-to-Site VPNはインターネット経由の暗号化接続、Direct Connectは専用線接続です。'),
+              ('見分け方','早く安価に暗号化接続したいならVPN、安定した帯域やプライベート接続を重視するならDirect Connectです。'),
+              ('試験ポイント','Direct Connect自体は暗号化を自動提供するサービスではない点に注意。高可用性のため併用構成もあります。')]),
+            ('sns-vs-sqs','SNSとSQSの違い','AWS SNSとSQSをプッシュ/キュー、1対多配信、疎結合化の観点から比較。',[
+              ('結論','SNSはメッセージを複数購読先へプッシュ配信、SQSはキューに蓄えてコンシューマーが取得します。'),
+              ('見分け方','一斉通知やファンアウトならSNS、処理の一時蓄積や負荷平準化ならSQSです。'),
+              ('試験ポイント','SNS→複数SQSのファンアウト構成は頻出。サービス間を疎結合にする代表例です。')]),
+            ('cost-explorer-vs-budgets','Cost ExplorerとAWS Budgetsの違い','AWS Cost ExplorerとAWS Budgetsをコスト分析と予算アラートの観点で比較。',[
+              ('結論','Cost Explorerは過去・現在のコスト傾向を可視化・分析、AWS Budgetsは予算しきい値を設定して通知します。'),
+              ('見分け方','「なぜ増えた？」を分析するならCost Explorer、「月額○円を超えそうなら通知」ならBudgetsです。'),
+              ('試験ポイント','請求額の異常検知、予算管理、コスト最適化ツールは役割を分けて覚えるのがコツです。')]),
+            ('clf-c02-study-plan','AWS Cloud Practitioner勉強法','CLF-C02の勉強順序と頻出テーマを無料問題集と図解記事を使って効率よく進める方法。',[
+              ('おすすめ順','①クラウド概念 → ②主要サービス → ③セキュリティ → ④料金・サポート → ⑤模擬問題の順で進めると整理しやすいです。'),
+              ('学習のコツ','サービス名だけ暗記せず、「何を解決するサービスか」「似たサービスとの違い」をセットで覚えます。'),
+              ('仕上げ','間違えた問題は答えだけでなく誤答理由まで確認し、比較記事に戻って知識を補強します。')])
+          ]
+
+          style='''body{margin:0;background:#08111f;color:#eef5ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:860px;margin:auto;padding:24px 18px 70px}a{color:#ffb347}.crumb{font-size:13px;color:#a9bad0;margin-bottom:22px}.hero{background:#101c2e;border:1px solid #263a55;border-radius:20px;padding:24px}.hero h1{font-size:clamp(28px,6vw,44px);line-height:1.2;margin:0 0 12px}.hero p{color:#b4c2d6;line-height:1.8}.card{margin-top:18px;background:#101c2e;border:1px solid #263a55;border-radius:18px;padding:20px}.card h2{color:#ff9900;margin-top:0}.card p{line-height:1.85;color:#dbe7f6}.compare{width:100%;border-collapse:collapse;margin-top:12px}.compare th,.compare td{border:1px solid #314760;padding:10px;text-align:left}.cta{display:block;margin-top:22px;padding:16px;border-radius:14px;text-align:center;text-decoration:none;background:#ff9900;color:#201408;font-weight:900}.links{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.links a{display:block;padding:12px;background:#0b1728;border:1px solid #263a55;border-radius:12px;text-decoration:none}'''
+
+          def page(slug,title,desc,sections):
+            url=f'{base}/{slug}/'
+            schema={"@context":"https://schema.org","@graph":[{"@type":"Article","headline":title,"description":desc,"mainEntityOfPage":url,"author":{"@type":"Organization","name":"ORIVECTOR"},"publisher":{"@type":"Organization","name":"ORIVECTOR","url":"https://orivector.jp/"},"inLanguage":"ja"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner","item":base+'/'},{"@type":"ListItem","position":3,"name":title,"item":url}]}]}
+            related=''.join(f'<a href="../{s}/">{escape(t)}</a>' for s,t,_,_ in topics if s!=slug)[:6000]
+            body=''.join(f'<section class="card"><h2>{escape(h)}</h2><p>{escape(p)}</p></section>' for h,p in sections)
+            return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}｜AWS CLF-C02対策｜ORIVECTOR</title><meta name="description" content="{escape(desc)}"><link rel="canonical" href="{url}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="article"><meta property="og:site_name" content="ORIVECTOR"><meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(desc)}"><meta property="og:url" content="{url}"><meta name="twitter:card" content="summary"><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script><style>{style}</style></head><body><main class="wrap"><div class="crumb"><a href="https://orivector.jp/">ORIVECTOR</a> › <a href="../">AWS Cloud Practitioner</a> › {escape(title)}</div><article class="hero"><p>CLF-C02 頻出比較</p><h1>{escape(title)}</h1><p>{escape(desc)}</p></article>{body}<section class="card"><h2>関連するAWS比較記事</h2><div class="links">{related}</div></section><a class="cta" href="../">無料問題集250問で確認する →</a></main></body></html>'''
+
+          for slug,title,desc,sections in topics:
+            d=Path(slug); d.mkdir(exist_ok=True); (d/'index.html').write_text(page(slug,title,desc,sections),encoding='utf-8')
+
+          # cluster hub
+          cards=''.join(f'<a href="../{s}/"><strong>{escape(t)}</strong><br><span>{escape(d)}</span></a>' for s,t,d,_ in topics)
+          hub=Path('comparisons'); hub.mkdir(exist_ok=True)
+          (hub/'index.html').write_text(f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AWSサービス比較一覧｜CLF-C02頻出の違いを整理｜ORIVECTOR</title><meta name="description" content="AWS Cloud Practitionerで混同しやすいサービスを比較。S3/EBS/EFS、CloudWatch/CloudTrail、EC2/Lambdaなどを一覧で復習できます。"><link rel="canonical" href="{base}/comparisons/"><meta name="robots" content="index,follow"><style>{style}.cards a{{display:block;margin:10px 0;padding:16px;background:#101c2e;border:1px solid #263a55;border-radius:14px;text-decoration:none}}.cards span{{color:#b4c2d6;line-height:1.6}}</style></head><body><main class="wrap"><div class="crumb"><a href="../">AWS Cloud Practitioner</a> › サービス比較</div><div class="hero"><h1>AWSサービス比較一覧</h1><p>CLF-C02で迷いやすい「似たサービスの違い」を検索意図ごとに整理しました。</p></div><div class="cards">{cards}</div><a class="cta" href="../">問題集250問へ戻る</a></main></body></html>''',encoding='utf-8')
+
+          # sitemap merge
+          sm=Path('sitemap.xml')
+          urls=[]
+          if sm.exists():
+            urls=re.findall(r'<loc>(.*?)</loc>',sm.read_text(encoding='utf-8'))
+          for u in [f'{base}/comparisons/']+[f'{base}/{s}/' for s,_,_,_ in topics]:
+            if u not in urls: urls.append(u)
+          xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{u}</loc></url>\n' for u in urls)+'</urlset>\n'
+          sm.write_text(xml,encoding='utf-8')
+
+          # internal link block on homepage, idempotent
+          p=Path('index.html'); text=p.read_text(encoding='utf-8')
+          marker='<!-- SEO-COMPARISON-CLUSTER -->'
+          if marker not in text:
+            block=f'''\n{marker}<section class="card" style="margin-top:20px"><span class="tag">SERVICE COMPARISON</span><h2>AWSサービスの違いを比較で理解</h2><p style="color:var(--muted);line-height:1.7">試験で混同しやすいサービスを比較記事で復習できます。</p><div class="grid"><a class="btn" href="./s3-vs-ebs-vs-efs/">S3・EBS・EFS</a><a class="btn" href="./cloudwatch-vs-cloudtrail/">CloudWatch・CloudTrail</a><a class="btn" href="./security-group-vs-nacl/">Security Group・NACL</a><a class="btn" href="./comparisons/">比較記事をすべて見る</a></div></section>'''
+            text=text.replace('</section>\n\n<section id="study"', '</section>'+block+'\n\n<section id="study"',1)
+            p.write_text(text,encoding='utf-8')
+          PY
+      - name: Commit generated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "Add AWS SEO comparison content cluster"
+          git push
