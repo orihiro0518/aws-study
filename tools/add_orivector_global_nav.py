@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 
+# Triggered once to apply the reviewed shared ORIVECTOR return navigation.
 path = Path('index.html')
 text = path.read_text(encoding='utf-8')
 
