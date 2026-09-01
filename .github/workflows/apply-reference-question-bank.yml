@@ -1,0 +1,29 @@
+name: Apply Reference Question Bank
+
+on:
+  push:
+    paths:
+      - 'tools/apply_reference_question_bank.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply reviewed 250-question bank
+        run: python tools/apply_reference_question_bank.py
+      - name: Commit updated site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Apply reviewed CLF-C02 reference-style 250 questions"
+            git push
+          fi
