@@ -20,6 +20,7 @@ jobs:
           from pathlib import Path
 
           exts = {'.html', '.js', '.json', '.md', '.yml', '.yaml', '.txt', '.xml'}
+          self_path = Path('.github/workflows/fix-250-question-count.yml')
           changed = []
           replacements = [
               ('無料300問問題集', '無料250問問題集'),
@@ -31,7 +32,7 @@ jobs:
               ('300問へ', '250問へ'),
           ]
           for p in Path('.').rglob('*'):
-              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
+              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts or p == self_path:
                   continue
               s = p.read_text(encoding='utf-8')
               n = s
@@ -46,12 +47,12 @@ jobs:
           # Guard: stale public-facing 300-question wording must be gone.
           bad = []
           for p in Path('.').rglob('*'):
-              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts:
+              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts and p != self_path:
                   t = p.read_text(encoding='utf-8')
                   if '300問' in t:
                       bad.append(str(p))
           if bad:
-              raise SystemExit('Remaining 300問 references: ' + ', '.join(bad))
+              raise SystemExit('Remaining stale question-count references: ' + ', '.join(bad))
           PY
       - name: Commit fixes
         run: |
