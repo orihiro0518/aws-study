@@ -1,0 +1,66 @@
+name: Fix AWS question count to 250
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-250-question-count.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-count:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace stale 300-question claims
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          exts = {'.html', '.js', '.json', '.md', '.yml', '.yaml', '.txt', '.xml'}
+          changed = []
+          replacements = [
+              ('無料300問問題集', '無料250問問題集'),
+              ('300問問題集', '250問問題集'),
+              ('無料問題集300問', '無料問題集250問'),
+              ('無料300問', '無料250問'),
+              ('300問の問題演習', '250問の問題演習'),
+              ('300問で', '250問で'),
+              ('300問へ', '250問へ'),
+          ]
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
+                  continue
+              s = p.read_text(encoding='utf-8')
+              n = s
+              for old, new in replacements:
+                  n = n.replace(old, new)
+              if n != s:
+                  p.write_text(n, encoding='utf-8')
+                  changed.append(str(p))
+          print('Changed files:')
+          print('\n'.join(changed) if changed else '(none)')
+
+          # Guard: stale public-facing 300-question wording must be gone.
+          bad = []
+          for p in Path('.').rglob('*'):
+              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts:
+                  t = p.read_text(encoding='utf-8')
+                  if '300問' in t:
+                      bad.append(str(p))
+          if bad:
+              raise SystemExit('Remaining 300問 references: ' + ', '.join(bad))
+          PY
+      - name: Commit fixes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo 'No changes needed.'
+          else
+            git commit -m 'Unify AWS question count at 250'
+            git push
+          fi
