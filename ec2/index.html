@@ -1,151 +1,183 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Amazon EC2とは？とは？AWS Cloud Practitioner（CLF-C02）対策｜ORIVECTOR</title>
-<meta name="description" content="Amazon EC2とは？をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。">
-<meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://orivector.jp/aws-study/ec2/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="ORIVECTOR"><meta property="og:title" content="Amazon EC2とは？とは？AWS Cloud Practitioner（CLF-C02）対策｜ORIVECTOR"><meta property="og:description" content="Amazon EC2とは？をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。"><meta property="og:url" content="https://orivector.jp/aws-study/ec2/"><meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Amazon EC2とは？", "mainEntityOfPage": "https://orivector.jp/aws-study/ec2/", "author":{"@type":"Person","@id":"https://orivector.jp/about/#shun","name":"shun","url":"https://orivector.jp/about/"},"publisher": {"@type": "Organization", "name": "ORIVECTOR", "url": "https://orivector.jp/"}, "inLanguage": "ja-JP"}</script><style>
-:root{--bg:#031022;--panel:#09192d;--line:#203a59;--txt:#eef6ff;--mut:#a7b8cc;--blue:#2495ff;--purple:#a435f0}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#020817,#06162b);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.8}a{color:#8bc9ff}.w{width:min(920px,calc(100% - 30px));margin:auto}header{border-bottom:1px solid var(--line);padding:17px 0;background:#061326}.brand{font-weight:950;text-decoration:none;color:white}.hero{padding:44px 0 18px}h1{font-size:clamp(28px,6vw,44px);line-height:1.3}h2{line-height:1.45}.card{background:rgba(9,25,45,.96);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}.diagram{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;align-items:stretch;margin:18px 0}.node{position:relative;background:#102844;border:1px solid #31577d;border-radius:14px;padding:16px 10px;text-align:center;font-weight:900;min-height:92px;display:flex;align-items:center;justify-content:center;flex-direction:column}.node small{display:block;color:#b9c9da;font-weight:500;margin-top:4px}.node:not(:last-child):after{content:"→";position:absolute;right:-16px;top:31%;z-index:2;color:#71b8ff;font-size:22px}.memory{border-left:4px solid var(--blue);background:#0b223c;padding:14px 16px;border-radius:9px}.compare{width:100%;border-collapse:collapse}.compare th,.compare td{border-bottom:1px solid var(--line);padding:10px;text-align:left}.cta{background:#0b2c4d}.btn{display:inline-block;background:var(--blue);color:white;text-decoration:none;font-weight:900;padding:12px 17px;border-radius:10px}.ad{background:#18142a;border-color:#52366e}.ad .btn{background:var(--purple)}.note{font-size:11px;color:var(--mut)}footer{border-top:1px solid var(--line);margin-top:45px;padding:30px 0;color:var(--mut);font-size:13px}@media(max-width:680px){.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:calc(50% - 7px);top:auto;bottom:-22px}.node{margin-bottom:7px}}
-</style>
-<style>
-.enhanced ul{padding-left:1.3em}.enhanced li{margin:.55em 0}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.note2{font-size:13px;color:var(--mut);margin-top:14px}
-</style>
-<style>
-.detailed-points .detail-intro{color:var(--mut);margin-bottom:18px}
-.detail-point{padding:14px 0;border-bottom:1px solid var(--line)}
-.detail-point:last-child{border-bottom:0;padding-bottom:0}
-.detail-point h3{font-size:17px;margin:0 0 5px;color:#8bc9ff}
-.detail-point p{margin:0;color:#e3edf8;line-height:1.9}
-</style>
-<style>
-.article-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
-.article-nav a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;background:#0b2038;padding:14px 16px;color:#eef6ff}
-.article-nav a:hover{filter:brightness(1.08)}
-.article-nav .nav-label{display:block;color:var(--mut);font-size:12px;margin-bottom:4px}
-.article-nav .nav-title{font-weight:900;line-height:1.5}
-.article-nav .next{text-align:right}
-.back-guide{display:block;text-align:center;margin:8px 0 4px}
-@media(max-width:620px){.article-nav{grid-template-columns:1fr}.article-nav .next{text-align:left}}
-</style>
-
-<style>
-/* ORIVECTOR mobile UX v5 */
-.mobile-bottom-nav{display:none}
-.mobile-toc{display:none}
-@media(max-width:680px){
-  html{scroll-behavior:smooth}
-  body{padding-bottom:76px}
-  .w{width:min(100% - 22px,920px)}
-  header{padding:12px 0}
-  .hero{padding:28px 0 12px}
-  .hero h1{font-size:clamp(26px,8vw,36px);margin:.45em 0}
-  .card{padding:18px 16px;border-radius:15px;margin:14px 0}
-  h2{font-size:21px;margin-top:.2em}
-  h3{font-size:17px}
-  p,li,td,th{font-size:15.5px}
-  .btn{display:block;width:100%;text-align:center;padding:14px 16px;min-height:50px}
-  .cta .btn,.ad .btn{margin:8px 0}
-  .compare{min-width:560px}
-  .quiz summary{padding:16px 14px;min-height:52px;display:flex;align-items:center}
-  .article-nav a{min-height:68px;padding:14px}
-  .back-guide{padding:12px 0}
-  .detail-point{padding:16px 0}
-  .detail-point p{line-height:1.85}
-  .mobile-toc{display:block;background:#081b31;border:1px solid var(--line);border-radius:14px;padding:0;margin:14px 0}
-  .mobile-toc summary{cursor:pointer;font-weight:900;padding:15px 16px;list-style:none}
-  .mobile-toc summary::-webkit-details-marker{display:none}
-  .mobile-toc summary:after{content:"＋";float:right;color:#8bc9ff}
-  .mobile-toc[open] summary:after{content:"−"}
-  .mobile-toc nav{padding:0 16px 14px}
-  .mobile-toc a{display:block;padding:10px 0;border-top:1px solid var(--line);text-decoration:none}
-  .mobile-bottom-nav{
-    position:fixed;left:0;right:0;bottom:0;z-index:9999;
-    display:grid;grid-template-columns:repeat(3,1fr);
-    background:rgba(3,16,34,.97);backdrop-filter:blur(12px);
-    border-top:1px solid var(--line);
-    padding:max(8px,env(safe-area-inset-bottom)) 8px max(8px,env(safe-area-inset-bottom));
-  }
-  .mobile-bottom-nav a{
-    color:#dcecff;text-decoration:none;text-align:center;font-size:12px;font-weight:800;
-    padding:8px 4px;border-radius:10px;min-height:46px;display:flex;align-items:center;justify-content:center;
-  }
-  .mobile-bottom-nav a:active{background:#102844}
-}
-</style>
-
-<!-- seo-v4-schema -->
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"@id":"https://orivector.jp/aws-study/ec2/#article","headline":"Amazon EC2とは？","description":"Amazon EC2とは？をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。","url":"https://orivector.jp/aws-study/ec2/","inLanguage":"ja","isAccessibleForFree":true,"educationalUse":"試験対策","publisher":{"@type":"Organization","name":"ORIVECTOR","url":"https://orivector.jp/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner","item":"https://orivector.jp/aws-study/"},{"@type":"ListItem","position":3,"name":"Amazon EC2とは？","item":"https://orivector.jp/aws-study/ec2/"}]}]}</script>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Amazon EC2とは？仕組み・料金体系・AMI/EBS・Auto Scalingまで初心者向けに解説｜ORIVECTOR</title>
+<meta name="description" content="Amazon EC2を初心者向けに図解。AMI、インスタンスタイプ、EBS、Security Group、VPC、ELB、Auto Scaling、Lambdaとの違い、On-Demand・Savings Plans・Reserved Instances・Spot・Dedicated HostsまでCloud Practitioner試験向けに整理します。">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://orivector.jp/aws-study/ec2/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ORIVECTOR">
+<meta property="og:title" content="Amazon EC2とは？仕組み・料金体系まで初心者向けに解説｜ORIVECTOR">
+<meta property="og:description" content="EC2の基本からAMI・EBS・Auto Scaling・料金体系・Dedicated Hostsまで、AWS Cloud Practitioner向けにわかりやすく解説。">
+<meta property="og:url" content="https://orivector.jp/aws-study/ec2/">
+<meta name="twitter:card" content="summary">
 <meta name="author" content="shun">
 <link rel="author" href="https://orivector.jp/about/">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"@id":"https://orivector.jp/aws-study/ec2/#article","headline":"Amazon EC2とは？仕組み・料金体系・AMI/EBS・Auto Scalingまで初心者向けに解説","description":"Amazon EC2を初心者向けに図解。AMI、インスタンスタイプ、EBS、Security Group、VPC、ELB、Auto Scaling、Lambdaとの違い、料金体系までCloud Practitioner試験向けに整理します。","url":"https://orivector.jp/aws-study/ec2/","inLanguage":"ja-JP","isAccessibleForFree":true,"educationalUse":"AWS Cloud Practitioner試験対策","author":{"@type":"Person","@id":"https://orivector.jp/about/#shun","name":"shun","url":"https://orivector.jp/about/"},"publisher":{"@type":"Organization","name":"ORIVECTOR","url":"https://orivector.jp/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner","item":"https://orivector.jp/aws-study/"},{"@type":"ListItem","position":3,"name":"Amazon EC2","item":"https://orivector.jp/aws-study/ec2/"}]}]}</script>
+<style>
+:root{--bg:#031022;--panel:#09192d;--line:#203a59;--txt:#eef6ff;--mut:#a7b8cc;--blue:#2495ff;--orange:#ff9900;--green:#35d28b;--purple:#a435f0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#020817,#06162b);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.85}a{color:#8bc9ff}.w{width:min(920px,calc(100% - 30px));margin:auto}header{border-bottom:1px solid var(--line);padding:17px 0;background:#061326}.brand{font-weight:950;text-decoration:none;color:white}.hero{padding:44px 0 18px}.hero h1{font-size:clamp(28px,6vw,44px);line-height:1.3;margin:.45em 0}.hero p{color:#c2d0df}h2{line-height:1.45;margin-top:.2em}h3{line-height:1.5}.card{background:rgba(9,25,45,.96);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}.lead{font-size:17px}.memory{border-left:4px solid var(--blue);background:#0b223c;padding:14px 16px;border-radius:9px}.warning{border-left:4px solid var(--orange);background:#2b1d09;padding:14px 16px;border-radius:9px}.good{border-left:4px solid var(--green);background:#0a291f;padding:14px 16px;border-radius:9px}.diagram{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch;margin:18px 0}.node{position:relative;background:#102844;border:1px solid #31577d;border-radius:14px;padding:16px 10px;text-align:center;font-weight:900;min-height:92px;display:flex;align-items:center;justify-content:center;flex-direction:column}.node small{display:block;color:#b9c9da;font-weight:500;margin-top:4px}.node:not(:last-child):after{content:"→";position:absolute;right:-17px;top:31%;z-index:2;color:#71b8ff;font-size:22px}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}.compare{width:100%;border-collapse:collapse;min-width:680px}.compare th,.compare td{border-bottom:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}.compare th{background:#10233b;color:#ffd088;white-space:nowrap}.compare tr:last-child td{border-bottom:0}.steps{display:grid;gap:10px}.step{background:#0b2038;border:1px solid #294a6d;border-radius:12px;padding:13px 15px}.step b{color:#8bc9ff}.quiz{border:1px solid #294a6d;border-radius:12px;margin:10px 0;background:#0b2038;overflow:hidden}.quiz summary{cursor:pointer;font-weight:850;padding:13px 14px}.quiz div{padding:0 14px 14px;color:#d9e9f8}.cta{background:#0b2c4d}.btn{display:inline-block;background:var(--blue);color:white;text-decoration:none;font-weight:900;padding:12px 17px;border-radius:10px}.ad{background:#18142a;border-color:#52366e}.ad .btn{background:var(--purple)}.note{font-size:12px;color:var(--mut)}.article-nav{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}.article-nav a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:14px;background:#0b2038;padding:14px 16px;color:#eef6ff}.article-nav .nav-label{display:block;color:var(--mut);font-size:12px;margin-bottom:4px}.article-nav .nav-title{font-weight:900}.article-nav .next{text-align:right}.back-guide{display:block;text-align:center;margin:8px 0 4px}.mobile-bottom-nav{display:none}.mobile-toc{background:#081b31;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:14px 0}.mobile-toc strong{display:block;margin-bottom:6px}.mobile-toc a{display:inline-block;margin:3px 12px 3px 0;text-decoration:none}footer{border-top:1px solid var(--line);margin-top:45px;padding:30px 0;color:var(--mut);font-size:13px}
+@media(max-width:680px){body{padding-bottom:76px}.w{width:min(100% - 22px,920px)}header{padding:12px 0}.hero{padding:28px 0 12px}.card{padding:18px 16px;border-radius:15px;margin:14px 0}h2{font-size:21px}h3{font-size:17px}p,li,td,th{font-size:15.5px}.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:calc(50% - 7px);top:auto;bottom:-22px}.node{margin-bottom:7px}.btn{display:block;width:100%;text-align:center;margin:8px 0}.article-nav{grid-template-columns:1fr}.article-nav .next{text-align:left}.mobile-bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(3,16,34,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px}.mobile-bottom-nav a{color:#dcecff;text-decoration:none;text-align:center;font-size:12px;font-weight:800;padding:8px 4px;border-radius:10px;min-height:46px;display:flex;align-items:center;justify-content:center}}
+</style>
 </head>
-<body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
-<section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>Amazon EC2とは？</h1><p>AWS上の仮想サーバーEC2を、料金モデルやLambdaとの違いまで含めて理解する。</p></section>
-<section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">利用者<small>アプリを動かしたい</small></div><div class="node">EC2<small>仮想サーバー</small></div><div class="node">EBS<small>ディスク</small></div><div class="node">Internet<small>ユーザーへ提供</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card detailed-points">
-<h2>ポイントを詳しく理解する</h2>
-<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
-<div class="detail-point"><h3>EC2は「AWS上の仮想パソコン」</h3><p>CPU・メモリなどを持つ仮想サーバーです。Webサーバー、アプリケーションサーバーなどを自由に構築でき、OSへログインしてソフトウェアを入れることもできます。</p></div><div class="detail-point"><h3>インスタンスタイプは用途に合わせて選ぶ</h3><p>汎用、コンピューティング最適化、メモリ最適化などがあり、処理内容に合わせてCPU・メモリ等のバランスを選択します。Cloud Practitionerでは細かな型番より『必要な性能に合わせて選べる』ことが重要です。</p></div><div class="detail-point"><h3>AMIはEC2を作るためのひな型</h3><p>AMIにはOSなどEC2起動に必要な情報が含まれます。同じ構成のEC2を複数作りたいときにも利用できます。</p></div><div class="detail-point"><h3>EBSはEC2でよく使うディスク</h3><p>EC2本体とは別のブロックストレージとしてEBSを接続します。『EC2のディスク』という要件ならS3ではなくEBSをまず考えます。</p></div><div class="detail-point"><h3>Security Groupで通信を制御</h3><p>EC2などに対する仮想ファイアウォールです。許可する通信を設定します。ネットワーク問題ではVPC・サブネット・Security Groupの役割を混同しないことが重要です。</p></div><div class="detail-point"><h3>EC2は利用者側の管理も残る</h3><p>AWSが物理サーバー等を管理しますが、EC2のゲストOS、アプリ、設定などは利用者が管理します。『サーバー管理を極力なくしたい』ならLambdaなどのマネージド/サーバーレスサービスが候補です。</p></div>
+<body>
+<header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header>
+<main class="w">
+<section class="hero">
+<p><a href="../">AWS無料問題集</a> ＞ <a href="../guide/">図解学習</a> ＞ EC2</p>
+<h1>Amazon EC2とは？</h1>
+<p class="lead">EC2は<strong>AWS上で借りる仮想サーバー</strong>です。この記事では「EC2って結局何？」から、AMI・EBS・Security Group・Auto Scaling・料金体系・Dedicated Hostsまで一気につなげて理解します。</p>
 </section>
-<section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
 
-<section class="card enhanced">
-<h2>もう一段深く理解する</h2>
-<p>EC2はAWS上でOSを含む仮想サーバーを起動するサービスです。インスタンスタイプ、AMI、EBS、セキュリティグループなどを組み合わせて使います。サーバーのOSやミドルウェアを自分で管理したい場合に向きます。</p>
-<p class="memory"><strong>覚え方：</strong> EC2＝『AWSに借りるパソコン』。自由度が高い代わりにOS管理も必要。</p>
+<nav class="mobile-toc" aria-label="この記事の目次"><strong>この記事の目次</strong><a href="#what">EC2とは</a><a href="#components">構成要素</a><a href="#architecture">周辺サービス</a><a href="#pricing">料金体系</a><a href="#dedicated">Dedicated Hosts</a><a href="#lambda">Lambdaとの違い</a><a href="#exam">試験対策</a></nav>
+
+<section class="card" id="what">
+<h2>EC2は「AWS上に借りるパソコン」</h2>
+<p>Amazon Elastic Compute Cloud（EC2）は、AWS上で仮想サーバーを起動できるサービスです。物理サーバーを購入する代わりに、必要なときに必要な性能のサーバーを用意できます。</p>
+<div class="diagram"><div class="node">AWS<small>物理設備を管理</small></div><div class="node">EC2<small>仮想サーバー</small></div><div class="node">OS / ミドルウェア<small>自分で設定できる</small></div><div class="node">アプリ<small>Web・業務処理など</small></div></div>
+<p class="memory"><strong>まずこれだけ：</strong> EC2＝「サーバーそのものを借りて自由に使う」。自由度が高い代わりに、ゲストOSやアプリケーションの管理は利用者側に残ります。</p>
 </section>
-<section class="card enhanced">
-<h2>似たサービスとの比較</h2>
-<div style="overflow-x:auto"><table class="compare"><tbody><tr><th>EC2</th><td>仮想サーバー。OSレベルから柔軟に管理</td></tr><tr><th>Lambda</th><td>サーバー管理なしでコードをイベント実行</td></tr><tr><th>ECS/EKS</th><td>コンテナを実行・管理</td></tr></tbody></table></div>
+
+<section class="card" id="components">
+<h2>EC2を作るときに決めるもの</h2>
+<p>EC2は単体で覚えるより、「EC2の周りに何が付くか」を理解すると一気に整理できます。</p>
+<div class="table-wrap"><table class="compare"><thead><tr><th>項目</th><th>何を決める？</th><th>イメージ</th></tr></thead><tbody>
+<tr><td><strong>AMI</strong></td><td>OSや初期構成</td><td>サーバーのテンプレート</td></tr>
+<tr><td><strong>インスタンスタイプ</strong></td><td>CPU・メモリなど</td><td>PCのスペック</td></tr>
+<tr><td><strong>EBS</strong></td><td>ディスク</td><td>SSD/HDDに近い保存領域</td></tr>
+<tr><td><strong>VPC / Subnet</strong></td><td>どのネットワークに置くか</td><td>社内LAN・セグメント</td></tr>
+<tr><td><strong>Security Group</strong></td><td>どの通信を許可するか</td><td>仮想ファイアウォール</td></tr>
+<tr><td><strong>IAM Role</strong></td><td>EC2からAWSサービスへ何を許可するか</td><td>EC2に渡す権限</td></tr>
+</tbody></table></div>
+
+<h3>AMI：EC2のひな型</h3>
+<p>AMI（Amazon Machine Image）はEC2を起動するためのテンプレートです。Amazon Linux、Ubuntu、Windows ServerなどのOSを選んだり、ソフトウェアを入れた独自AMIから同じ構成のEC2を複数作ったりできます。</p>
+
+<h3>インスタンスタイプ：CPU・メモリの性能</h3>
+<div class="table-wrap"><table class="compare"><thead><tr><th>代表的な系統</th><th>特徴</th><th>イメージ</th></tr></thead><tbody>
+<tr><td>T系</td><td>バースト可能な汎用</td><td>小規模・軽めの処理</td></tr>
+<tr><td>M系</td><td>汎用</td><td>CPUとメモリのバランス</td></tr>
+<tr><td>C系</td><td>コンピューティング最適化</td><td>CPUを多く使う処理</td></tr>
+<tr><td>R系</td><td>メモリ最適化</td><td>大量メモリを使う処理</td></tr>
+<tr><td>G/P系など</td><td>アクセラレーテッドコンピューティング</td><td>GPU利用など</td></tr>
+</tbody></table></div>
+<p class="note">Cloud Practitionerでは細かい型番暗記より、「処理に合わせてCPU・メモリなどの構成を選べる」ことが重要です。</p>
+
+<h3>EBS：EC2でよく使うブロックストレージ</h3>
+<p>EBS（Elastic Block Store）はEC2に接続して使う代表的なブロックストレージです。ざっくり<strong>EC2＝PC本体、EBS＝ディスク</strong>と考えると分かりやすいです。</p>
+<p class="warning"><strong>注意：</strong> EC2とEBSは別物です。「サーバーのディスクが欲しい」ならEBS、「画像やバックアップなどをオブジェクトとして大量保存」ならS3という切り分けが基本です。</p>
+
+<h3>Security Group：EC2への通信を制御</h3>
+<p>Security GroupはEC2などに適用するステートフルな仮想ファイアウォールです。例えばWebサーバーならHTTPS 443を許可し、SSH 22は管理者のIPだけ許可する、といった制御ができます。</p>
 </section>
-<section class="card enhanced">
-<h2>試験での見分け方</h2>
-<ul><li>OSへログインして設定したい→EC2</li><li>短時間のイベント処理・サーバー管理を減らしたい→Lambda</li><li>需要変動へ自動対応→Auto Scaling</li></ul>
-<p class="note2">※ 試験ではサービス名だけでなく、要件・運用負荷・可用性・コストなどの条件から判断する問題が出ます。</p>
+
+<section class="card" id="architecture">
+<h2>EC2はELB・Auto Scalingと組み合わせる</h2>
+<p>EC2を1台だけ置くより、複数台をELBで振り分け、Auto Scalingで台数を増減する構成がAWSらしい使い方です。</p>
+<div class="diagram"><div class="node">利用者<small>アクセス</small></div><div class="node">ALB / ELB<small>通信を振り分け</small></div><div class="node">EC2 × 複数<small>実際に処理</small></div><div class="node">Auto Scaling<small>台数を自動調整</small></div></div>
+<div class="table-wrap"><table class="compare"><thead><tr><th>サービス</th><th>役割</th><th>重要ポイント</th></tr></thead><tbody>
+<tr><td><strong>EC2</strong></td><td>実際にアプリや処理を動かす</td><td>仮想サーバー</td></tr>
+<tr><td><strong>ELB</strong></td><td>複数のEC2などへ通信を振り分ける</td><td>負荷分散</td></tr>
+<tr><td><strong>Auto Scaling</strong></td><td>需要に応じてEC2の台数を増減する</td><td>EC2の代わりではない</td></tr>
+</tbody></table></div>
+<p class="memory"><strong>試験用の整理：</strong> ELB＝「振り分ける」、Auto Scaling＝「台数を変える」、EC2＝「処理する」。</p>
 </section>
-<section class="card enhanced">
-<h2>3問ミニチェック</h2>
+
+<section class="card" id="pricing">
+<h2>EC2の料金体系はどう選ぶ？</h2>
+<p>Cloud Practitionerでは、「何年使うか」「中断されてもいいか」「専有が必要か」という条件から選びます。</p>
+<div class="table-wrap"><table class="compare"><thead><tr><th>料金・購入方式</th><th>用途</th><th>こういうときに選ぶ</th><th>メリット</th><th>デメリット</th></tr></thead><tbody>
+<tr><td><strong>On-Demand</strong></td><td>長期契約なしで利用</td><td>短期・不規則・利用量が読めない</td><td>柔軟で始めやすい</td><td>長期の安定利用では割高になりやすい</td></tr>
+<tr><td><strong>Savings Plans</strong></td><td>一定のコンピューティング利用額を1年または3年コミット</td><td>長期間の利用が見込め、柔軟性も欲しい</td><td>On-Demandより割引を受けやすく、RIより柔軟な選択肢になりやすい</td><td>コミットした利用額の支払いが必要</td></tr>
+<tr><td><strong>Reserved Instances</strong></td><td>特定のインスタンス構成を1年または3年コミット</td><td>構成・利用が長期間安定している</td><td>On-Demandよりコストを抑えやすい</td><td>条件が固定されるため柔軟性が下がる</td></tr>
+<tr><td><strong>Spot Instances</strong></td><td>AWSの未使用EC2キャパシティを利用</td><td>バッチ、分散処理、再実行できる処理</td><td>大幅に安くできる可能性</td><td>AWS側のキャパシティ都合で中断される可能性</td></tr>
+<tr><td><strong>Dedicated Hosts</strong></td><td>物理ホスト単位で専有</td><td>BYOL、ソケット/コア単位ライセンス、ホスト配置管理が必要</td><td>物理ホストを可視化・制御しやすい</td><td>通常構成より高コストになりやすい</td></tr>
+</tbody></table></div>
+<p class="memory"><strong>覚え方：</strong> 普通に使う＝On-Demand ／ 長く使う＝Savings Plans・RI ／ 止まってもいい＝Spot ／ 物理ホストを専有＝Dedicated Hosts。</p>
+<p class="note">EC2本体以外にも、EBS、データ転送、Elastic IPなどの利用状況によって別料金が発生する場合があります。</p>
+</section>
+
+<section class="card" id="dedicated">
+<h2>Dedicated Hostsは何が特別？</h2>
+<p>Dedicated Hostsは、EC2インスタンスを動かす<strong>物理サーバーを専有して管理できる</strong>オプションです。AWS公式では、ホストID、ソケット数、物理コア数などの可視性や、特定ホストへの配置・ホストアフィニティを提供しています。</p>
+<div class="diagram"><div class="node">通常のEC2<small>物理ホストを意識しない</small></div><div class="node">Dedicated Host<small>物理ホストを専有</small></div><div class="node">EC2を配置<small>配置をより制御</small></div><div class="node">BYOL<small>既存ライセンス活用</small></div></div>
+<div class="table-wrap"><table class="compare"><thead><tr><th></th><th>Dedicated Host</th><th>Dedicated Instance</th></tr></thead><tbody>
+<tr><td>他AWSアカウントのインスタンスとの物理分離</td><td>○</td><td>○</td></tr>
+<tr><td>ホストID・ソケット・コアの可視性</td><td><strong>○</strong></td><td>×</td></tr>
+<tr><td>特定ホストへの配置・アフィニティ</td><td><strong>○</strong></td><td>×</td></tr>
+<tr><td>BYOL</td><td><strong>幅広く対応</strong></td><td>限定的</td></tr>
+<tr><td>課金単位</td><td>ホスト単位</td><td>インスタンス単位</td></tr>
+</tbody></table></div>
+<p class="good"><strong>試験キーワード：</strong> 「既存のソケット単位・コア単位ライセンスを持ち込みたい」「物理ホストを把握・制御したい」→ Dedicated Hostsを疑う。</p>
+</section>
+
+<section class="card" id="lambda">
+<h2>EC2とLambdaはどう使い分ける？</h2>
+<div class="table-wrap"><table class="compare"><thead><tr><th></th><th>EC2</th><th>Lambda</th></tr></thead><tbody>
+<tr><td>考え方</td><td>サーバーを借りる</td><td>処理だけ実行する</td></tr>
+<tr><td>OS管理</td><td>利用者が担当</td><td>基本的に意識しない</td></tr>
+<tr><td>自由度</td><td><strong>高い</strong></td><td>EC2より制約あり</td></tr>
+<tr><td>向いている処理</td><td>長時間稼働、OSやミドルウェアを細かく設定</td><td>イベント駆動、短時間処理、サーバー管理を減らしたい</td></tr>
+<tr><td>スケーリング</td><td>Auto Scalingなどを設計</td><td>サービス側で自動的にスケール</td></tr>
+</tbody></table></div>
+<p class="memory"><strong>イメージ：</strong> EC2＝「部屋ごと借りる」 ／ Lambda＝「必要な作業だけお願いする」。AWSを使うとき必ずEC2かLambdaを選ぶのではなく、<strong>コンピューティングが必要になったときの選択肢</strong>として考えます。</p>
+</section>
+
+<section class="card">
+<h2>EC2を選ぶのはこんなとき</h2>
+<div class="steps">
+<div class="step"><b>① OSへログインして細かく設定したい</b><br>Linux設定、ミドルウェア導入、特殊なランタイムなどを自分で制御したい。</div>
+<div class="step"><b>② 長時間・常時稼働するアプリを動かしたい</b><br>Web/APサーバーや業務アプリなど、サーバーとして継続稼働させたい。</div>
+<div class="step"><b>③ インスタンスのCPU・メモリ構成を選びたい</b><br>ワークロードに合わせて汎用、CPU最適化、メモリ最適化などを使い分けたい。</div>
+<div class="step"><b>④ 既存アプリを比較的そのまま移行したい</b><br>オンプレのサーバー型アプリケーションをAWSへ持っていく場合にも候補になります。</div>
+</div>
+</section>
+
+<section class="card" id="exam">
+<h2>Cloud Practitionerでの見分け方</h2>
+<div class="table-wrap"><table class="compare"><thead><tr><th>問題文のキーワード</th><th>答え候補</th></tr></thead><tbody>
+<tr><td>仮想サーバー、OSを管理、自由にソフトを導入</td><td><strong>EC2</strong></td></tr>
+<tr><td>EC2用のブロックストレージ</td><td><strong>EBS</strong></td></tr>
+<tr><td>同じ構成のEC2を起動するテンプレート</td><td><strong>AMI</strong></td></tr>
+<tr><td>EC2への通信を許可・制御</td><td><strong>Security Group</strong></td></tr>
+<tr><td>トラフィックを複数EC2へ振り分ける</td><td><strong>ELB</strong></td></tr>
+<tr><td>需要に応じてEC2台数を自動増減</td><td><strong>Auto Scaling</strong></td></tr>
+<tr><td>長期契約なし、不規則な利用</td><td><strong>On-Demand</strong></td></tr>
+<tr><td>1〜3年の継続利用でコストを抑えたい</td><td><strong>Savings Plans / Reserved Instances</strong></td></tr>
+<tr><td>中断可能、とにかく安くしたい</td><td><strong>Spot Instances</strong></td></tr>
+<tr><td>BYOL、物理ホスト・ソケット・コアを把握したい</td><td><strong>Dedicated Hosts</strong></td></tr>
+<tr><td>サーバー管理なしでイベント処理</td><td><strong>Lambda</strong></td></tr>
+</tbody></table></div>
+</section>
+
+<section class="card">
+<h2>5問ミニチェック</h2>
 <p>答えを考えてから開いて確認してください。</p>
-<details class="quiz"><summary>Q1. OSを含む仮想サーバーを利用したい。最も直接的なサービスは？</summary><div><strong>答え：</strong>Amazon EC2</div></details><details class="quiz"><summary>Q2. EC2の永続的なブロックストレージとして代表的なのは？</summary><div><strong>答え：</strong>Amazon EBS</div></details><details class="quiz"><summary>Q3. イベント発生時だけ短時間コードを実行し、サーバー管理を避けたい。候補は？</summary><div><strong>答え：</strong>AWS Lambda</div></details>
+<details class="quiz"><summary>Q1. OSへログインし、自由にミドルウェアを導入できる仮想サーバーが必要。何を使う？</summary><div><strong>答え：Amazon EC2</strong><br>サーバーそのものを借り、OSレベルから管理したい要件に合います。</div></details>
+<details class="quiz"><summary>Q2. アクセス急増に合わせてEC2の台数を自動で増やしたい。何を使う？</summary><div><strong>答え：EC2 Auto Scaling</strong><br>ELBは通信を振り分け、Auto Scalingは台数を増減します。</div></details>
+<details class="quiz"><summary>Q3. 中断されても再実行できる大量バッチをできるだけ安く処理したい。何を使う？</summary><div><strong>答え：Spot Instances</strong><br>未使用キャパシティを低価格で利用できますが、中断の可能性があります。</div></details>
+<details class="quiz"><summary>Q4. 既存の物理CPUコア単位のソフトウェアライセンスをAWSへ持ち込みたい。候補は？</summary><div><strong>答え：Dedicated Hosts</strong><br>物理ホストやソケット・コアを把握でき、BYOL要件で重要です。</div></details>
+<details class="quiz"><summary>Q5. S3への画像アップロード時だけコードを実行したい。EC2より適した候補は？</summary><div><strong>答え：AWS Lambda</strong><br>イベント発生時だけ処理を実行し、サーバー管理を減らせます。</div></details>
 </section>
 
-<nav class="article-nav" aria-label="記事ナビゲーション"><a class="prev" href="../iam/"><span class="nav-label">← 前の記事</span><span class="nav-title">IAM</span></a><a class="next" href="../s3/"><span class="nav-label">次の記事 →</span><span class="nav-title">S3</span></a></nav><a class="back-guide" href="../guide/">📚 30記事一覧へ戻る</a>
-<section class="card cta"><h2>問題で定着させる</h2><p>図で理解したら、ORIVECTORの無料250問問題集で実際の選択問題に慣れましょう。</p><a class="btn" href="../">無料問題集を解く →</a>　<a href="../roadmap/">合格ロードマップ</a>　<a href="../services/">主要サービス一覧</a></section>
+<section class="card">
+<h2>最後に1枚で整理</h2>
+<div class="diagram"><div class="node">AMI<small>ひな型</small></div><div class="node">EC2<small>仮想サーバー</small></div><div class="node">EBS<small>ディスク</small></div><div class="node">ELB / Auto Scaling<small>分散・台数調整</small></div></div>
+<p class="memory"><strong>EC2の核：</strong> 「AWS上の仮想サーバー」。そこにAMI、インスタンスタイプ、EBS、VPC、Security Groupなどを組み合わせ、必要ならELB・Auto Scalingで可用性やスケーラビリティを高めます。料金は利用パターンに応じてOn-Demand、Savings Plans、RI、Spotなどから選びます。</p>
+</section>
+
+<nav class="article-nav" aria-label="記事ナビゲーション"><a class="prev" href="../iam/"><span class="nav-label">← 前の記事</span><span class="nav-title">IAM</span></a><a class="next" href="../s3/"><span class="nav-label">次の記事 →</span><span class="nav-title">S3</span></a></nav>
+<a class="back-guide" href="../guide/">📚 図解ガイド一覧へ戻る</a>
+
+<section class="card cta"><h2>問題で定着させる</h2><p>EC2の役割が分かったら、ORIVECTORの無料250問問題集で「どの要件ならEC2を選ぶか」を問題で確認しましょう。</p><a class="btn" href="../">無料問題集を解く →</a> <a href="../roadmap/">合格ロードマップ</a> <a href="../services/">主要サービス一覧</a></section>
+
 <section class="card ad"><small>PR・広告</small><h2>動画で体系的に学びたい場合</h2><p>文章・図解・問題演習に動画講座を組み合わせる方法もあります。</p><a class="btn" href="https://trk.udemy.com/c/7699504/3193860/39854" target="_blank" rel="sponsored noopener noreferrer">UdemyでAWS講座を探す →</a><p class="note">※ アフィリエイト広告を含みます。リンク経由の購入でORIVECTORが報酬を受け取る場合があります。購入者の追加負担はありません。</p></section>
 
-<aside class="orivector-author" style="width:min(900px,calc(100% - 32px));margin:28px auto;padding:16px 18px;border:1px solid #203552;border-radius:14px;background:#081527;color:#c5d3e5;font-size:13px;line-height:1.7">
-  <strong style="color:#fff">執筆・運営：<a href="https://orivector.jp/about/" rel="author" style="color:#8fc7ff">shun</a></strong><br>
-  SIerで法人向け金融システムのインフラを7年担当。公式情報・市販参考書・AIを活用し、内容を確認しながら学習コンテンツを改善しています。
-</aside>
-</main><footer><div class="w">© 2026 ORIVECTOR</div></footer>
-<nav class="mobile-bottom-nav" aria-label="スマホ用ナビゲーション">
-  <a href="../">📝 問題集</a>
-  <a href="../guide/">📚 図解ガイド</a>
-  <a href="../roadmap/">🧭 ロードマップ</a>
-</nav>
-
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  if(window.innerWidth>680) return;
-  const main=document.querySelector('main');
-  const hero=main && main.querySelector('.hero');
-  if(!main||!hero||main.querySelector('.mobile-toc')) return;
-  const headings=[...main.querySelectorAll('section.card h2')];
-  if(headings.length<2) return;
-  const details=document.createElement('details');
-  details.className='mobile-toc';
-  const summary=document.createElement('summary');
-  summary.textContent='この記事の目次';
-  details.appendChild(summary);
-  const nav=document.createElement('nav');
-  headings.forEach((h,i)=>{
-    if(!h.id) h.id='sec-'+(i+1);
-    const a=document.createElement('a');
-    a.href='#'+h.id;
-    a.textContent=h.textContent.trim();
-    nav.appendChild(a);
-  });
-  details.appendChild(nav);
-  hero.insertAdjacentElement('afterend',details);
-});
-</script>
-</body></html>
+<aside class="orivector-author" style="width:min(900px,calc(100% - 32px));margin:28px auto;padding:16px 18px;border:1px solid #203552;border-radius:14px;background:#081527;color:#c5d3e5;font-size:13px;line-height:1.7"><strong style="color:#fff">執筆・運営：<a href="https://orivector.jp/about/" rel="author" style="color:#8fc7ff">shun</a></strong><br>SIerで法人向け金融システムのインフラを7年担当。公式情報・市販参考書・AIを活用し、内容を確認しながら学習コンテンツを改善しています。</aside>
+</main>
+<footer><div class="w">© 2026 ORIVECTOR</div></footer>
+<nav class="mobile-bottom-nav" aria-label="スマホ用ナビゲーション"><a href="../">📝 問題集</a><a href="../guide/">📚 図解ガイド</a><a href="../roadmap/">🧭 ロードマップ</a></nav>
+</body>
+</html>
