@@ -104,6 +104,8 @@
 .orivector-global-nav a{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:rgba(255,255,255,.06);color:#eef5ff;text-decoration:none;font-size:13px;font-weight:900;letter-spacing:.02em}
 .orivector-global-nav a:hover{background:rgba(255,255,255,.11)}
 </style>
+<meta name="author" content="shun">
+<link rel="author" href="https://orivector.jp/about/">
 </head>
 <body><div class="orivector-global-nav"><a href="https://orivector.jp/" aria-label="ORIVECTORトップへ戻る">← ORIVECTOR</a></div><div class="wrap">
 <div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 4.1.0</div></div>
@@ -590,4 +592,9 @@ function startMockExam(){
 function nextQ(){idx++;if(idx>=session.length){document.getElementById('quiz').classList.add('hidden');document.getElementById('result').classList.remove('hidden');let pct=Math.round(correct/session.length*100);document.getElementById('score').textContent=pct+'%';document.getElementById('resultText').textContent=`${session.length}問中 ${correct}問正解`;return}render()}
 buildMemoryBlanks();
 updateStats();
-</script></body></html>
+</script>
+<aside class="orivector-author" style="width:min(900px,calc(100% - 32px));margin:28px auto;padding:16px 18px;border:1px solid #203552;border-radius:14px;background:#081527;color:#c5d3e5;font-size:13px;line-height:1.7">
+  <strong style="color:#fff">執筆・運営：<a href="https://orivector.jp/about/" rel="author" style="color:#8fc7ff">shun</a></strong><br>
+  SIerで法人向け金融システムのインフラを7年担当。公式情報・市販参考書・AIを活用し、内容を確認しながら学習コンテンツを改善しています。
+</aside>
+</body></html>
