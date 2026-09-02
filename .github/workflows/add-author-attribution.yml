@@ -1,0 +1,56 @@
+name: Add author attribution
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-author-attribution.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add author metadata and profile links safely
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          author_url = 'https://orivector.jp/about/'
+          box = '''\n<aside class="orivector-author" style="width:min(900px,calc(100% - 32px));margin:28px auto;padding:16px 18px;border:1px solid #203552;border-radius:14px;background:#081527;color:#c5d3e5;font-size:13px;line-height:1.7">\n  <strong style="color:#fff">執筆・運営：<a href="https://orivector.jp/about/" rel="author" style="color:#8fc7ff">shun</a></strong><br>\n  SIerで法人向け金融システムのインフラを7年担当。公式情報・市販参考書・AIを活用し、内容を確認しながら学習コンテンツを改善しています。\n</aside>\n'''
+          changed = []
+          for p in Path('.').rglob('index.html'):
+            s = p.read_text()
+            original = s
+            if 'name="author" content="shun"' not in s:
+              marker = '</head>'
+              if marker not in s:
+                raise SystemExit(f'No </head> in {p}')
+              meta = f'<meta name="author" content="shun">\n<link rel="author" href="{author_url}">\n'
+              s = s.replace(marker, meta + marker, 1)
+            if 'https://orivector.jp/about/#shun' not in s and ('"@type":"Article"' in s or '["Article","LearningResource"]' in s):
+              target = '"publisher":'
+              if target in s:
+                s = s.replace(target, '"author":{"@type":"Person","@id":"https://orivector.jp/about/#shun","name":"shun","url":"https://orivector.jp/about/"},"publisher":', 1)
+            if 'class="orivector-author"' not in s:
+              if '</main>' in s:
+                s = s.replace('</main>', box + '</main>', 1)
+              elif '<footer' in s:
+                s = s.replace('<footer', box + '<footer', 1)
+              else:
+                s = s.replace('</body>', box + '</body>', 1)
+            if s != original:
+              p.write_text(s)
+              changed.append(str(p))
+          print('Changed:', *changed, sep='\n- ')
+          PY
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html' '**/*.html'
+          git commit -m "Add shun author attribution and profile links"
+          git push
