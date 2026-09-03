@@ -1,0 +1,112 @@
+from pathlib import Path
+import re
+
+ADSENSE = 'ca-pub-1712701486247077'
+WRONG_ADSENSE = 'ca-pub-' + '1155599716593232'
+
+# ------------------------------
+# AWS security services article
+# ------------------------------
+p = Path('security-services/index.html')
+s = p.read_text(encoding='utf-8')
+
+old_title = 'AWSセキュリティサービス比較とは？AWS Cloud Practitioner（CLF-C02）対策｜ORIVECTOR'
+new_title = 'AWSセキュリティサービス比較｜IAM・GuardDuty・Inspector・Macie・WAF・Shieldを役割で整理｜ORIVECTOR'
+old_desc = 'AWSセキュリティサービス比較をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。'
+new_desc = 'AWSの主要セキュリティサービスを「何を守るか・何を見るか・いつ使うか」で比較。IAM、KMS、Secrets Manager、WAF、Shield、GuardDuty、Inspector、Macie、Security Hub、CloudTrail、Configを初心者向けに整理。'
+s = s.replace(old_title, new_title).replace(old_desc, new_desc)
+
+security_body = r'''<section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWSセキュリティサービスを役割で整理</h1><p>「どれか1つを選ぶ」のではなく、守る場所が違うサービスを組み合わせて多層防御するのが基本。まずは、何を見て・何を守るのかで整理します。</p></section>
+
+<details class="mobile-toc"><summary>この記事の要点</summary><nav><a href="#role-table">11サービスの役割比較</a><a href="#layered">どう組み合わせる？</a><a href="#three">GuardDuty・Inspector・Macie</a><a href="#trail-config-hub">CloudTrail・Config・Security Hub</a><a href="#all">全部採用すれば最強？</a></nav></details>
+
+<section class="card" id="role-table"><h2>まずは役割を具体的に比較</h2><p>サービス名ではなく「何を見るサービスか」を起点にすると、実務でもCLF-C02でも迷いにくくなります。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th>サービス</th><th>具体的な役割</th><th>何を見る？</th><th>こういう時に使う</th></tr></thead><tbody>
+<tr><td><strong>IAM</strong></td><td>ユーザー・ロール・権限を管理</td><td>誰が何をしてよいか</td><td>S3は閲覧だけ、EC2停止は管理者だけ、のように権限を絞る</td></tr>
+<tr><td><strong>KMS</strong></td><td>暗号化に使う鍵を作成・管理</td><td>暗号鍵</td><td>S3・EBS・RDSなどの保存データを暗号化したい</td></tr>
+<tr><td><strong>Secrets Manager</strong></td><td>パスワードやAPIキーなどの秘密情報を安全に保管・ローテーション</td><td>DBパスワード、APIキー等</td><td>認証情報をソースコードや設定ファイルへ直接書きたくない</td></tr>
+<tr><td><strong>AWS WAF</strong></td><td>Webリクエストをルールで許可・ブロック</td><td>HTTP/HTTPSリクエスト</td><td>SQLインジェクション、XSS、特定IPなどWeb層の攻撃を防ぎたい</td></tr>
+<tr><td><strong>AWS Shield</strong></td><td>DDoS攻撃からAWS上のサービスを保護</td><td>大量・異常なネットワークトラフィック</td><td>大量アクセスでサービス停止を狙う攻撃へ備えたい</td></tr>
+<tr><td><strong>GuardDuty</strong></td><td>AWS環境の不審な挙動や脅威を検出</td><td>CloudTrail管理イベント、VPC Flow Logs、DNSログ等の信号</td><td>認証情報の悪用や悪性IPとの通信など「怪しい動き」を見つけたい</td></tr>
+<tr><td><strong>Inspector</strong></td><td>ワークロードのソフトウェア脆弱性などを継続評価</td><td>EC2、ECRコンテナイメージ、Lambda等</td><td>古いパッケージや既知の脆弱性を見つけたい</td></tr>
+<tr><td><strong>Macie</strong></td><td>S3内の機密データを発見・分類</td><td>S3オブジェクト内のデータ</td><td>個人情報や認証情報など、S3に機密データが含まれていないか確認したい</td></tr>
+<tr><td><strong>Security Hub</strong></td><td>セキュリティ検出結果とセキュリティ態勢を集約</td><td>GuardDuty・Inspector・Macie等のFindingsや標準チェック</td><td>複数サービスの結果を一か所で確認・優先順位付けしたい</td></tr>
+<tr><td><strong>CloudTrail</strong></td><td>AWS API操作を記録</td><td>誰が・いつ・どのAPIを実行したか</td><td>「誰がEC2を削除した？」「IAM設定を変えた？」を追跡したい</td></tr>
+<tr><td><strong>AWS Config</strong></td><td>リソース設定の履歴を記録し、ルールへの準拠を評価</td><td>リソースの設定状態と変更</td><td>S3が公開設定になっていないか等を継続的に確認したい</td></tr>
+</tbody></table></div></section>
+
+<section class="card" id="layered"><h2>「どれかを選ぶ」より、役割を重ねる</h2><p>例えばインターネット公開のWebサービスなら、入口でShieldとWAF、サーバー側でInspector、環境全体でGuardDuty、操作履歴はCloudTrailというように守る場所が違います。</p><div class="diagram"><div class="node">Shield<small>DDoS対策</small></div><div class="node">WAF<small>Web攻撃をフィルタ</small></div><div class="node">ALB<small>通信を振り分け</small></div><div class="node">EC2<small>アプリを実行</small></div></div><p class="memory"><strong>裏側では：</strong> IAMで権限、KMSで暗号化、Secrets Managerで秘密情報、Inspectorで脆弱性、GuardDutyで不審挙動、CloudTrailで操作履歴、Configで設定状態を確認し、Security Hubに結果を集約するイメージです。</p></section>
+
+<section class="card" id="three"><h2>最重要：GuardDuty・Inspector・Macieの違い</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>問題文のキーワード</th><th>選ぶサービス</th><th>考え方</th></tr></thead><tbody><tr><td>不審な挙動・脅威・悪性IP</td><td><strong>GuardDuty</strong></td><td>動きを見て「怪しくないか」を検出</td></tr><tr><td>脆弱性・CVE・古いソフトウェア</td><td><strong>Inspector</strong></td><td>攻撃される前の「弱点」を探す</td></tr><tr><td>S3・個人情報・機密データ</td><td><strong>Macie</strong></td><td>S3の中に「守るべきデータ」がないか探す</td></tr></tbody></table></div><p class="memory"><strong>一言暗記：</strong> GuardDuty = 怪しい動き / Inspector = 脆弱性 / Macie = S3の機密情報。</p></section>
+
+<section class="card" id="trail-config-hub"><h2>CloudTrail・Config・Security Hubも混同しやすい</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>知りたいこと</th><th>サービス</th><th>例</th></tr></thead><tbody><tr><td>誰が何を操作した？</td><td><strong>CloudTrail</strong></td><td>誰がIAMポリシーを変更したか調査</td></tr><tr><td>設定はどうなっていた？ルール違反は？</td><td><strong>AWS Config</strong></td><td>S3公開設定やセキュリティグループ設定を評価</td></tr><tr><td>セキュリティ結果をまとめて見たい</td><td><strong>Security Hub</strong></td><td>GuardDutyやInspector等のFindingsを集約</td></tr></tbody></table></div></section>
+
+<section class="card" id="all"><h2>お金を気にしないなら全部採用すれば最強？</h2><p>「必要な機能を重ねる」という方向性は正しいですが、使っていない領域のサービスまで無条件に有効化すれば強くなる、という話ではありません。例えばS3を使わなければMacieの優先度は低く、Webアプリを公開しなければWAFの出番も限定的です。</p><p>基本は<strong>多層防御（Defense in Depth）</strong>。IAM・ログ・暗号化などの土台を作り、その上でWeb、ワークロード、S3など自分の構成に合うサービスを追加します。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th>構成・要件</th><th>追加を考えるサービス</th></tr></thead><tbody><tr><td>AWSアカウントの基本防御</td><td>IAM / CloudTrail / KMS / Config / GuardDuty / Security Hub</td></tr><tr><td>EC2・ECR・Lambdaを利用</td><td>Inspector</td></tr><tr><td>Webサービスを公開</td><td>WAF / Shield</td></tr><tr><td>S3に機密データ</td><td>Macie</td></tr><tr><td>DBパスワード・APIキー</td><td>Secrets Manager</td></tr></tbody></table></div></section>
+
+<section class="card enhanced"><h2>試験前の5問チェック</h2><details class="quiz"><summary>Q1. S3内の個人情報などを検出したい。何を使う？</summary><div><strong>答え：</strong> Amazon Macie。S3内の機密データ発見がキーワードです。</div></details><details class="quiz"><summary>Q2. EC2に既知のソフトウェア脆弱性がないか確認したい。何を使う？</summary><div><strong>答え：</strong> Amazon Inspector。</div></details><details class="quiz"><summary>Q3. AWS環境で不審な通信・挙動を検出したい。何を使う？</summary><div><strong>答え：</strong> Amazon GuardDuty。</div></details><details class="quiz"><summary>Q4. 誰がAWS APIを実行したか追跡したい。何を使う？</summary><div><strong>答え：</strong> AWS CloudTrail。</div></details><details class="quiz"><summary>Q5. GuardDutyやInspectorなどのセキュリティ結果を集約したい。何を使う？</summary><div><strong>答え：</strong> AWS Security Hub。</div></details></section>
+
+'''
+pattern = re.compile(r'<section class="hero">.*?(?=<nav class="article-nav")', re.S)
+s, n = pattern.subn(security_body, s, count=1)
+if n != 1:
+    raise SystemExit('security-services: expected article body marker not found')
+if ADSENSE not in s or WRONG_ADSENSE in s:
+    raise SystemExit('security-services: AdSense ID validation failed')
+for marker in ['Security Hub', 'GuardDuty = 怪しい動き', 'Secrets Manager', 'Defense in Depth']:
+    if marker not in s:
+        raise SystemExit('security-services: missing marker ' + marker)
+p.write_text(s, encoding='utf-8')
+
+# ------------------------------
+# AWS storage comparison article
+# ------------------------------
+p = Path('s3-vs-ebs-vs-efs/index.html')
+s = p.read_text(encoding='utf-8')
+old_name = 'S3・EBS・EFSの違い'
+new_name = 'AWSストレージ比較｜S3・EBS・EFS・Glacier・Storage Gateway'
+old_desc = 'AWSストレージ3種を比較。保存形式、EC2との関係、共有可否、代表ユースケースをCLF-C02向けに整理。'
+new_desc = 'AWSストレージを初心者向けに比較。S3・EBS・EFSの使い分け、サーバー運用でEBSを使う理由、S3 Glacierの取り出しコストと最低保存期間、Storage GatewayまでCLF-C02向けに整理。'
+s = s.replace(old_name, new_name).replace(old_desc, new_desc)
+s = s.replace('"author": {"@type": "Organization", "name": "ORIVECTOR"}', '"author": {"@type": "Person", "name": "shun", "url": "https://orivector.jp/about/"}')
+
+storage_body = r'''<article class="hero"><p>CLF-C02 頻出ストレージ</p><h1>AWSストレージを用途から理解する</h1><p>S3・EBS・EFSを「倉庫・EC2のSSD・共有フォルダ」で整理し、S3 GlacierとStorage Gatewayまで一気に理解します。</p></article>
+
+<section class="card"><h2>まず結論：役割が違う</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>サービス</th><th>一言イメージ</th><th>主な用途</th><th>こういう時に選ぶ</th></tr></thead><tbody><tr><td><strong>S3</strong></td><td>巨大なデータ倉庫</td><td>画像・動画・ログ・バックアップ・データレイク</td><td>オブジェクト単位で大量データを保存したい</td></tr><tr><td><strong>EBS</strong></td><td>EC2のSSD</td><td>OS・アプリ・DBファイル</td><td>EC2から低レイテンシでディスクとして読み書きしたい</td></tr><tr><td><strong>EFS</strong></td><td>共有フォルダ</td><td>複数EC2で共有するファイル</td><td>複数サーバーから同じファイルシステムを使いたい</td></tr><tr><td><strong>S3 Glacier</strong></td><td>長期保管庫</td><td>監査ログ・古いバックアップ・アーカイブ</td><td>ほぼ使わないデータの保管料金を下げたい</td></tr><tr><td><strong>Storage Gateway</strong></td><td>オンプレとAWSの橋</td><td>ハイブリッドストレージ</td><td>社内環境からS3等のAWSストレージを使いたい</td></tr></tbody></table></div><p><strong>覚え方：</strong> S3 = 倉庫 / EBS = EC2のディスク / EFS = 共有フォルダ。</p></section>
+
+<section class="card"><h2>S3が有名なのに、サーバー運用ではEBSを使うのはなぜ？</h2><p>「S3が遅くてEBSが速いから」という理解だけだと少しズレます。大きな違いは<strong>アクセス方法とストレージの形</strong>です。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th></th><th>S3</th><th>EBS</th></tr></thead><tbody><tr><td>種類</td><td>オブジェクトストレージ</td><td>ブロックストレージ</td></tr><tr><td>EC2からの見え方</td><td>APIでオブジェクトへアクセス</td><td>OSからディスクとして扱う</td></tr><tr><td>レイテンシ</td><td>ディスク用途より高め</td><td>低レイテンシ</td></tr><tr><td>得意</td><td>大量ファイル、静的コンテンツ、バックアップ</td><td>OS、アプリ、DB、頻繁な細かい読み書き</td></tr></tbody></table></div><p>つまり<strong>EBS = サーバー内部で使うディスク</strong>、<strong>S3 = サーバーの外にあるオブジェクト置き場</strong>と考えると分かりやすいです。S3自体のスループットが低いという意味ではありません。</p></section>
+
+<section class="card"><h2>S3：オブジェクトを大量に保存する</h2><p>S3はバケットの中に画像、動画、ログ、バックアップなどを<strong>オブジェクト</strong>として保存します。Webアプリの画像置き場、ログ保管、バックアップ、データレイクなどが代表例です。</p><p>EC2のOSディスクのように「普通のSSD」として使うサービスではありません。アプリはS3 APIを通じてオブジェクトを読み書きします。</p></section>
+
+<section class="card"><h2>EBS：EC2に付けるブロックストレージ</h2><p>EBSはEC2にアタッチして、LinuxやWindowsからディスクとして使います。ルートボリュームにOSを置いたり、アプリやDBファイルを保存したりします。</p><p>通常は特定のEC2に接続して使うイメージでOKです。なお、一部のEBSボリュームには同一AZ内の複数EC2へ接続できるMulti-Attach機能もあるため、「EBSは絶対に1台だけ」と覚え切らないのが正確です。</p><p><strong>EBSはAZ単位のリソース</strong>なので、別AZへそのまま付け替えるものではありません。必要に応じてスナップショット等を使います。</p></section>
+
+<section class="card"><h2>EFS：複数EC2で共有するファイルシステム</h2><p>EFSはネットワーク経由で利用するファイルストレージです。複数のEC2から同じファイルを共有したい場合に向いています。</p><p>例えばWebサーバーを3台に増やしても、ユーザーがアップロードしたファイルを全サーバーから同じように参照できます。標準的なRegional構成では複数AZから利用でき、One Zoneの選択肢もあります。</p></section>
+
+<section class="card"><h2>Webサーバーなら3つを同時に使うこともある</h2><p>実際の構成では「S3かEBSかEFSのどれか1つ」ではありません。用途別に組み合わせます。</p><pre style="white-space:pre-wrap;background:#0b1728;border:1px solid #263a55;border-radius:12px;padding:14px;line-height:1.7;color:#dbe7f6">EC2
+├ OS・アプリ        → EBS
+├ DB用ディスク      → EBS（構成による）
+├ 複数EC2の共有ファイル → EFS
+└ 画像・バックアップ・ログ → S3</pre></section>
+
+<section class="card"><h2>S3 Glacierは「S3の長期保管クラス」</h2><p>現在の考え方では、GlacierはS3の中にある長期アーカイブ向けストレージクラスとして整理すると分かりやすいです。オブジェクトはS3に残ったまま、アクセス頻度と取り出し速度に応じてクラスを選びます。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th>ストレージクラス</th><th>取り出し</th><th>最低保存期間</th><th>向いているデータ</th></tr></thead><tbody><tr><td><strong>S3 Glacier Instant Retrieval</strong></td><td>ミリ秒でリアルタイム取得</td><td>90日</td><td>滅多に見ないが、必要時はすぐ取り出したい</td></tr><tr><td><strong>S3 Glacier Flexible Retrieval</strong></td><td>数分〜数時間。復元処理が必要</td><td>90日</td><td>バックアップ・災害復旧・年に数回のアーカイブ</td></tr><tr><td><strong>S3 Glacier Deep Archive</strong></td><td>数時間〜。復元処理が必要</td><td>180日</td><td>長期監査ログ・法令保存など、ほぼ取り出さないデータ</td></tr></tbody></table></div><p><strong>重要：</strong> Glacier系は保存料金を下げやすい代わりに、取り出し料金や最低保存期間があります。毎日読むデータをGlacierへ置くと、用途に合わずコスト面でも不利になり得ます。</p></section>
+
+<section class="card"><h2>Storage Gateway：オンプレとAWSストレージをつなぐ</h2><p>Storage Gatewayは、オンプレミス環境からAWSクラウドストレージを利用するためのハイブリッドサービスです。既存の社内環境を一気にクラウドへ移せない場合でも、バックアップやアーカイブ先としてAWSを組み込みやすくします。</p><p>試験では「オンプレミスとAWSストレージの連携」「既存環境を維持しながらクラウドストレージを使う」といった要件がヒントです。</p></section>
+
+<section class="card"><h2>問題文から一発で選ぶ表</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>問題文</th><th>選ぶもの</th></tr></thead><tbody><tr><td>画像・動画・バックアップ・ログを大量保存</td><td><strong>S3</strong></td></tr><tr><td>EC2のOSやDB用ディスク</td><td><strong>EBS</strong></td></tr><tr><td>複数EC2で同じファイルを共有</td><td><strong>EFS</strong></td></tr><tr><td>長期間ほぼ使わないデータを安く保管</td><td><strong>S3 Glacier</strong></td></tr><tr><td>オンプレミスとAWSストレージを連携</td><td><strong>Storage Gateway</strong></td></tr></tbody></table></div></section>
+
+<section class="card"><h2>試験前の5問チェック</h2><details style="margin:10px 0"><summary><strong>Q1. EC2のOSを保存するディスクとして使うのは？</strong></summary><p>答え：<strong>EBS</strong>。EC2へブロックストレージとして接続します。</p></details><details style="margin:10px 0"><summary><strong>Q2. 複数EC2から同じファイルを共有したい。何を使う？</strong></summary><p>答え：<strong>EFS</strong>。</p></details><details style="margin:10px 0"><summary><strong>Q3. 長期保存でほぼアクセスしない監査ログ。候補は？</strong></summary><p>答え：<strong>S3 Glacier系</strong>。特に長期間ほぼ取り出さないならDeep Archiveが候補です。</p></details><details style="margin:10px 0"><summary><strong>Q4. GlacierはS3と完全に別のデータ置き場？</strong></summary><p>答え：いいえ。現在はS3のGlacierストレージクラスとして理解するのが基本です。</p></details><details style="margin:10px 0"><summary><strong>Q5. オンプレのバックアップをAWSストレージへ連携したい。何を使う？</strong></summary><p>答え：<strong>Storage Gateway</strong>。</p></details></section>
+
+<section class="card"><h2>関連するAWS記事</h2><div class="links"><a href="../s3/">Amazon S3を詳しく学ぶ</a><a href="../storage-gateway/">Storage Gatewayを詳しく学ぶ</a><a href="../ec2/">Amazon EC2を詳しく学ぶ</a><a href="../rds-dynamodb/">RDS・DynamoDBを学ぶ</a><a href="../security-services/">AWSセキュリティサービス比較</a><a href="../clf-c02-study-plan/">AWS Cloud Practitioner勉強法</a></div></section><a class="cta" href="../">無料問題集250問で確認する →</a>
+<section class="card" style="border-color:#52366e;background:#18142a"><small>PR・広告</small><h2>動画で体系的に学びたい場合</h2><p>文章・比較表・問題演習に動画講座を組み合わせて理解を補強する方法もあります。</p><a class="cta" style="background:#a435f0;color:white" href="https://trk.udemy.com/c/7699504/3193860/39854" target="_blank" rel="sponsored noopener noreferrer">UdemyでAWS講座を探す →</a><p style="font-size:11px;color:#a9bad0">※ アフィリエイト広告を含みます。リンク経由の購入でORIVECTORが報酬を受け取る場合があります。</p></section>
+
+'''
+pattern = re.compile(r'<article class="hero">.*?(?=<aside class="orivector-author")', re.S)
+s, n = pattern.subn(storage_body, s, count=1)
+if n != 1:
+    raise SystemExit('s3-vs-ebs-vs-efs: expected article body marker not found')
+if ADSENSE not in s or WRONG_ADSENSE in s:
+    raise SystemExit('s3-vs-ebs-vs-efs: AdSense ID validation failed')
+for marker in ['EBS = EC2のディスク', 'S3 Glacier Deep Archive', 'Storage Gateway', 'Multi-Attach']:
+    if marker not in s:
+        raise SystemExit('s3-vs-ebs-vs-efs: missing marker ' + marker)
+p.write_text(s, encoding='utf-8')
+
+print('Expanded security-services/index.html and s3-vs-ebs-vs-efs/index.html')
