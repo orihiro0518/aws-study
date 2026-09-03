@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AWS Cloud Practitioner Study - Exam Style 300 Unique Questions</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=331">
 </head>
 <body><div class="wrap">
-<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.3.0</div></div>
+<div class="topbar"><div><div class="brand" onclick="home()"><span class="aws">AWS</span> Cloud Practitioner</div><div class="sub">CLF-C02 Study App</div></div><div class="version">ver 3.3.1</div></div>
 <section id="home" class="card hero"><span class="tag">AWS Certified Cloud Practitioner</span><h1>問題を解いて、AWSの基礎を固める。</h1><p>4択問題 → 解説 → 間違い復習。学習履歴はこの端末に保存されます。</p>
 <div class="grid"><button class="btn primary" onclick="showStudy()">📚 まず基礎を勉強</button><button class="btn" onclick="showQuestionList()">📋 問題一覧（306問）</button><button class="btn" onclick="start(10,false)">10問チャレンジ</button><button class="btn" onclick="start(20,false)">20問チャレンジ</button><button class="btn primary" onclick="startMockExam()">🎯 本番模試MAX 65問</button><button class="btn" onclick="start(questions.length,false)">全問題</button><button class="btn" onclick="startWrong()">間違えた問題だけ</button></div><p style="color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0">🎯 本番模試MAXは、公式CLF-C02の出題比率を再現し、シナリオ型・比較型・複数選択を優先して65問を出題します。複数選択は5択以上から2つ以上を選ぶ本番仕様です。</p>
 <div class="stats"><div class="stat"><b id="answered">0</b><span>解答数</span></div><div class="stat"><b id="rate">0%</b><span>正答率</span></div><div class="stat"><b id="wrongCount">0</b><span>復習問題</span></div></div>
-<div style="margin-top:16px;color:var(--muted);font-size:13px">収録問題の学習進捗 <span id="progressText">0%</span></div><div class="bar"><div id="progress" class="fill" style="width:0%"></div></div></section>
+<div style="margin-top:16px;color:var(--muted);font-size:13px">収録問題の学習進捗 <span id="progressText">0%</span></div><div class="bar"><div id="progress" class="fill" style="width:0%"></div></div>
+<div class="articles-home" style="margin-top:22px"><h2 style="font-size:20px">📖 AWS学習記事</h2><p style="color:var(--muted);font-size:14px">問題演習で迷ったサービスは記事で整理できます。</p><div class="grid"><a class="btn" href="guide/">CLF-C02 学習ガイド</a><a class="btn" href="well-architected/">Well-Architected 6本柱</a><a class="btn" href="s3-vs-ebs-vs-efs/">S3 / EBS / EFS 比較</a><a class="btn" href="ec2-vs-lambda/">EC2 / Lambda 比較</a><a class="btn" href="cloudwatch-vs-cloudtrail/">CloudWatch / CloudTrail</a><a class="btn" href="rds-vs-dynamodb/">RDS / DynamoDB</a><a class="btn" href="sns-vs-sqs/">SNS / SQS</a><a class="btn" href="security-group-vs-nacl/">Security Group / NACL</a><a class="btn" href="direct-connect-vs-vpn/">Direct Connect / VPN</a><a class="btn" href="cost-explorer-vs-budgets/">Cost Explorer / Budgets</a><a class="btn" href="services/">AWSサービス一覧</a><a class="btn" href="exam-tips/">試験対策記事</a></div></div></section>
 <section id="study" class="card study-section hidden"><span class="tag">BEFORE QUIZ</span><h2>Cloud Practitioner 最低限の基礎</h2><p style="color:var(--muted)">まずここを一周してから問題へ。丸暗記ではなく「似たサービスとの違い」をセットで覚える。</p><div class="sheet-controls"><span class="sheet-hint">暗記シートを使い分けできます。🟥 赤＝AWSサービス名、🟩 緑＝重要用語、🟥🟩 両方＝両方を穴埋め。文章の流れは残し、隠れた単語をタップするとその語だけ確認できます。</span></div>
 <div class="study-note"><b>最初に覚える軸</b><br>① クラウドのメリット　② 責任共有モデル　③ Region / AZ　④ 主要サービスの役割　⑤ セキュリティ　⑥ 料金・サポート</div>
 <h3>1. AWSクラウドの基本</h3><div class="study-box"><b>オンプレミスとの違い</b><br>自社でサーバーを購入・設置する代わりに、AWSのITリソースを必要なときに利用する。初期投資を抑え、必要量に応じて増減しやすい。</div>
@@ -32,12 +33,14 @@
 <section id="result" class="card result hidden"><div class="tag">RESULT</div><h2>おつかれさま！</h2><div id="score" class="big"></div><p id="resultText"></p><div class="grid"><button class="btn primary" onclick="home()">トップへ</button><button class="btn" onclick="startWrong()">間違いを復習</button></div></section>
 </div>
 <div id="floatingSheetBtn" class="floating-sheet"><div class="sheet-mode-title">暗記シート</div><div class="sheet-mode-row"><button class="sheet-mode-btn off active" data-mode="off" onclick="setSheetMode('off')">OFF</button><button class="sheet-mode-btn red" data-mode="red" onclick="setSheetMode('red')">🟥 赤</button><button class="sheet-mode-btn green" data-mode="green" onclick="setSheetMode('green')">🟩 緑</button><button class="sheet-mode-btn both" data-mode="both" onclick="setSheetMode('both')">🟥🟩 両方</button></div></div>
-<script src="questions-1.js"></script>
-<script src="questions-2.js"></script>
-<script src="questions-3.js"></script>
-<script src="questions-4.js"></script>
-<script src="questions-5.js"></script>
-<script src="questions-6.js"></script>
-<script src="exam-questions.js"></script>
-<script src="app.js"></script>
+<script src="questions-1.js?v=331"></script>
+<script src="questions-2.js?v=331"></script>
+<script src="questions-3.js?v=331"></script>
+<script src="questions-4.js?v=331"></script>
+<script src="questions-5.js?v=331"></script>
+<script src="questions-6.js?v=331"></script>
+<script src="exam-questions.js?v=331"></script>
+<script src="app-core.js?v=331"></script>
+<script src="app-explanations.js?v=331"></script>
+<script src="app-quiz.js?v=331"></script>
 </body></html>
