@@ -14,54 +14,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Replace stale 300-question claims
+      - name: Remove every stale 300-question claim from public content
         run: |
           python - <<'PY'
           from pathlib import Path
+          import re
 
-          exts = {'.html', '.js', '.json', '.md', '.yml', '.yaml', '.txt', '.xml'}
-          self_path = Path('.github/workflows/fix-250-question-count.yml')
+          # Public/site content only. Workflow history is not published to the website.
+          exts = {'.html', '.js', '.json', '.md', '.txt', '.xml'}
           changed = []
-          replacements = [
-              ('無料300問問題集', '無料250問問題集'),
-              ('300問問題集', '250問問題集'),
-              ('無料問題集300問', '無料問題集250問'),
-              ('無料300問', '無料250問'),
-              ('300問の問題演習', '250問の問題演習'),
-              ('300問で', '250問で'),
-              ('300問へ', '250問へ'),
-          ]
+          stale = re.compile(r'300\s*問')
+
           for p in Path('.').rglob('*'):
-              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts or p == self_path:
+              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
                   continue
               s = p.read_text(encoding='utf-8')
-              n = s
-              for old, new in replacements:
-                  n = n.replace(old, new)
+              n = stale.sub('250問', s)
               if n != s:
                   p.write_text(n, encoding='utf-8')
                   changed.append(str(p))
-          print('Changed files:')
-          print('\n'.join(changed) if changed else '(none)')
 
-          # Guard: stale public-facing 300-question wording must be gone.
+          print('Changed files:')
+          print('\n'.join(changed) if changed else '(none; public source was already clean)')
+
+          # Hard guard: no public text file may still claim 300 questions.
           bad = []
           for p in Path('.').rglob('*'):
-              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts and p != self_path:
+              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts:
                   t = p.read_text(encoding='utf-8')
-                  if '300問' in t:
+                  if stale.search(t):
                       bad.append(str(p))
           if bad:
               raise SystemExit('Remaining stale question-count references: ' + ', '.join(bad))
+
+          print('PASS: public AWS source contains zero 300-question references.')
           PY
-      - name: Commit fixes
+      - name: Commit fixes if needed
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           if git diff --cached --quiet; then
-            echo 'No changes needed.'
+            echo 'No public content changes needed.'
           else
-            git commit -m 'Unify AWS question count at 250'
+            git commit -m 'Remove remaining stale AWS question-count text'
             git push
           fi
