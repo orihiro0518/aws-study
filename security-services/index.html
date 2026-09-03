@@ -2,10 +2,10 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1712701486247077" crossorigin="anonymous"></script>
 
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AWSセキュリティサービス比較とは？AWS Cloud Practitioner（CLF-C02）対策｜ORIVECTOR</title>
-<meta name="description" content="AWSセキュリティサービス比較をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。">
+<title>AWSセキュリティサービス比較｜IAM・GuardDuty・Inspector・Macie・WAF・Shieldを役割で整理｜ORIVECTOR</title>
+<meta name="description" content="AWSの主要セキュリティサービスを「何を守るか・何を見るか・いつ使うか」で比較。IAM、KMS、Secrets Manager、WAF、Shield、GuardDuty、Inspector、Macie、Security Hub、CloudTrail、Configを初心者向けに整理。">
 <meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://orivector.jp/aws-study/security-services/">
-<meta property="og:type" content="article"><meta property="og:site_name" content="ORIVECTOR"><meta property="og:title" content="AWSセキュリティサービス比較とは？AWS Cloud Practitioner（CLF-C02）対策｜ORIVECTOR"><meta property="og:description" content="AWSセキュリティサービス比較をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。"><meta property="og:url" content="https://orivector.jp/aws-study/security-services/"><meta name="twitter:card" content="summary">
+<meta property="og:type" content="article"><meta property="og:site_name" content="ORIVECTOR"><meta property="og:title" content="AWSセキュリティサービス比較｜IAM・GuardDuty・Inspector・Macie・WAF・Shieldを役割で整理｜ORIVECTOR"><meta property="og:description" content="AWSの主要セキュリティサービスを「何を守るか・何を見るか・いつ使うか」で比較。IAM、KMS、Secrets Manager、WAF、Shield、GuardDuty、Inspector、Macie、Security Hub、CloudTrail、Configを初心者向けに整理。"><meta property="og:url" content="https://orivector.jp/aws-study/security-services/"><meta name="twitter:card" content="summary">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AWSセキュリティサービス比較", "mainEntityOfPage": "https://orivector.jp/aws-study/security-services/", "author":{"@type":"Person","@id":"https://orivector.jp/about/#shun","name":"shun","url":"https://orivector.jp/about/"},"publisher": {"@type": "Organization", "name": "ORIVECTOR", "url": "https://orivector.jp/"}, "inLanguage": "ja-JP"}</script><style>
 :root{--bg:#031022;--panel:#09192d;--line:#203a59;--txt:#eef6ff;--mut:#a7b8cc;--blue:#2495ff;--purple:#a435f0}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#020817,#06162b);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif;line-height:1.8}a{color:#8bc9ff}.w{width:min(920px,calc(100% - 30px));margin:auto}header{border-bottom:1px solid var(--line);padding:17px 0;background:#061326}.brand{font-weight:950;text-decoration:none;color:white}.hero{padding:44px 0 18px}h1{font-size:clamp(28px,6vw,44px);line-height:1.3}h2{line-height:1.45}.card{background:rgba(9,25,45,.96);border:1px solid var(--line);border-radius:18px;padding:24px;margin:18px 0}.diagram{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;align-items:stretch;margin:18px 0}.node{position:relative;background:#102844;border:1px solid #31577d;border-radius:14px;padding:16px 10px;text-align:center;font-weight:900;min-height:92px;display:flex;align-items:center;justify-content:center;flex-direction:column}.node small{display:block;color:#b9c9da;font-weight:500;margin-top:4px}.node:not(:last-child):after{content:"→";position:absolute;right:-16px;top:31%;z-index:2;color:#71b8ff;font-size:22px}.memory{border-left:4px solid var(--blue);background:#0b223c;padding:14px 16px;border-radius:9px}.compare{width:100%;border-collapse:collapse}.compare th,.compare td{border-bottom:1px solid var(--line);padding:10px;text-align:left}.cta{background:#0b2c4d}.btn{display:inline-block;background:var(--blue);color:white;text-decoration:none;font-weight:900;padding:12px 17px;border-radius:10px}.ad{background:#18142a;border-color:#52366e}.ad .btn{background:var(--purple)}.note{font-size:11px;color:var(--mut)}footer{border-top:1px solid var(--line);margin-top:45px;padding:30px 0;color:var(--mut);font-size:13px}@media(max-width:680px){.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:calc(50% - 7px);top:auto;bottom:-22px}.node{margin-bottom:7px}}
@@ -77,39 +77,38 @@
 </style>
 
 <!-- seo-v4-schema -->
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"@id":"https://orivector.jp/aws-study/security-services/#article","headline":"AWSセキュリティサービス比較","description":"AWSセキュリティサービス比較をAWS Cloud Practitioner（CLF-C02）試験向けに初心者にもわかりやすく解説。役割、使いどころ、似たAWSサービスとの違い、試験ポイントを整理。","url":"https://orivector.jp/aws-study/security-services/","inLanguage":"ja","isAccessibleForFree":true,"educationalUse":"試験対策","publisher":{"@type":"Organization","name":"ORIVECTOR","url":"https://orivector.jp/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner","item":"https://orivector.jp/aws-study/"},{"@type":"ListItem","position":3,"name":"AWSセキュリティサービス比較","item":"https://orivector.jp/aws-study/security-services/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["Article","LearningResource"],"@id":"https://orivector.jp/aws-study/security-services/#article","headline":"AWSセキュリティサービス比較","description":"AWSの主要セキュリティサービスを「何を守るか・何を見るか・いつ使うか」で比較。IAM、KMS、Secrets Manager、WAF、Shield、GuardDuty、Inspector、Macie、Security Hub、CloudTrail、Configを初心者向けに整理。","url":"https://orivector.jp/aws-study/security-services/","inLanguage":"ja","isAccessibleForFree":true,"educationalUse":"試験対策","publisher":{"@type":"Organization","name":"ORIVECTOR","url":"https://orivector.jp/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ORIVECTOR","item":"https://orivector.jp/"},{"@type":"ListItem","position":2,"name":"AWS Cloud Practitioner","item":"https://orivector.jp/aws-study/"},{"@type":"ListItem","position":3,"name":"AWSセキュリティサービス比較","item":"https://orivector.jp/aws-study/security-services/"}]}]}</script>
 <meta name="author" content="shun">
 <link rel="author" href="https://orivector.jp/about/">
 </head>
 <body><header><div class="w"><a class="brand" href="https://orivector.jp/">ORIVECTOR</a></div></header><main class="w">
-<section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWSセキュリティサービス比較</h1><p>GuardDuty・Inspector・Macie・WAF・Shieldを目的別に覚える。</p></section>
-<section class="card"><h2>まず図でつかむ</h2><div class="diagram"><div class="node">GuardDuty<small>脅威検出</small></div><div class="node">Inspector<small>脆弱性管理</small></div><div class="node">Macie<small>S3機密データ</small></div><div class="node">WAF / Shield<small>Web攻撃 / DDoS</small></div></div><p class="memory"><strong>覚え方：</strong> 名前を丸暗記するより「何をしたい時に使うか」を1行で説明できるようにすると、選択問題で判断しやすくなります。</p></section>
-<section class="card detailed-points">
-<h2>ポイントを詳しく理解する</h2>
-<p class="detail-intro">ここは試験で選択肢を見分けるために、用語だけでなく「何のために使うか」まで押さえます。</p>
-<div class="detail-point"><h3>GuardDutyは脅威検出</h3><p>AWS環境の各種信号を分析し、不審なアクティビティや脅威を検出します。『脅威検出』がキーワードです。</p></div><div class="detail-point"><h3>Inspectorは脆弱性管理</h3><p>EC2やコンテナイメージなどのワークロードについて、ソフトウェア脆弱性などを継続的に評価します。</p></div><div class="detail-point"><h3>MacieはS3の機密データ</h3><p>S3内のデータを分析し、個人情報などの機密データを発見・保護する支援をします。</p></div><div class="detail-point"><h3>WAFはWebリクエストをフィルタ</h3><p>Webアプリへのリクエストをルールで許可・ブロックします。SQLインジェクション等のWeb攻撃対策という文脈で登場します。</p></div><div class="detail-point"><h3>ShieldはDDoS対策</h3><p>分散型サービス拒否攻撃（DDoS）への保護を提供します。</p></div><div class="detail-point"><h3>目的で即答できるようにする</h3><p>脅威＝GuardDuty、脆弱性＝Inspector、S3機密情報＝Macie、Webフィルタ＝WAF、DDoS＝Shieldです。</p></div>
-</section>
-<section class="card"><h2>試験ではどう考える？</h2><p>問題文ではサービス名そのものではなく、要件や課題が提示されることがあります。まず「計算・保存・ネットワーク・セキュリティ・コスト」など目的を特定し、その目的に合うサービスへ絞り込みます。似たサービスが並んだ場合は、運用負荷、データ形式、接続方法、セキュリティ上の目的などの違いを確認します。</p></section>
+<section class="hero"><p><a href="../">AWS無料問題集</a> ＞ 図解学習</p><h1>AWSセキュリティサービスを役割で整理</h1><p>「どれか1つを選ぶ」のではなく、守る場所が違うサービスを組み合わせて多層防御するのが基本。まずは、何を見て・何を守るのかで整理します。</p></section>
 
-<section class="card enhanced">
-<h2>もう一段深く理解する</h2>
-<p>AWSには脅威検出・脆弱性管理・機密データ検出・Web保護など目的別のセキュリティサービスがあります。『何を検出/保護するのか』で見分けます。</p>
-<p class="memory"><strong>覚え方：</strong> Guard＝脅威、Inspector＝弱点検査、Macie＝機密データ、WAF＝Web入口。</p>
-</section>
-<section class="card enhanced">
-<h2>似たサービスとの比較</h2>
-<div style="overflow-x:auto"><table class="compare"><tbody><tr><th>GuardDuty</th><td>脅威検出</td></tr><tr><th>Inspector</th><td>ワークロードの脆弱性管理</td></tr><tr><th>Macie</th><td>S3内の機密データ検出</td></tr><tr><th>WAF/Shield</th><td>Web攻撃フィルタ/DDoS保護</td></tr></tbody></table></div>
-</section>
-<section class="card enhanced">
-<h2>試験での見分け方</h2>
-<ul><li>S3の個人情報などを発見→Macie</li><li>不審な挙動・脅威を検出→GuardDuty</li><li>脆弱性を継続評価→Inspector</li><li>Webリクエストをルールで遮断→WAF</li></ul>
-<p class="note2">※ 試験ではサービス名だけでなく、要件・運用負荷・可用性・コストなどの条件から判断する問題が出ます。</p>
-</section>
-<section class="card enhanced">
-<h2>3問ミニチェック</h2>
-<p>答えを考えてから開いて確認してください。</p>
-<details class="quiz"><summary>Q1. S3内の機密データ検出に使うサービスは？</summary><div><strong>答え：</strong>Amazon Macie</div></details><details class="quiz"><summary>Q2. 脅威検出サービスは？</summary><div><strong>答え：</strong>Amazon GuardDuty</div></details><details class="quiz"><summary>Q3. Webアプリへの悪意あるリクエストをフィルタするサービスは？</summary><div><strong>答え：</strong>AWS WAF</div></details>
-</section>
+<details class="mobile-toc"><summary>この記事の要点</summary><nav><a href="#role-table">11サービスの役割比較</a><a href="#layered">どう組み合わせる？</a><a href="#three">GuardDuty・Inspector・Macie</a><a href="#trail-config-hub">CloudTrail・Config・Security Hub</a><a href="#all">全部採用すれば最強？</a></nav></details>
+
+<section class="card" id="role-table"><h2>まずは役割を具体的に比較</h2><p>サービス名ではなく「何を見るサービスか」を起点にすると、実務でもCLF-C02でも迷いにくくなります。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th>サービス</th><th>具体的な役割</th><th>何を見る？</th><th>こういう時に使う</th></tr></thead><tbody>
+<tr><td><strong>IAM</strong></td><td>ユーザー・ロール・権限を管理</td><td>誰が何をしてよいか</td><td>S3は閲覧だけ、EC2停止は管理者だけ、のように権限を絞る</td></tr>
+<tr><td><strong>KMS</strong></td><td>暗号化に使う鍵を作成・管理</td><td>暗号鍵</td><td>S3・EBS・RDSなどの保存データを暗号化したい</td></tr>
+<tr><td><strong>Secrets Manager</strong></td><td>パスワードやAPIキーなどの秘密情報を安全に保管・ローテーション</td><td>DBパスワード、APIキー等</td><td>認証情報をソースコードや設定ファイルへ直接書きたくない</td></tr>
+<tr><td><strong>AWS WAF</strong></td><td>Webリクエストをルールで許可・ブロック</td><td>HTTP/HTTPSリクエスト</td><td>SQLインジェクション、XSS、特定IPなどWeb層の攻撃を防ぎたい</td></tr>
+<tr><td><strong>AWS Shield</strong></td><td>DDoS攻撃からAWS上のサービスを保護</td><td>大量・異常なネットワークトラフィック</td><td>大量アクセスでサービス停止を狙う攻撃へ備えたい</td></tr>
+<tr><td><strong>GuardDuty</strong></td><td>AWS環境の不審な挙動や脅威を検出</td><td>CloudTrail管理イベント、VPC Flow Logs、DNSログ等の信号</td><td>認証情報の悪用や悪性IPとの通信など「怪しい動き」を見つけたい</td></tr>
+<tr><td><strong>Inspector</strong></td><td>ワークロードのソフトウェア脆弱性などを継続評価</td><td>EC2、ECRコンテナイメージ、Lambda等</td><td>古いパッケージや既知の脆弱性を見つけたい</td></tr>
+<tr><td><strong>Macie</strong></td><td>S3内の機密データを発見・分類</td><td>S3オブジェクト内のデータ</td><td>個人情報や認証情報など、S3に機密データが含まれていないか確認したい</td></tr>
+<tr><td><strong>Security Hub</strong></td><td>セキュリティ検出結果とセキュリティ態勢を集約</td><td>GuardDuty・Inspector・Macie等のFindingsや標準チェック</td><td>複数サービスの結果を一か所で確認・優先順位付けしたい</td></tr>
+<tr><td><strong>CloudTrail</strong></td><td>AWS API操作を記録</td><td>誰が・いつ・どのAPIを実行したか</td><td>「誰がEC2を削除した？」「IAM設定を変えた？」を追跡したい</td></tr>
+<tr><td><strong>AWS Config</strong></td><td>リソース設定の履歴を記録し、ルールへの準拠を評価</td><td>リソースの設定状態と変更</td><td>S3が公開設定になっていないか等を継続的に確認したい</td></tr>
+</tbody></table></div></section>
+
+<section class="card" id="layered"><h2>「どれかを選ぶ」より、役割を重ねる</h2><p>例えばインターネット公開のWebサービスなら、入口でShieldとWAF、サーバー側でInspector、環境全体でGuardDuty、操作履歴はCloudTrailというように守る場所が違います。</p><div class="diagram"><div class="node">Shield<small>DDoS対策</small></div><div class="node">WAF<small>Web攻撃をフィルタ</small></div><div class="node">ALB<small>通信を振り分け</small></div><div class="node">EC2<small>アプリを実行</small></div></div><p class="memory"><strong>裏側では：</strong> IAMで権限、KMSで暗号化、Secrets Managerで秘密情報、Inspectorで脆弱性、GuardDutyで不審挙動、CloudTrailで操作履歴、Configで設定状態を確認し、Security Hubに結果を集約するイメージです。</p></section>
+
+<section class="card" id="three"><h2>最重要：GuardDuty・Inspector・Macieの違い</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>問題文のキーワード</th><th>選ぶサービス</th><th>考え方</th></tr></thead><tbody><tr><td>不審な挙動・脅威・悪性IP</td><td><strong>GuardDuty</strong></td><td>動きを見て「怪しくないか」を検出</td></tr><tr><td>脆弱性・CVE・古いソフトウェア</td><td><strong>Inspector</strong></td><td>攻撃される前の「弱点」を探す</td></tr><tr><td>S3・個人情報・機密データ</td><td><strong>Macie</strong></td><td>S3の中に「守るべきデータ」がないか探す</td></tr></tbody></table></div><p class="memory"><strong>一言暗記：</strong> GuardDuty = 怪しい動き / Inspector = 脆弱性 / Macie = S3の機密情報。</p></section>
+
+<section class="card" id="trail-config-hub"><h2>CloudTrail・Config・Security Hubも混同しやすい</h2><div style="overflow-x:auto"><table class="compare"><thead><tr><th>知りたいこと</th><th>サービス</th><th>例</th></tr></thead><tbody><tr><td>誰が何を操作した？</td><td><strong>CloudTrail</strong></td><td>誰がIAMポリシーを変更したか調査</td></tr><tr><td>設定はどうなっていた？ルール違反は？</td><td><strong>AWS Config</strong></td><td>S3公開設定やセキュリティグループ設定を評価</td></tr><tr><td>セキュリティ結果をまとめて見たい</td><td><strong>Security Hub</strong></td><td>GuardDutyやInspector等のFindingsを集約</td></tr></tbody></table></div></section>
+
+<section class="card" id="all"><h2>お金を気にしないなら全部採用すれば最強？</h2><p>「必要な機能を重ねる」という方向性は正しいですが、使っていない領域のサービスまで無条件に有効化すれば強くなる、という話ではありません。例えばS3を使わなければMacieの優先度は低く、Webアプリを公開しなければWAFの出番も限定的です。</p><p>基本は<strong>多層防御（Defense in Depth）</strong>。IAM・ログ・暗号化などの土台を作り、その上でWeb、ワークロード、S3など自分の構成に合うサービスを追加します。</p><div style="overflow-x:auto"><table class="compare"><thead><tr><th>構成・要件</th><th>追加を考えるサービス</th></tr></thead><tbody><tr><td>AWSアカウントの基本防御</td><td>IAM / CloudTrail / KMS / Config / GuardDuty / Security Hub</td></tr><tr><td>EC2・ECR・Lambdaを利用</td><td>Inspector</td></tr><tr><td>Webサービスを公開</td><td>WAF / Shield</td></tr><tr><td>S3に機密データ</td><td>Macie</td></tr><tr><td>DBパスワード・APIキー</td><td>Secrets Manager</td></tr></tbody></table></div></section>
+
+<section class="card enhanced"><h2>試験前の5問チェック</h2><details class="quiz"><summary>Q1. S3内の個人情報などを検出したい。何を使う？</summary><div><strong>答え：</strong> Amazon Macie。S3内の機密データ発見がキーワードです。</div></details><details class="quiz"><summary>Q2. EC2に既知のソフトウェア脆弱性がないか確認したい。何を使う？</summary><div><strong>答え：</strong> Amazon Inspector。</div></details><details class="quiz"><summary>Q3. AWS環境で不審な通信・挙動を検出したい。何を使う？</summary><div><strong>答え：</strong> Amazon GuardDuty。</div></details><details class="quiz"><summary>Q4. 誰がAWS APIを実行したか追跡したい。何を使う？</summary><div><strong>答え：</strong> AWS CloudTrail。</div></details><details class="quiz"><summary>Q5. GuardDutyやInspectorなどのセキュリティ結果を集約したい。何を使う？</summary><div><strong>答え：</strong> AWS Security Hub。</div></details></section>
 
 <nav class="article-nav" aria-label="記事ナビゲーション"><a class="prev" href="../cloudwatch-cloudtrail/"><span class="nav-label">← 前の記事</span><span class="nav-title">CloudWatchとCloudTrail</span></a><a class="next" href="../kms-secrets/"><span class="nav-label">次の記事 →</span><span class="nav-title">KMSとSecrets Manager</span></a></nav><a class="back-guide" href="../guide/">📚 30記事一覧へ戻る</a>
 <section class="card cta"><h2>問題で定着させる</h2><p>図で理解したら、ORIVECTORの無料250問問題集で実際の選択問題に慣れましょう。</p><a class="btn" href="../">無料問題集を解く →</a>　<a href="../roadmap/">合格ロードマップ</a>　<a href="../services/">主要サービス一覧</a></section>
