@@ -52,11 +52,11 @@ def add_schema(text, schema, marker='seo-v4-schema'):
 
 def normalize_counts(text):
     replacements = {
-        '無料300問': '無料250問',
-        '問題集300問': '問題集250問',
-        '全300問': '全250問',
-        '300問の無料問題集': '250問の無料問題集',
-        '300問を収録': '250問を収録',
+        '無料300問以上': '無料300問以上',
+        '問題集300問以上': '問題集300問以上',
+        '全300問以上': '全300問以上',
+        '300問以上の無料問題集': '300問以上の無料問題集',
+        '300問以上を収録': '300問以上を収録',
     }
     for old, new in replacements.items():
         text = text.replace(old, new)
@@ -89,26 +89,26 @@ question_replacements = {
 for old, new in question_replacements.items():
     text = text.replace(old, new)
 
-main_title = 'AWS Cloud Practitioner（CLF-C02）無料問題集250問｜模擬試験・図解解説｜ORIVECTOR'
-main_desc = 'AWS Certified Cloud Practitioner（CLF-C02）対策の無料問題集250問。本番形式65問の模擬試験、図解学習、詳しい解説、間違い復習に対応。AWS初心者の独学・資格試験対策に。'
+main_title = 'AWS Cloud Practitioner（CLF-C02）無料問題集300問以上｜模擬試験・図解解説｜ORIVECTOR'
+main_desc = 'AWS Certified Cloud Practitioner（CLF-C02）対策の無料問題集300問以上。本番形式65問の模擬試験、図解学習、詳しい解説、間違い復習に対応。AWS初心者の独学・資格試験対策に。'
 text = set_title(text, main_title)
 text = set_canonical(text, BASE)
 text = add_robots(text)
 text = replace_meta(text, 'description', main_desc)
-text = replace_meta(text, 'og:title', 'AWS Cloud Practitioner（CLF-C02）無料問題集250問｜ORIVECTOR', prop=True)
-text = replace_meta(text, 'og:description', '無料250問＋本番形式65問の模擬試験＋図解学習でAWS Cloud Practitionerを対策。', prop=True)
+text = replace_meta(text, 'og:title', 'AWS Cloud Practitioner（CLF-C02）無料問題集300問以上｜ORIVECTOR', prop=True)
+text = replace_meta(text, 'og:description', '無料300問以上＋本番形式65問の模擬試験＋図解学習でAWS Cloud Practitionerを対策。', prop=True)
 text = replace_meta(text, 'og:url', BASE, prop=True)
 if 'name="twitter:title"' not in text:
-    text = text.replace('</head>', '<meta name="twitter:title" content="AWS Cloud Practitioner（CLF-C02）無料問題集250問｜ORIVECTOR">\n<meta name="twitter:description" content="無料250問・65問模試・図解解説でCLF-C02を対策。">\n</head>', 1)
+    text = text.replace('</head>', '<meta name="twitter:title" content="AWS Cloud Practitioner（CLF-C02）無料問題集300問以上｜ORIVECTOR">\n<meta name="twitter:description" content="無料300問以上・65問模試・図解解説でCLF-C02を対策。">\n</head>', 1)
 
-text = text.replace('<h1>問題を解いて、AWSの基礎を固める。</h1>', '<h1>AWS Cloud Practitioner（CLF-C02）無料問題集250問</h1>')
+text = text.replace('<h1>問題を解いて、AWSの基礎を固める。</h1>', '<h1>AWS Cloud Practitioner（CLF-C02）無料問題集300問以上</h1>')
 
 main_schema = {
     '@context': 'https://schema.org',
     '@graph': [
         {'@type': 'Organization', '@id': 'https://orivector.jp/#organization', 'name': 'ORIVECTOR', 'url': 'https://orivector.jp/'},
         {'@type': 'WebSite', '@id': 'https://orivector.jp/#website', 'url': 'https://orivector.jp/', 'name': 'ORIVECTOR', 'publisher': {'@id': 'https://orivector.jp/#organization'}, 'inLanguage': 'ja'},
-        {'@type': ['WebApplication', 'LearningResource'], '@id': BASE + '#app', 'name': 'AWS Cloud Practitioner（CLF-C02）無料問題集250問', 'url': BASE, 'description': main_desc, 'applicationCategory': 'EducationalApplication', 'operatingSystem': 'Any', 'isAccessibleForFree': True, 'educationalUse': '試験対策', 'learningResourceType': ['問題集', '模擬試験', '学習ガイド'], 'inLanguage': 'ja', 'publisher': {'@id': 'https://orivector.jp/#organization'}},
+        {'@type': ['WebApplication', 'LearningResource'], '@id': BASE + '#app', 'name': 'AWS Cloud Practitioner（CLF-C02）無料問題集300問以上', 'url': BASE, 'description': main_desc, 'applicationCategory': 'EducationalApplication', 'operatingSystem': 'Any', 'isAccessibleForFree': True, 'educationalUse': '試験対策', 'learningResourceType': ['問題集', '模擬試験', '学習ガイド'], 'inLanguage': 'ja', 'publisher': {'@id': 'https://orivector.jp/#organization'}},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'ORIVECTOR', 'item': 'https://orivector.jp/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'AWS Cloud Practitioner 無料問題集', 'item': BASE}
@@ -118,7 +118,7 @@ main_schema = {
 text = add_schema(text, main_schema)
 
 if 'id="seo-faq-v4"' not in text:
-    faq = '''<section class="card" id="seo-faq-v4" style="margin-top:16px"><h2>AWS Cloud Practitioner 無料問題集のFAQ</h2><h3>問題は何問ありますか？</h3><p style="color:var(--muted);line-height:1.8">無料問題集は250問を収録しています。本番形式を意識した65問の模擬試験も利用できます。</p><h3>スマホでも使えますか？</h3><p style="color:var(--muted);line-height:1.8">スマートフォンのブラウザから利用できます。</p><h3>どう勉強するのがおすすめですか？</h3><p style="color:var(--muted);line-height:1.8">基礎学習→問題演習→間違い復習→65問模試の順で進め、苦手分野は図解記事やAWS公式資料で補強するのがおすすめです。</p></section>'''
+    faq = '''<section class="card" id="seo-faq-v4" style="margin-top:16px"><h2>AWS Cloud Practitioner 無料問題集のFAQ</h2><h3>問題は何問ありますか？</h3><p style="color:var(--muted);line-height:1.8">無料問題集は300問以上を収録しています。本番形式を意識した65問の模擬試験も利用できます。</p><h3>スマホでも使えますか？</h3><p style="color:var(--muted);line-height:1.8">スマートフォンのブラウザから利用できます。</p><h3>どう勉強するのがおすすめですか？</h3><p style="color:var(--muted);line-height:1.8">基礎学習→問題演習→間違い復習→65問模試の順で進め、苦手分野は図解記事やAWS公式資料で補強するのがおすすめです。</p></section>'''
     marker = '<section id="categorySelect"'
     if marker in text:
         text = text.replace(marker, faq + '\n' + marker, 1)

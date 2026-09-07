@@ -4,8 +4,8 @@ import json, re
 p = Path('index.html')
 text = p.read_text(encoding='utf-8')
 
-TITLE = 'AWS Cloud Practitioner 無料問題集306問｜CLF-C02対策｜ORIVECTOR'
-DESC = 'AWS Certified Cloud Practitioner（CLF-C02）対策の無料問題集306問。10問・20問演習、本番形式65問模試、間違い復習、基礎学習、サービス比較・図解解説に対応。'
+TITLE = 'AWS Cloud Practitioner 無料問題集300問以上｜CLF-C02対策｜ORIVECTOR'
+DESC = 'AWS Certified Cloud Practitioner（CLF-C02）対策の無料問題集300問以上。10問・20問演習、本番形式65問模試、間違い復習、基礎学習、サービス比較・図解解説に対応。'
 URL = 'https://orivector.jp/aws-study/'
 OG = 'https://orivector.jp/assets/og-aws.png'
 
@@ -52,7 +52,7 @@ schema = {
         {
             '@type': ['WebApplication', 'LearningResource'],
             '@id': URL + '#app',
-            'name': 'AWS Cloud Practitioner 無料問題集306問',
+            'name': 'AWS Cloud Practitioner 無料問題集300問以上',
             'url': URL,
             'description': DESC,
             'applicationCategory': 'EducationalApplication',
@@ -105,7 +105,7 @@ text = text.replace('</head>', seo + '</head>', 1)
 # Keep the existing UI, but make the visible main heading and lead copy more descriptive.
 text = text.replace(
     '<h1>試験対策を、迷わず進める。</h1><p>ORIVECTOR共通学習UI。演習・基礎・ガイドから、今やる学習を選べます。</p>',
-    '<h1>AWS Cloud Practitionerを、<br>迷わず進める。</h1><p>CLF-C02対策・全306問。問題演習、65問模試、基礎学習、比較・図解ガイドから今やる学習を選べます。</p>',
+    '<h1>AWS Cloud Practitionerを、<br>迷わず進める。</h1><p>CLF-C02対策・全300問以上。問題演習、65問模試、基礎学習、比較・図解ガイドから今やる学習を選べます。</p>',
     1
 )
 text = text.replace('<div class="version">ver 3.4.1</div>', '<div class="version">ver 3.4.2</div>', 1)
