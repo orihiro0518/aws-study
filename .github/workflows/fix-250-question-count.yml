@@ -2,8 +2,7 @@ name: Normalize AWS question count to 300-plus
 
 on:
   push:
-    paths:
-      - '.github/workflows/fix-250-question-count.yml'
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -20,8 +19,10 @@ jobs:
           from pathlib import Path
           import re
 
-          # Normalize public content and generator source files. Workflow YAML is
-          # maintained directly because the Actions token cannot update workflows.
+          # Normalize public content and generator source files after every main
+          # update, so stale fixed counts cannot reappear in deployed content.
+          # Workflow YAML is maintained directly because the Actions token cannot
+          # create/update workflow files.
           exts = {'.html', '.js', '.json', '.md', '.txt', '.xml', '.py'}
           changed = []
 
