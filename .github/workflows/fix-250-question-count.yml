@@ -1,4 +1,4 @@
-name: Normalize AWS question count to 306
+name: Normalize AWS question count to 300-plus
 
 on:
   push:
@@ -14,42 +14,47 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Normalize stale public question-count claims
+      - name: Normalize AWS question-count claims to 300問以上
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
 
-          # Public/site content only. Keep the patch intentionally narrow:
-          # only stale AWS question-count wording is changed.
-          exts = {'.html', '.js', '.json', '.md', '.txt', '.xml'}
+          # Normalize both public content and source/generator files so future
+          # SEO regeneration cannot bring back stale 250/300/306 fixed counts.
+          exts = {'.html', '.js', '.json', '.md', '.txt', '.xml', '.py', '.yml', '.yaml'}
           changed = []
-          stale_ja = re.compile(r'(?:250|300)\s*問')
-          stale_en = re.compile(r'300\s+Unique Questions', re.I)
+
+          ja_count = re.compile(r'(?<!\d)(?:250|300|306)\s*問(?:以上)?')
+          en_unique = re.compile(r'(?<!\d)(?:250|300|306)\s*\+?\s*Unique Questions', re.I)
 
           for p in Path('.').rglob('*'):
               if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
                   continue
               s = p.read_text(encoding='utf-8')
-              n = stale_ja.sub('306問', s)
-              n = stale_en.sub('306 Unique Questions', n)
+              n = ja_count.sub('300問以上', s)
+              n = en_unique.sub('300+ Unique Questions', n)
               if n != s:
                   p.write_text(n, encoding='utf-8')
                   changed.append(str(p))
 
           print('Changed files:')
-          print('\n'.join(changed) if changed else '(none; public source was already consistent)')
+          print('\n'.join(changed) if changed else '(none; source was already consistent)')
 
+          remaining_ja = re.compile(r'(?<!\d)(?:250|306)\s*問|(?<!\d)300\s*問(?!以上)')
+          remaining_en = re.compile(r'(?<!\d)(?:250|306)\s*\+?\s*Unique Questions|(?<!\d)300\s+Unique Questions', re.I)
           bad = []
           for p in Path('.').rglob('*'):
-              if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts:
-                  t = p.read_text(encoding='utf-8')
-                  if stale_ja.search(t) or stale_en.search(t):
-                      bad.append(str(p))
+              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
+                  continue
+              t = p.read_text(encoding='utf-8')
+              if remaining_ja.search(t) or remaining_en.search(t):
+                  bad.append(str(p))
+
           if bad:
               raise SystemExit('Remaining stale question-count references: ' + ', '.join(bad))
 
-          print('PASS: public AWS source contains zero stale 250/300-question references.')
+          print('PASS: AWS question-count wording is normalized to 300問以上.')
           PY
       - name: Commit fixes if needed
         run: |
@@ -57,8 +62,8 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           if git diff --cached --quiet; then
-            echo 'No public content changes needed.'
+            echo 'No question-count changes needed.'
           else
-            git commit -m 'Normalize AWS public question count to 306'
+            git commit -m 'Normalize AWS question count to 300問以上'
             git push
           fi
