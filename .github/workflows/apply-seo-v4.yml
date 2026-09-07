@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Keep generated SEO copy aligned to the current 306-question bank
+        run: sed -i 's/250問/306問/g' tools/apply_seo_v4.py
       - name: Apply SEO and question fixes
         run: python tools/apply_seo_v4.py
       - name: Commit generated changes
