@@ -1,4 +1,4 @@
-name: Fix AWS question count to 250
+name: Normalize AWS question count to 306
 
 on:
   push:
@@ -14,40 +14,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Remove every stale 300-question claim from public content
+      - name: Normalize stale public question-count claims
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
 
-          # Public/site content only. Workflow history is not published to the website.
+          # Public/site content only. Keep the patch intentionally narrow:
+          # only stale AWS question-count wording is changed.
           exts = {'.html', '.js', '.json', '.md', '.txt', '.xml'}
           changed = []
-          stale = re.compile(r'300\s*問')
+          stale_ja = re.compile(r'(?:250|300)\s*問')
+          stale_en = re.compile(r'300\s+Unique Questions', re.I)
 
           for p in Path('.').rglob('*'):
               if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
                   continue
               s = p.read_text(encoding='utf-8')
-              n = stale.sub('250問', s)
+              n = stale_ja.sub('306問', s)
+              n = stale_en.sub('306 Unique Questions', n)
               if n != s:
                   p.write_text(n, encoding='utf-8')
                   changed.append(str(p))
 
           print('Changed files:')
-          print('\n'.join(changed) if changed else '(none; public source was already clean)')
+          print('\n'.join(changed) if changed else '(none; public source was already consistent)')
 
-          # Hard guard: no public text file may still claim 300 questions.
           bad = []
           for p in Path('.').rglob('*'):
               if p.is_file() and p.suffix.lower() in exts and '.git' not in p.parts:
                   t = p.read_text(encoding='utf-8')
-                  if stale.search(t):
+                  if stale_ja.search(t) or stale_en.search(t):
                       bad.append(str(p))
           if bad:
               raise SystemExit('Remaining stale question-count references: ' + ', '.join(bad))
 
-          print('PASS: public AWS source contains zero 300-question references.')
+          print('PASS: public AWS source contains zero stale 250/300-question references.')
           PY
       - name: Commit fixes if needed
         run: |
@@ -57,6 +59,6 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No public content changes needed.'
           else
-            git commit -m 'Remove remaining stale AWS question-count text'
+            git commit -m 'Normalize AWS public question count to 306'
             git push
           fi
