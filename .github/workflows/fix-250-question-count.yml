@@ -20,9 +20,9 @@ jobs:
           from pathlib import Path
           import re
 
-          # Normalize both public content and source/generator files so future
-          # SEO regeneration cannot bring back stale 250/300/306 fixed counts.
-          exts = {'.html', '.js', '.json', '.md', '.txt', '.xml', '.py', '.yml', '.yaml'}
+          # Normalize public content and generator source files. Workflow YAML is
+          # maintained directly because the Actions token cannot update workflows.
+          exts = {'.html', '.js', '.json', '.md', '.txt', '.xml', '.py'}
           changed = []
 
           ja_count = re.compile(r'(?<!\d)(?:250|300|306)\s*問(?:以上)?')
